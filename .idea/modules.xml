@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Linkertinder/Linkertinder.iml" filepath="$PROJECT_DIR$/Linkertinder/Linkertinder.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/Linketinder-Project.iml" filepath="$PROJECT_DIR$/.idea/Linketinder-Project.iml" />
     </modules>
   </component>
 </project>

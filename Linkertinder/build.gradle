@@ -1,0 +1,23 @@
+plugins {
+    id 'groovy'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.groovy:groovy:4.0.28'
+    testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
+}
+
+application {
+    mainClass = 'main.groovy.Main'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'app.MainClass'
+    }
+}
