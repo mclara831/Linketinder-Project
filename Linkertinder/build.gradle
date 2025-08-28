@@ -8,8 +8,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.apache.groovy:groovy:4.0.28'
+    implementation 'org.apache.groovy:groovy:4.0.14'
     testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
 }
 
 application {
@@ -20,4 +22,8 @@ jar {
     manifest {
         attributes 'Main-Class': 'app.MainClass'
     }
+}
+
+test {
+    useJUnitPlatform()
 }

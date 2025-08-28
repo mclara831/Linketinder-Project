@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="services.PessoaServiceTeste" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-08-28T20:31:29.188Z" hostname="mclara" time="0.16">
+  <properties/>
+  <testcase name="carregar Dados nos arrays" classname="services.PessoaServiceTeste" time="0.116"/>
+  <testcase name="cadastrar Candidato" classname="services.PessoaServiceTeste" time="0.033"/>
+  <testcase name="cadastrar Empresa" classname="services.PessoaServiceTeste" time="0.009"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
