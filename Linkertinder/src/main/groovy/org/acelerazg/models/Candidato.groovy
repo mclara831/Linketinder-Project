@@ -9,19 +9,8 @@ class Candidato extends Pessoa {
     Integer idade
 
     @Override
-    def salvarInformacoes() {
-        return null
-    }
-
-    @Override
-    def listarCompetencias() {
-        return null
-    }
-
-
-    @Override
     public String toString() {
-        return "\n\nCandidato: " +  super.toString() +
+        return "\n\nCandidato: " + super.toString() +
                 "\nCPF=" + cpf +
                 "\nidade=" + idade
     }

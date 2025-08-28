@@ -1,6 +1,6 @@
 package org.acelerazg.models
 
-abstract class Pessoa implements IPessoa {
+abstract class Pessoa {
 
     String nome
     String email
@@ -8,7 +8,6 @@ abstract class Pessoa implements IPessoa {
     String cep
     String descricao
     List<String> competencias = new ArrayList<>();
-
 
     @Override
     public String toString() {
