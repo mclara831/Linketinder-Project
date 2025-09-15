@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="src/styles/profile.css">
+
+  <title>Linketinder</title>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
+          aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">Linketinder</a>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="cadastrar-empresa.html">Cadastrar empresa</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href="cadastrar-candidato.html">Cadastrar candidato</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="perfil-empresa.html">Perfil empresa</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Perfil candidato</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="login-candidato" class="pseudo-login login-candidato">
+    <form class="mb-3 row">
+      <label for="inputCpf" class=" col-form-label">Digite o CPF: </label>
+      <input type="text" class="form-control" id="inputCpf" placeholder="XXX.XXX.XXX-XX">
+      <button id="login-btn-candidato" type="submit" class="btn btn-primary mb-3">Fazer login</button>
+    </form>
+  </main>
+
+  <main id="perfil-candidato" class="register-container" style="display: none;">
+    <section class="profile-container">
+      <h2>Perfil do candidato</h2>
+      <div>
+        <p>Nome: <span class="candidate-name"></span></p>
+      </div>
+      <div>
+        <p>Email: <span class="candidate-email"></span></p>
+      </div>
+      <div>
+        <p>Idade: <span class="candidate-age"></span></p>
+      </div>
+      <div>
+        <p>CPF: <span class="candidate-cnpj"></span></p>
+      </div>
+      <div>
+        <p>Estado: <span class="candidate-state"></span></p>
+      </div>
+      <div>
+        <p>CEP: <span class="candidate-cep"></span></p>
+      </div>
+      <div>
+        <p>Descrição: <span class="candidate-description"></span></p>
+      </div>
+      <div>
+        <p>Competências:</p>
+        <ul class="skills-list candidate-skills">
+          <li>
+            <div class="skill-container">Java</div>
+          </li>
+          <li>
+            <div class="skill-container">Angular</div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="jobs-oppotunities-container">
+      <h2>Confira as vagas disponíveis</h2>
+      <div class="card-list-container">
+        <ul class="card-list jobs">
+          <li class="job-oppotunity">
+            <div class="card shadow-sm p-3 mb-5 bg-body rounded" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title visually-hidden-focusable">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                  card's
+                  content.</p>
+              </div>
+              <div class="card-body">
+                <h6>Competências requiridas:</h6>
+                <p class="competencies-required">Java, Angular, Docker</p>
+              </div>
+              <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div>
+          </li>
+          <li class="job-oppotunity">
+            <div class="card shadow-sm p-3 mb-5 bg-body rounded" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                  card's
+                  content.</p>
+              </div>
+              <div class="card-body">
+                <h6>Competências requiridas:</h6>
+                <p class="competencies-required">Java, Angular, Docker</p>
+              </div>
+              <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div>
+          </li>
+          <li class="job-oppotunity">
+            <div class="card shadow-sm p-3 mb-5 bg-body rounded" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                  card's
+                  content.</p>
+              </div>
+              <div class="card-body">
+                <h6>Competências requiridas:</h6>
+                <p class="competencies-required">Java, Angular, Docker</p>
+              </div>
+              <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div>
+          </li>
+          <li class="job-oppotunity">
+            <div class="card shadow-sm p-3 mb-5 bg-body rounded" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                  card's
+                  content.</p>
+              </div>
+              <div class="card-body">
+                <h6>Competências requiridas:</h6>
+                <p class="competencies-required">Java, Angular, Docker</p>
+              </div>
+              <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div>
+          </li>
+          <li class="job-oppotunity">
+            <div class="card shadow-sm p-3 mb-5 bg-body rounded" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                  card's
+                  content.</p>
+              </div>
+              <div class="card-body">
+                <h6>Competências requiridas:</h6>
+                <p class="competencies-required">Java, Angular, Docker</p>
+              </div>
+              <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div>
+          </li>
+          <li class="job-oppotunity">
+            <div class="card shadow-sm p-3 mb-5 bg-body rounded" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                  card's
+                  content.</p>
+              </div>
+              <div class="card-body">
+                <h6>Competências requiridas:</h6>
+                <p class="competencies-required">Java, Angular, Docker</p>
+              </div>
+              <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div>
+          </li>
+          <li class="job-oppotunity">
+            <div class="card shadow-sm p-3 mb-5 bg-body rounded" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                  card's
+                  content.</p>
+              </div>
+              <div class="card-body">
+                <h6>Competências requiridas:</h6>
+                <p class="competencies-required">Java, Angular, Docker</p>
+              </div>
+              <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-dark">
+    <span id="current_year"></span>
+    <p>&copy; Maria Clara</p>
+  </footer>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>

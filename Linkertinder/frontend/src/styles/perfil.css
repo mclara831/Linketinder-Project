@@ -1,0 +1,114 @@
+.pseudo-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pseudo-login .mb-3 {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+.pseudo-login  .mb-3 label {
+  margin-top: 10px;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.pseudo-login  .mb-3 .form-control {
+  margin-top: 5px;
+  width: 100%;
+}
+
+.pseudo-login .mb-3 button {
+  margin-top: 10px;
+  width: 100%;
+  margin: 10px auto 0;
+  background-color: #224148;
+  opacity: 0.85;
+  border-color: #224148;
+}
+
+.pseudo-login .mb-3 button:hover {
+  opacity: 1;
+  background-color: #224148;
+}
+
+
+.profile-container {
+  /* width: 80%; */
+  margin: 80px auto 0;
+  padding: 5px;
+}
+
+.profile-container h2 {
+  margin: 0;
+}
+
+.profile-container div > div:not(.skill-container) {
+  margin-bottom: 8px;
+  padding: 5px;
+  align-items: center;
+}
+
+.profile-container p {
+  font-weight: bold;
+  font-size: 19px;
+}
+
+.profile-container span {
+  font-weight: normal;
+  padding: 0 5px;
+}
+
+.skills-list {
+  list-style: none;
+  font-weight: normal;
+  display: flex;
+  gap: 10px;
+}
+
+.skill-container {
+  display: inline-block;
+  background-color: #f0f8ff; 
+  border: 1px solid #0d6efd; 
+  color: #0d6efd;
+  border-radius: 15px;
+  padding: 5px 15px;
+  margin: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.jobs-opportunities-container {
+  width: 100%;
+}
+
+.jobs-oppotunities-container h2 {
+  text-align: center;
+  margin: 0px auto 35px;
+  padding: 20px 0 5px 0;
+  border-top: 1px solid #ccc;
+  width: 80%;
+}
+
+.card-list-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto 25px;
+  width: 100%;
+}
+
+.card-list {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+}
