@@ -1,0 +1,14 @@
+.candidates-container h2,
+.statistics h2 {
+  text-align: center;
+  margin: 0px auto 25px;
+  padding: 20px 0 5px 0;
+  border-top: 1px solid #ccc;
+  width: 80%;
+}
+
+.graphic-container {
+  margin-bottom: 30px;
+}
+
+
