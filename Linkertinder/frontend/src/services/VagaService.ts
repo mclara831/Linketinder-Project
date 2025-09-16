@@ -27,7 +27,7 @@ export function carregarVagas() {
   vagas.forEach((vaga) => {
     var li: HTMLElement = document.createElement("li");
     li.innerHTML = `
-            <div class="card shadow-sm p-3 mb-5 bg-body rounded" style="width: 20rem;">
+            <div class="card shadow-sm p-3 mb-5 bg-body rounded" style="width: 19rem;">
               <div class="card-body">
                 <h5 class="card-title">${vaga.nome}</h5>
                 <p class="card-text">${vaga.descricao}</p>
@@ -209,7 +209,7 @@ export function rendenrizarVagaPorEmpresa() {
     if (vaga.empresa?.cnpj == empresaAtual?.cnpj) {
       var li: HTMLElement = document.createElement("li");
       li.innerHTML = `
-                <div class="card shadow-sm p-3 mb-5 bg-body rounded" style="width: 20rem;">
+                <div class="card shadow-sm p-3 mb-5 bg-body rounded" style="width: 19rem;">
                   <div class="card-body">
                     <h5 class="card-title">${vaga.nome}</h5>
                     <p class="card-text">${vaga.descricao}</p>
