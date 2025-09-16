@@ -4,12 +4,33 @@ import type {
   CompetenciaQuantificada,
 } from "../models/Competencia";
 import { obterObjetos, salvarObjeto } from "./ArmazenamentoService";
+import { lerInfoFomularioCandidato, limparFormularioCandidato, loginCandidato } from "./FormService";
 
-export function adicionarCandidato(candidato: Candidato): void {
-  salvarObjeto<Candidato>("candidatos", candidato);
+export function adicionaEventosAManipulacaoCandidatos() {
+  carregarCandidatos()
+  adicionarCandidato()
+  limparFormularioCandidatoBtn()
+  loginCandidato()
 }
 
-export function carregarCandidatos(): void {
+function adicionarCandidato(): void {
+  
+  document
+    .querySelector("#cadastrar-candidato")
+    ?.addEventListener("click", function (event) {
+      event.preventDefault();
+      var candidato = lerInfoFomularioCandidato();
+      if (candidato === null) {
+        return;
+      }
+  
+      salvarObjeto<Candidato>("candidatos", candidato);
+      limparFormularioCandidato();
+      carregarCandidatos();
+    });
+}
+
+function carregarCandidatos(): void {
   let lista = obterObjetos<Candidato>("candidatos");
 
   var card_list = document.querySelector(".candidates");
@@ -36,6 +57,15 @@ export function carregarCandidatos(): void {
             </div>
             `;
     card_list?.appendChild(li);
+  });
+}
+
+function limparFormularioCandidatoBtn() {
+  document
+  .querySelector("#clear-form-candidate")
+  ?.addEventListener("click", function (event) {
+    event.preventDefault();
+    limparFormularioCandidato();
   });
 }
 

@@ -3,45 +3,28 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Empresa } from "./models/Empresa";
 import { salvarObjeto } from "./services/ArmazenamentoService";
 import {
-  adicionarCandidato,
-  carregarCandidatos,
+  adicionaEventosAManipulacaoCandidatos,
+
 } from "./services/CandidatoService";
 import {
-  lerInfoFomularioCandidato,
   lerInfoFomularioEmpresa,
-  limparFormularioCandidato,
   limparFormularioEmpresa,
-  loginCandidato,
   loginEmpresa,
 } from "./services/FormService";
 import { carregarGraphic } from "./services/GraficoService";
-import { carregarCompetencias } from "./services/LoaderService";
 import "./styles/style.css";
 import {
   adicionaEventosCardVagas, carregarVagas
 } from "./services/VagaService";
+import { carregarCompetencias } from "./utils/Utils";
 
+adicionaEventosAManipulacaoCandidatos()
+carregarCompetencias();
 adicionaEventosCardVagas();
 carregarGraphic();
-carregarCandidatos();
 carregarVagas();
-carregarCompetencias();
 loginEmpresa();
-loginCandidato();
 
-document
-  .querySelector("#cadastrar-candidato")
-  ?.addEventListener("click", function (event) {
-    event.preventDefault();
-    var candidato = lerInfoFomularioCandidato();
-    if (candidato === null) {
-      return;
-    }
-
-    adicionarCandidato(candidato);
-    limparFormularioCandidato();
-    carregarCandidatos();
-  });
 
 document
   .querySelector("#cadastrar-empresa")
@@ -52,14 +35,7 @@ document
       return;
     }
     salvarObjeto<Empresa>("empresas", empresa);
-    carregarCandidatos();
-  });
-
-document
-  .querySelector("#clear-form-candidate")
-  ?.addEventListener("click", function (event) {
-    event.preventDefault();
-    limparFormularioCandidato();
+    // carregarCandidatos();
   });
 
 document
