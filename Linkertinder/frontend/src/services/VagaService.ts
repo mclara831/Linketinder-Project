@@ -64,6 +64,11 @@ function cadastrarVaga(): void {
 
     const competencias: Competencia[] = obterCompetenciasSelecionadas();
 
+    if(!nome || !descricao || !dataPublicacao) {
+      alert("Preenchas os dados obrigatórios!")
+      return
+    }
+
     const vaga: Vaga = new Vaga(
       nome,
       descricao,

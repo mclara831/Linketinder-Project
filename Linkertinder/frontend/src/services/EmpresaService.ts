@@ -52,7 +52,6 @@ export function logarEmpresa(empresa: Empresa): void {
   const skillsList = document.querySelector<HTMLUListElement>(".skills-list");
 
   definirEmpresaLogada(empresa);
-  console.log("empresa foi logada");
 
   if (nameSpan) nameSpan.textContent = empresa.nome;
   if (emailSpan) emailSpan.textContent = empresa.email;

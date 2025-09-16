@@ -14,11 +14,7 @@ import { adicionaEventosAManipulacaoEmpresas } from "./services/EmpresaService";
 
 adicionaEventosAManipulacaoCandidatos()
 adicionaEventosAManipulacaoEmpresas();
-carregarCompetencias();
-adicionaEventosCardVagas();
-carregarGraphic();
 carregarVagas();
-
-
-
-
+carregarCompetencias();
+carregarGraphic();
+adicionaEventosCardVagas();
