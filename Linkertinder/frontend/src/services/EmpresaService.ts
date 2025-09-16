@@ -1,5 +1,41 @@
 import type { Empresa } from "../models/Empresa";
-import { definirEmpresaLogada, obterObjetos } from "./ArmazenamentoService";
+import {
+  definirEmpresaLogada,
+  salvarObjeto,
+} from "./ArmazenamentoService";
+import {
+  lerInfoFomularioEmpresa,
+  limparFormularioEmpresa,
+  loginEmpresa,
+} from "./FormService";
+
+export function adicionaEventosAManipulacaoEmpresas() {
+  adicionarEmpresa();
+  limparFormularioEmpresaBtn();
+  loginEmpresa();
+}
+
+function adicionarEmpresa() {
+  document
+    .querySelector("#cadastrar-empresa")
+    ?.addEventListener("click", function (event) {
+      event.preventDefault();
+      var empresa = lerInfoFomularioEmpresa();
+      if (empresa == null) {
+        return;
+      }
+      salvarObjeto<Empresa>("empresas", empresa);
+    });
+}
+
+function limparFormularioEmpresaBtn() {
+  document
+    .querySelector("#clear-form-company")
+    ?.addEventListener("click", function (event) {
+      event.preventDefault();
+      limparFormularioEmpresa();
+    });
+}
 
 export function logarEmpresa(empresa: Empresa): void {
   const nameSpan = document.querySelector<HTMLSpanElement>(".company-name");
@@ -15,8 +51,8 @@ export function logarEmpresa(empresa: Empresa): void {
 
   const skillsList = document.querySelector<HTMLUListElement>(".skills-list");
 
-  definirEmpresaLogada(empresa)
-  console.log("empresa foi logada")
+  definirEmpresaLogada(empresa);
+  console.log("empresa foi logada");
 
   if (nameSpan) nameSpan.textContent = empresa.nome;
   if (emailSpan) emailSpan.textContent = empresa.email;
@@ -38,12 +74,3 @@ export function logarEmpresa(empresa: Empresa): void {
     });
   }
 }
-
-export function encontrarEmpresaPorCnpj(cnpj: string): Empresa | null {
-  const empresas: Empresa[] = obterObjetos<Empresa>("empresas");
-  const empresa = empresas.find(e => e.cnpj === cnpj);
-  return empresa ?? null;
-}
-
-
-
