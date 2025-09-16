@@ -182,3 +182,18 @@ export function limparFormularioCandidato() {
 function limparInputLogin(id: string) {
   (document.querySelector(id) as HTMLInputElement).value = "";
 }
+
+export function limparFormularioVaga(): void {
+  const form = document.querySelector("#job-register") as HTMLFormElement;
+  if (!form) return;
+
+  form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
+    "input, textarea"
+  ).forEach((el) => {
+    if (el.type === "checkbox" || el.type === "radio") {
+      (el as HTMLInputElement).checked = false;
+    } else {
+      el.value = "";
+    }
+  });
+}

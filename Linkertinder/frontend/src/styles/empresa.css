@@ -1,5 +1,6 @@
 .candidates-container h2,
-.statistics h2 {
+.statistics h2,
+#company-job-oppotunities h2 {
   text-align: center;
   margin: 0px auto 25px;
   padding: 20px 0 5px 0;
@@ -7,8 +8,51 @@
   width: 80%;
 }
 
+.jobs-header {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+#nova-vaga {
+  width: 160px;
+  border-radius: 5px;
+  padding: 5px 0;
+  justify-content: end;
+  border: none;
+  color: #fff;
+}
+
+#collapseForm {
+  border: #ccc 1px solid;
+  border-radius: 15px;
+  padding: 10px;
+  margin-bottom: 25px;
+}
+
 .graphic-container {
   margin-bottom: 30px;
+}
+
+.d-flex {
+  display: flex;
+  justify-content: space-around;
+
+}
+.btn-outline-primary i,
+.btn-outline-danger i {
+  margin-right: 4px;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #fff;
 }
 
 

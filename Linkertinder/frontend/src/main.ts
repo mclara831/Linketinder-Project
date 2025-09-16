@@ -15,19 +15,19 @@ import {
   loginEmpresa,
 } from "./services/FormService";
 import { carregarGraphic } from "./services/GraficoService";
-import {
-  carregarCompetencias,
-  carregarVagas,
-} from "./services/LoaderService";
+import { carregarCompetencias } from "./services/LoaderService";
 import "./styles/style.css";
+import {
+  adicionaEventosCardVagas, carregarVagas
+} from "./services/VagaService";
 
-
+adicionaEventosCardVagas();
 carregarGraphic();
 carregarCandidatos();
 carregarVagas();
 carregarCompetencias();
-loginEmpresa()
-loginCandidato()
+loginEmpresa();
+loginCandidato();
 
 document
   .querySelector("#cadastrar-candidato")
@@ -51,7 +51,7 @@ document
     if (empresa == null) {
       return;
     }
-    salvarObjeto<Empresa>("empresas", empresa)
+    salvarObjeto<Empresa>("empresas", empresa);
     carregarCandidatos();
   });
 
