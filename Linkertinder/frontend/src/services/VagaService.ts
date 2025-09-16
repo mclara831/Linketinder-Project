@@ -121,18 +121,19 @@ function adicionaEventoDeletarVagas() {
 
 function editarVaga(): void {
   const vaga = obterVagaEmEdicao();
+  console.log(vaga)
 
   const collapse = document.querySelector<HTMLDivElement>("#collapseForm")!;
   collapse.className = "collapse show";
 
-  const nomeInput = document.querySelector("#job-name") as HTMLInputElement;
-  const descricaoInput = document.querySelector(
+  let nomeInput = document.querySelector("#job-name") as HTMLInputElement;
+  let descricaoInput = document.querySelector(
     "#description"
   ) as HTMLTextAreaElement;
-  const dataPublicacaoInput = document.querySelector(
+  let dataPublicacaoInput = document.querySelector(
     "[name='data-publicacao']"
   ) as HTMLInputElement;
-  const btnCadastrar = document.querySelector(
+  let btnCadastrar = document.querySelector(
     "#cadastrar-vaga"
   ) as HTMLButtonElement;
   const btnsContainer = document.querySelector(".btns") as HTMLDivElement;
@@ -144,8 +145,8 @@ function editarVaga(): void {
     : "";
   btnCadastrar.textContent = "Salvar alterações";
 
+  const btnVoltar = document.createElement("button");
   if (!document.querySelector("#btn-voltar")) {
-    const btnVoltar = document.createElement("button");
     btnVoltar.id = "btn-voltar";
     btnVoltar.className = "btn btn-secondary ms-2";
     btnVoltar.textContent = "Voltar";
@@ -179,9 +180,10 @@ function editarVaga(): void {
     salvarObjetos<Vaga>("vagas", vagas);
 
     btnCadastrar.textContent = "Cadastrar";
-    btnCadastrar.onclick = cadastrarVaga; // volta para o evento inicial
+    btnCadastrar.onclick = cadastrarVaga;
+    btnVoltar.remove();
+    limparFormularioVaga()
   };
-  limparFormularioVaga()
 }
 
 function deletarVaga(): void {
