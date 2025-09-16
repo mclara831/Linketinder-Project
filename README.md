@@ -11,31 +11,55 @@ Este repositório será utilizado para o desenvolvimento do Linketinder Project 
 
 
 ## 🛠️ Tecnologias utilizadas
-- Groovy
+- Backend:
+    - Groovy
+
+- Frontend:
+    - Typescript
+    - HTML
+    - Css
 
 
 
 ## 📂 Estrutura do projeto
 
-`Linkertinder/src/main/groovy/org/acelerazg/Main.groovy` → Classe principal para executar a aplicação.
+- **Backend**: `Linkertinder/src/main/groovy/org/acelerazg/Main.groovy` → Classe principal para executar a aplicação.
+- **Frontend**:  `Linkertinder/frontend`
 
 
 ## 🚀 Como executar
 
-1. Clone este repositório 
+- Clone este repositório 
 
 ``` 
 git clone  git@github.com:mclara831/Linketinder-Project.git
 ```
 
-2. Abra na sua IDE de preferência
+-  Abra na sua IDE de preferência
 
-3. Navegue atá a classe principal indicada no caminho acima
+- Backend:
+    - Navegue atá a classe principal indicada no caminho acima:
 
-``` 
-cd Linkertinder/src/main/groovy/org/acelerazg
-```
-4. Execute o projeto
+    ``` 
+    cd Linkertinder/src/main/groovy/org/acelerazg
+    ```
+    - Execute o projeto
+
+- Frontend: 
+    - Navegue atá a classe principal indicada no caminho acima:
+
+    ``` 
+    cd Linkertinder/frontend
+    ```
+    - Instale as dependências:
+
+    ``` 
+    npm install
+    ```
+    - Execute a aplicação:
+    ```
+    npm run dev
+    ```
 
 
 
