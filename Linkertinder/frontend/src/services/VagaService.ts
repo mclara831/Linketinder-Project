@@ -1,6 +1,6 @@
 import type { Competencia } from "../models/Competencia";
 import { Vaga } from "../models/Vaga";
-import { obterCompetenciasSelecionadas } from "../utils/Utils";
+import { obterCompetenciasSelecionadas, selecionarCompetencias } from "../utils/Utils";
 import {
   obterEmpresaLogada,
   obterObjetos,
@@ -52,7 +52,7 @@ function cadastrarVaga(): void {
   ) as HTMLButtonElement;
   const empresaAtual = obterEmpresaLogada();
 
-  btnCadastrar.addEventListener("click", () => {
+  btnCadastrar.onclick = () => {
     const nome = (document.querySelector("#job-name") as HTMLInputElement)
       .value;
     const descricao = (
@@ -80,7 +80,7 @@ function cadastrarVaga(): void {
     salvarObjeto<Vaga>("vagas", vaga);
     limparFormularioVaga();
     rendenrizarVagaPorEmpresa();
-  });
+  };
 }
 
 function adicionaEventoEditarVagas(): void {
@@ -137,6 +137,7 @@ function editarVaga(): void {
     "#cadastrar-vaga"
   ) as HTMLButtonElement;
   const btnsContainer = document.querySelector(".btns") as HTMLDivElement;
+  selecionarCompetencias(vaga.competencias)
 
   nomeInput.value = vaga.nome;
   descricaoInput.value = vaga.descricao;
@@ -175,13 +176,14 @@ function editarVaga(): void {
       encontrada.descricao = descricaoInput.value;
       encontrada.data_publicacao = new Date(dataPublicacaoInput.value);
       vagas[index] = encontrada;
+      salvarObjetos<Vaga>("vagas", vagas);
     }
 
-    salvarObjetos<Vaga>("vagas", vagas);
 
     btnCadastrar.textContent = "Cadastrar";
     btnCadastrar.onclick = cadastrarVaga;
     btnVoltar.remove();
+    rendenrizarVagaPorEmpresa()
     limparFormularioVaga()
   };
 }

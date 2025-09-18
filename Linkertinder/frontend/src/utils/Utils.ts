@@ -1,9 +1,21 @@
 import { Competencia } from "../models/Competencia";
 
 export function obterCompetenciasSelecionadas(): Competencia[] {
-  const inputs = document.querySelectorAll<HTMLInputElement>(".btn-check:checked");
+  const inputs =
+    document.querySelectorAll<HTMLInputElement>(".btn-check:checked");
 
   return Array.from(inputs).map((input) => input.value as Competencia);
+}
+
+export function selecionarCompetencias(competencias: Competencia[]): void {
+  Object.values(Competencia).forEach((competencia, index) => {
+
+    if (competencias.includes(competencia)) {
+      let input = document.querySelector(`#competencia-${index}`) as HTMLInputElement
+      input.checked = true
+      
+    }
+  });
 }
 
 export function carregarCompetencias() {
