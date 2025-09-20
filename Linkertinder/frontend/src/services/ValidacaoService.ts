@@ -3,6 +3,11 @@ export function validaCPF(cpf: string): boolean {
   return regex.test(cpf);
 }
 
+export function validaCNPJ(cnpj: string): boolean {
+  const regex = RegExp(/\d{2}\.\d{3}\.\d{3}\/0001-\d{2}/g);
+  return regex.test(cnpj);
+}
+
 export function validaCEP(cep: string): boolean {
   const regex = RegExp(/\d{2}\.\d{3}\-\d{3}/g);
   return regex.test(cep);

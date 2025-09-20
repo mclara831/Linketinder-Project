@@ -8,11 +8,12 @@ import { logarEmpresa } from "./EmpresaService";
 import {
   invalido,
   validaCEP,
+  validaCNPJ,
   validaCPF,
   validaEmail,
   validaLinkedin,
   validaTexto,
-  valido
+  valido,
 } from "./ValidacaoService";
 
 export function loginEmpresa(): void {
@@ -96,15 +97,17 @@ export function lerInfoFomularioCandidato(): Candidato | null {
   let competencias = obterCompetenciasSelecionadas();
   let estado = form.querySelector('[name="estado"]') as HTMLInputElement;
 
-  var result = validaCamposCandidato(
+  var result = validaCampos(
     nome,
     email,
     linkedin,
     cpf,
+    null,
     cep,
     descricao,
     estado,
-    data_nascimento
+    data_nascimento,
+    null
   );
 
   if (!result) {
@@ -124,15 +127,17 @@ export function lerInfoFomularioCandidato(): Candidato | null {
   );
 }
 
-function validaCamposCandidato(
+function validaCampos(
   nome: HTMLInputElement,
   email: HTMLInputElement,
   linkedin: HTMLInputElement,
-  cpf: HTMLInputElement,
+  cpf: HTMLInputElement | null,
+  cnpj: HTMLInputElement | null,
   cep: HTMLInputElement,
   descricao: HTMLInputElement,
   estado: HTMLInputElement,
-  data_nascimento: HTMLInputElement
+  data_nascimento: HTMLInputElement | null,
+  pais: HTMLInputElement | null
 ): boolean {
   let flag: boolean = true;
 
@@ -140,52 +145,66 @@ function validaCamposCandidato(
     flag = false;
     invalido(nome);
   } else {
-    valido(nome)
+    valido(nome);
   }
   if (!validaEmail(email.value)) {
     flag = false;
     invalido(email);
   } else {
-    valido(nome)
+    valido(nome);
   }
   if (!validaLinkedin(linkedin.value)) {
     flag = false;
     invalido(linkedin);
   } else {
-    valido(linkedin)
+    valido(linkedin);
   }
-  if (data_nascimento.value === '' ||
-    new Date().getFullYear() - new Date(data_nascimento.value).getFullYear() <
-      18
+  if (
+    data_nascimento != null &&
+    (data_nascimento.value === "" ||
+      new Date().getFullYear() - new Date(data_nascimento.value).getFullYear() <
+        18)
   ) {
     flag = false;
     invalido(data_nascimento);
-  } else {
-    valido(data_nascimento)
+  } else if (data_nascimento != null) {
+    valido(data_nascimento);
   }
   if (!validaTexto(descricao.value)) {
     flag = false;
     invalido(descricao);
   } else {
-    valido(descricao)
+    valido(descricao);
   }
   if (!validaTexto(estado.value)) {
     flag = false;
     invalido(estado);
   } else {
-    valido(estado)
+    valido(estado);
   }
-  if (!validaCPF(cpf.value)) {
+  if (cpf != null && !validaCPF(cpf.value)) {
     flag = false;
     invalido(cpf);
-  } else {
-    valido(cpf)
+  } else if (cpf != null) {
+    valido(cpf);
+  }
+  if (cnpj != null && !validaCNPJ(cnpj.value)) {
+    flag = false;
+    invalido(cnpj);
+  } else if (cnpj != null) {
+    valido(cnpj);
   }
   if (!validaCEP(cep.value)) {
     flag = false;
     invalido(cep);
   } else {
-    valido(cep)
+    valido(cep);
+  }
+  if (pais != null && !validaTexto(pais.value)) {
+    flag = false;
+    invalido(pais);
+  } else if (pais != null) {
+    valido(pais);
   }
 
   return flag;
@@ -196,6 +215,7 @@ export function lerInfoFomularioEmpresa(): Empresa | null {
 
   let nome = form.querySelector('[name="name"]') as HTMLInputElement;
   let email = form.querySelector('[name="email"]') as HTMLInputElement;
+  let linkedin = form.querySelector('[name="linkedin"]') as HTMLInputElement;
   let cnpj = form.querySelector('[name="cnpj"]') as HTMLInputElement;
   let estado = form.querySelector('[name="estado"]') as HTMLInputElement;
   let cep = form.querySelector('[name="cep"]') as HTMLInputElement;
@@ -206,15 +226,19 @@ export function lerInfoFomularioEmpresa(): Empresa | null {
   let competencias = form.querySelector('[name="skills"]') as HTMLInputElement;
 
   if (
-    !nome.value ||
-    !email.value ||
-    !cnpj.value ||
-    !pais.value ||
-    !cep.value ||
-    !descricao.value ||
-    !estado.value
+    validaCampos(
+      nome,
+      email,
+      linkedin,
+      null,
+      cnpj,
+      cep,
+      descricao,
+      estado,
+      null,
+      pais
+    )
   ) {
-    alert("Os campos obrigatórios não foram preenchidos!");
     return null;
   }
 
@@ -235,6 +259,9 @@ export function limparFormularioEmpresa() {
 
   (form.querySelector('[name="name"]') as HTMLInputElement).value = "";
   (form.querySelector('[name="email"]') as HTMLInputElement).value = "";
+   (
+    form.querySelector('[name="linkedin"]') as HTMLInputElement
+  ).value = "";
   (form.querySelector('[name="cnpj"]') as HTMLInputElement).value = "";
   (form.querySelector('[name="estado"]') as HTMLInputElement).value = "";
   (form.querySelector('[name="cep"]') as HTMLInputElement).value = "";
@@ -245,6 +272,17 @@ export function limparFormularioEmpresa() {
   document
     .querySelectorAll<HTMLInputElement>(".btn-check")
     .forEach((e) => (e.checked = false));
+
+  (form.querySelector('[name="name"]') as HTMLInputElement).classList.remove('is-invalid');
+  (form.querySelector('[name="email"]') as HTMLInputElement).classList.remove('is-invalid');
+   (
+    form.querySelector('[name="linkedin"]') as HTMLInputElement
+  ).classList.remove("is-invalid");
+  (form.querySelector('[name="cnpj"]') as HTMLInputElement).classList.remove('is-invalid');
+  (form.querySelector('[name="estado"]') as HTMLInputElement).classList.remove('is-invalid');
+  (form.querySelector('[name="cep"]') as HTMLInputElement).classList.remove('is-invalid');
+  (form.querySelector('[name="pais"]') as HTMLInputElement).classList.remove('is-invalid');
+  (form.querySelector('[name="description"]') as HTMLTextAreaElement).classList.remove('is-invalid');
 }
 
 export function limparFormularioCandidato() {

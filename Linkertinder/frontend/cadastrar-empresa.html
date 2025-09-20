@@ -50,35 +50,47 @@
       <form id="company-form">
         <div class="mb-3">
           <label for="company-name" class="form-label"><span class="obrigatorio">*</span>Nome da empresa:</label>
-          <input name="name" type="text" class="form-control" id="company-name" placeholder="name@example.com">
+          <input name="name" type="text" class="form-control" id="company-name">
+          <div class="invalid-feedback">Por favor, preencha um nome válido.</div>
         </div>
         <div class="mb-3">
           <label for="email" class="form-label"><span class="obrigatorio">*</span>Email:</label>
           <input name="email" type="email" class="form-control" id="email" placeholder="name@example.com">
+          <div class="invalid-feedback">Por favor, preencha um email válido.</div>
+        </div>
+        <div class="mb-3">
+          <label for="linkedin" class="form-label"><span class="obrigatorio">*</span>Linkedin:</label>
+          <input name="linkedin" type="email" class="form-control" id="linkedin"
+            placeholder="https://www.linkedin.com/in/usuario" required>
+          <div class="invalid-feedback">Por favor, preencha um link válido.</div>
         </div>
         <div class="mb-3">
           <label for="cnpj" class="form-label"><span class="obrigatorio">*</span>CNPJ:</label>
           <input name="cnpj" type="text" class="form-control" id="cnpj" placeholder="XX.XXX.XXX/0001-XX">
+          <div class="invalid-feedback">Por favor, preencha um CNPJ válido.</div>
         </div>
         <div class="mb-3">
           <label for="estado" class="form-label"><span class="obrigatorio">*</span>Estado:</label>
           <input name="estado" type="text" class="form-control" id="estado" placeholder="Minas Gerais">
+          <div class="invalid-feedback">Por favor, preencha um estado válido.</div>
         </div>
         <div class="mb-3">
           <label for="cep" class="form-label"><span class="obrigatorio">*</span>CEP:</label>
           <input name="cep" type="text" class="form-control" id="cep" placeholder="XX.XXX-XXX"></input>
+          <div class="invalid-feedback">Por favor, preencha um CEP válido.</div>
         </div>
         <div class="mb-3">
           <label for="pais" class="form-label"><span class="obrigatorio">*</span>Pais:</label>
           <input name="pais" class="form-control" id="pais" id="pais" placeholder="Brasil"></input>
+          <div class="invalid-feedback">Por favor, preencha um país válido.</div>
         </div>
         <div class="mb-3">
           <label for="description" class="form-label"><span class="obrigatorio">*</span>Descrição:</label>
           <textarea name="description" class="form-control" id="description" rows="3"></textarea>
+          <div class="invalid-feedback">Por favor, preencha uma descrição.</div>
         </div>
         <p class="form-label">Competências:</p>
         <div class="form-check" style="padding: 0;">
-          
         </div>
         <div class="btns d-grid gap-2 d-md-block">
           <button id="cadastrar-empresa" class="btn btn-primary" type="button">Cadastrar</button>
