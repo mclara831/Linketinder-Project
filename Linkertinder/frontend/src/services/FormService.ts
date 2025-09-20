@@ -24,15 +24,21 @@ export function loginEmpresa(): void {
   const main_profile = document.querySelector(
     "#perfil-empresa"
   ) as HTMLDivElement;
-  const cnpf = document.querySelector("#inputCnpj") as HTMLInputElement;
+  const cnpj = document.querySelector("#inputCnpj") as HTMLInputElement;
 
   login_btn?.addEventListener("click", function (e) {
     e.preventDefault();
     var empresa: Empresa[] = obterObjetos<Empresa>("empresas");
     var encontrado: boolean = false;
 
+    if (!validaCNPJ(cnpj.value)) {
+      invalido(cnpj);
+    } else {
+      valido(cnpj);
+    }
+
     empresa.forEach((empresa) => {
-      if (empresa.cnpj === cnpf.value) {
+      if (empresa.cnpj === cnpj.value) {
         main_profile.style.display = "initial";
         main_form.style.display = "none";
         encontrado = true;
@@ -58,6 +64,12 @@ export function loginCandidato(): void {
     "#perfil-candidato"
   ) as HTMLDivElement;
   const cpf = document.querySelector("#inputCpf") as HTMLInputElement;
+
+  if (!validaCPF(cpf.value)) {
+    invalido(cpf);
+  } else {
+    valido(cpf);
+  }
 
   login_btn?.addEventListener("click", function (e) {
     e.preventDefault();
@@ -259,9 +271,7 @@ export function limparFormularioEmpresa() {
 
   (form.querySelector('[name="name"]') as HTMLInputElement).value = "";
   (form.querySelector('[name="email"]') as HTMLInputElement).value = "";
-   (
-    form.querySelector('[name="linkedin"]') as HTMLInputElement
-  ).value = "";
+  (form.querySelector('[name="linkedin"]') as HTMLInputElement).value = "";
   (form.querySelector('[name="cnpj"]') as HTMLInputElement).value = "";
   (form.querySelector('[name="estado"]') as HTMLInputElement).value = "";
   (form.querySelector('[name="cep"]') as HTMLInputElement).value = "";
@@ -273,16 +283,30 @@ export function limparFormularioEmpresa() {
     .querySelectorAll<HTMLInputElement>(".btn-check")
     .forEach((e) => (e.checked = false));
 
-  (form.querySelector('[name="name"]') as HTMLInputElement).classList.remove('is-invalid');
-  (form.querySelector('[name="email"]') as HTMLInputElement).classList.remove('is-invalid');
-   (
+  (form.querySelector('[name="name"]') as HTMLInputElement).classList.remove(
+    "is-invalid"
+  );
+  (form.querySelector('[name="email"]') as HTMLInputElement).classList.remove(
+    "is-invalid"
+  );
+  (
     form.querySelector('[name="linkedin"]') as HTMLInputElement
   ).classList.remove("is-invalid");
-  (form.querySelector('[name="cnpj"]') as HTMLInputElement).classList.remove('is-invalid');
-  (form.querySelector('[name="estado"]') as HTMLInputElement).classList.remove('is-invalid');
-  (form.querySelector('[name="cep"]') as HTMLInputElement).classList.remove('is-invalid');
-  (form.querySelector('[name="pais"]') as HTMLInputElement).classList.remove('is-invalid');
-  (form.querySelector('[name="description"]') as HTMLTextAreaElement).classList.remove('is-invalid');
+  (form.querySelector('[name="cnpj"]') as HTMLInputElement).classList.remove(
+    "is-invalid"
+  );
+  (form.querySelector('[name="estado"]') as HTMLInputElement).classList.remove(
+    "is-invalid"
+  );
+  (form.querySelector('[name="cep"]') as HTMLInputElement).classList.remove(
+    "is-invalid"
+  );
+  (form.querySelector('[name="pais"]') as HTMLInputElement).classList.remove(
+    "is-invalid"
+  );
+  (
+    form.querySelector('[name="description"]') as HTMLTextAreaElement
+  ).classList.remove("is-invalid");
 }
 
 export function limparFormularioCandidato() {
