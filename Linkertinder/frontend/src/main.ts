@@ -18,3 +18,4 @@ carregarVagas();
 carregarCompetencias();
 carregarGraphic();
 adicionaEventosCardVagas();
+

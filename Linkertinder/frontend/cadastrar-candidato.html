@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
@@ -13,6 +14,7 @@
 
   <title>Linketinder</title>
 </head>
+
 <body>
   <header>
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
@@ -44,44 +46,57 @@
 
   <main class="register-container">
 
-    
+
     <h2>Cadastre as informações</h2>
     <div class="form-container">
       <form id="candidate-form">
         <div class="mb-3">
           <label for="name" class="form-label"><span class="obrigatorio">*</span>Nome do candidato:</label>
-          <input name="name" type="text" class="form-control" id="name" placeholder="name@example.com">
+          <input name="name" type="text" class="form-control" id="name" placeholder="" required>
+          <div class="invalid-feedback">Por favor, preencha um nome válido.</div>
         </div>
         <div class="mb-3">
           <label for="email" class="form-label"><span class="obrigatorio">*</span>Email:</label>
-          <input name="email" type="email" class="form-control" id="email" placeholder="name@example.com">
+          <input name="email" type="email" class="form-control" id="email" placeholder="name@example.com" required>
+          <div class="invalid-feedback">Por favor, preencha um email válido.</div>
+        </div>
+        <div class="mb-3">
+          <label for="linkedin" class="form-label"><span class="obrigatorio">*</span>Linkedin:</label>
+          <input name="linkedin" type="email" class="form-control" id="linkedin" placeholder="https://www.linkedin.com/in/usuario" required>
+          <div class="invalid-feedback">Por favor, preencha um link válido.</div>
         </div>
         <div class="mb-3">
           <label for="cpf" class="form-label"><span class="obrigatorio">*</span>CPF:</label>
-          <input name="cpf" type="text" class="form-control" id="cpf" placeholder="XX.XXX.XXX-XX">
+          <input name="cpf" type="text" class="form-control" id="cpf" placeholder="XXX.XXX.XXX-XX" required>
+          <div class="invalid-feedback">Por favor, preencha um CPF válido.</div>
         </div>
         <div class="mb-3">
-          <label for="idade" class="form-label"><span class="obrigatorio">*</span>Idade:</label>
-          <input name="idade" type="number" class="form-control" id="idade" placeholder="18">
+          <label for="data-nascimento" class="form-label"><span class="obrigatorio">*</span>Data de nascimento:</label>
+          <input name="data-nascimento" type="date" class="form-control" id="data-nascimento" required>
+          <div class="invalid-feedback">Infelizmente a idade fornecida não é permitida.</div>
         </div>
         <div class="mb-3">
           <label for="estado" class="form-label"><span class="obrigatorio">*</span>Estado:</label>
-          <input name="estado" type="text" class="form-control" id="estado" placeholder="Minas Gerais">
+          <input name="estado" type="text" class="form-control" id="estado" placeholder="Minas Gerais" required>
+          <div class="invalid-feedback">Por favor, preencha um estado.</div>
         </div>
         <div class="mb-3">
           <label for="cep" class="form-label"><span class="obrigatorio">*</span>CEP:</label>
-          <input name="cep" type="text" class="form-control" id="cep" placeholder="00.000-000"></input>
+          <input name="cep" type="text" class="form-control" id="cep" placeholder="00.000-000" required></input>
+          <div class="invalid-feedback">Por favor, preencha um CEP válido.</div>
+
         </div>
         <div class="mb-3">
           <label for="description" class="form-label"><span class="obrigatorio">*</span>Descrição:</label>
-          <textarea name="description" class="form-control" id="description" rows="3"></textarea>
+          <textarea name="description" class="form-control" id="description" rows="3" required></textarea>
         </div>
         <p class="form-label">Competências:</p>
         <div class="form-check" style="padding: 0;">
         </div>
         <div class="btns d-grid gap-2 d-md-block">
           <button id="cadastrar-candidato" class="btn btn-primary" type="button">Cadastrar</button>
-          <button id="clear-form-candidate" class="btn btn-secondary" type="button" onclick="limparFormularioCandidato()">Limpar formulário</button>
+          <button id="clear-form-candidate" class="btn btn-secondary" type="button"
+            onclick="limparFormularioCandidato()">Limpar formulário</button>
         </div>
       </form>
     </div>
