@@ -47,7 +47,7 @@ export function loginEmpresa(): void {
     });
 
     if (!encontrado) {
-      alert("O CNPJ informado não está cadastrado em nossa base de dados!");
+      invalido(cnpj);
     }
     limparInputLogin("#inputCnpj");
   });
@@ -65,16 +65,16 @@ export function loginCandidato(): void {
   ) as HTMLDivElement;
   const cpf = document.querySelector("#inputCpf") as HTMLInputElement;
 
-  if (!validaCPF(cpf.value)) {
-    invalido(cpf);
-  } else {
-    valido(cpf);
-  }
-
   login_btn?.addEventListener("click", function (e) {
     e.preventDefault();
     var candidatos: Candidato[] = obterObjetos<Candidato>("candidatos");
     var encontrado: boolean = false;
+
+    if (!validaCPF(cpf.value)) {
+      invalido(cpf);
+    } else {
+      valido(cpf);
+    }
 
     candidatos.forEach((candidato) => {
       if (candidato.cpf === cpf.value) {
@@ -86,7 +86,7 @@ export function loginCandidato(): void {
     });
 
     if (!encontrado) {
-      alert("O CPF informado não está cadastrado em nossa base de dados!");
+      invalido(cpf);
     }
     limparInputLogin("#inputCpf");
   });

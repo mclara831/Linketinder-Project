@@ -47,12 +47,12 @@
     </nav>
   </header>
 
-  <main class="pseudo-login login-empresa">
+  <main class="pseudo-login login-empresa" >
     <form class="mb-3 row">
       <label for="inputCnpj" class=" col-form-label">Digite o CNPJ: </label>
       <input type="text" class="form-control" id="inputCnpj" placeholder="XX.XXX.XXX/0001-XX">
       <div class="invalid-feedback">Por favor, preencha um CNPJ válido.</div>
-      <button id="login-btn-empresa" type="submit" class="btn btn-primary mb-3">Fazer login</button>
+      <button id="login-btn-empresa" class="btn btn-primary mb-3">Fazer login</button>
     </form>
   </main>
 
@@ -106,15 +106,18 @@
           <div class="mb-3">
             <label for="job-name" class="form-label"><span class="obrigatorio">*</span>Nome da vaga:</label>
             <input name="name" type="text" class="form-control" id="job-name">
+            <div class="invalid-feedback">Por favor, preencha um nome de vaga válido.</div>
           </div>
           <div class="mb-3">
             <label for="job-description" class="form-label"><span class="obrigatorio">*</span>Descrição:</label>
             <textarea name="job-description" class="form-control" id="description" rows="3"></textarea>
+            <div class="invalid-feedback">Por favor, preencha uma descrição válida.</div>
           </div>
           <div class="mb-3">
             <label for="data-publicacao" class="form-label"><span class="obrigatorio">*</span>Data de
               publicação:</label>
             <input name="data-publicacao" type="date" class="form-control">
+            <div class="invalid-feedback">Por favor, preencha uma data válida.</div>
           </div>
           <p class="form-label">Competências:</p>
           <div class="form-check" style="padding: 0;">
@@ -124,27 +127,29 @@
           </div>
         </form>
       </div>
+    </section>
 
-      <div class="card-list-container">
-        <ul class="card-list jobs-company">
-          <li class="job-oppotunity">
-            <div class="card shadow-sm p-3 mb-5 bg-body rounded" style="width: 18rem;">
-              <div class="card-body">
-                <h5 class="card-title visually-hidden-focusable">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's
-                  content.</p>
-              </div>
-              <div class="card-body">
-                <h6>Competências requiridas:</h6>
-                <p class="competencies-required">Java, Angular, Docker</p>
-              </div>
-              <div class="card-body">
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
+    <section class="card-list-container">
+      <ul class="card-list jobs-company">
+        <li class="job-oppotunity">
+          <div class="card shadow-sm p-3 mb-5 bg-body rounded" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title visually-hidden-focusable">Card title</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                card's
+                content.</p>
             </div>
-          </li>
+            <div class="card-body">
+              <h6>Competências requiridas:</h6>
+              <p class="competencies-required">Java, Angular, Docker</p>
+            </div>
+            <div class="card-body">
+              <a href="#" class="card-link">Card link</a>
+              <a href="#" class="card-link">Another link</a>
+            </div>
+          </div>
+        </li>
+      </ul>
     </section>
 
     <section class="candidates-container">

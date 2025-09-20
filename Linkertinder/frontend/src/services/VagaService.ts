@@ -1,6 +1,9 @@
 import type { Competencia } from "../models/Competencia";
 import { Vaga } from "../models/Vaga";
-import { obterCompetenciasSelecionadas, selecionarCompetencias } from "../utils/Utils";
+import {
+  obterCompetenciasSelecionadas,
+  selecionarCompetencias,
+} from "../utils/Utils";
 import {
   obterEmpresaLogada,
   obterObjetos,
@@ -10,10 +13,11 @@ import {
   selecionarVagaParaEdicao,
 } from "./ArmazenamentoService";
 import { limparFormularioVaga } from "./FormService";
+import { invalido, validaTextoMaior, valido } from "./ValidacaoService";
 
 export function adicionaEventosCardVagas() {
-  cadastrarVaga()
-  rendenrizarVagaPorEmpresa()
+  cadastrarVaga();
+  rendenrizarVagaPorEmpresa();
 }
 
 export function carregarVagas() {
@@ -53,27 +57,48 @@ function cadastrarVaga(): void {
   const empresaAtual = obterEmpresaLogada();
 
   btnCadastrar.onclick = () => {
-    const nome = (document.querySelector("#job-name") as HTMLInputElement)
-      .value;
-    const descricao = (
-      document.querySelector("#description") as HTMLInputElement
-    ).value;
-    const dataPublicacao = (
-      document.querySelector("[name='data-publicacao']") as HTMLInputElement
-    ).value;
+    const nome = document.querySelector("#job-name") as HTMLInputElement;
+    const descricao = document.querySelector(
+      "#description"
+    ) as HTMLInputElement;
+    const dataPublicacao = document.querySelector(
+      "[name='data-publicacao']"
+    ) as HTMLInputElement;
 
     const competencias: Competencia[] = obterCompetenciasSelecionadas();
 
-    if(!nome || !descricao || !dataPublicacao) {
-      alert("Preenchas os dados obrigatórios!")
-      return
+    let camposValidos: boolean = true;
+
+    if (!validaTextoMaior(nome.value)) {
+      invalido(nome);
+      camposValidos = false;
+    } else {
+      valido(nome);
+    }
+
+    if (!dataPublicacao.value) {
+      invalido(dataPublicacao);
+      camposValidos = false;
+    } else {
+      valido(dataPublicacao);
+    }
+
+    if (!validaTextoMaior(descricao.value)) {
+      invalido(descricao);
+      camposValidos = false;
+    } else {
+      valido(descricao);
+    }
+
+    if (!camposValidos) {
+      return;
     }
 
     const vaga: Vaga = new Vaga(
-      nome,
-      descricao,
+      nome.value,
+      descricao.value,
       empresaAtual,
-      new Date(dataPublicacao),
+      new Date(dataPublicacao.value),
       competencias
     );
 
@@ -121,7 +146,7 @@ function adicionaEventoDeletarVagas() {
 
 function editarVaga(): void {
   const vaga = obterVagaEmEdicao();
-  console.log(vaga)
+  console.log(vaga);
 
   const collapse = document.querySelector<HTMLDivElement>("#collapseForm")!;
   collapse.className = "collapse show";
@@ -129,7 +154,7 @@ function editarVaga(): void {
   let nomeInput = document.querySelector("#job-name") as HTMLInputElement;
   let descricaoInput = document.querySelector(
     "#description"
-  ) as HTMLTextAreaElement;
+  ) as HTMLInputElement;
   let dataPublicacaoInput = document.querySelector(
     "[name='data-publicacao']"
   ) as HTMLInputElement;
@@ -137,13 +162,14 @@ function editarVaga(): void {
     "#cadastrar-vaga"
   ) as HTMLButtonElement;
   const btnsContainer = document.querySelector(".btns") as HTMLDivElement;
-  selecionarCompetencias(vaga.competencias)
+  selecionarCompetencias(vaga.competencias);
 
   nomeInput.value = vaga.nome;
   descricaoInput.value = vaga.descricao;
   dataPublicacaoInput.value = vaga.data_publicacao
     ? new Date(vaga.data_publicacao).toISOString().split("T")[0]
     : "";
+  selecionarCompetencias(vaga.competencias)
   btnCadastrar.textContent = "Salvar alterações";
 
   const btnVoltar = document.createElement("button");
@@ -158,7 +184,7 @@ function editarVaga(): void {
       dataPublicacaoInput.value = "";
 
       btnCadastrar.textContent = "Cadastrar";
-      btnCadastrar.onclick = cadastrarVaga; 
+      btnCadastrar.onclick = cadastrarVaga;
       btnVoltar.remove();
       limparFormularioVaga();
     });
@@ -168,6 +194,34 @@ function editarVaga(): void {
 
   btnCadastrar.onclick = () => {
     const vagas: Vaga[] = obterObjetos("vagas");
+
+    let camposValidos: boolean = true;
+
+    if (!validaTextoMaior(nomeInput.value)) {
+      invalido(nomeInput);
+      camposValidos = false;
+    } else {
+      valido(nomeInput);
+    }
+
+    if (!dataPublicacaoInput.value) {
+      invalido(dataPublicacaoInput);
+      camposValidos = false;
+    } else {
+      valido(dataPublicacaoInput);
+    }
+
+    if (!validaTextoMaior(descricaoInput.value)) {
+      invalido(descricaoInput);
+      camposValidos = false;
+    } else {
+      valido(descricaoInput);
+    }
+
+    if (!camposValidos) {
+      return;
+    }
+
     let encontrada: Vaga | undefined = vagas.find((v) => v.id == vaga.id);
 
     if (encontrada) {
@@ -175,16 +229,17 @@ function editarVaga(): void {
       encontrada.nome = nomeInput.value;
       encontrada.descricao = descricaoInput.value;
       encontrada.data_publicacao = new Date(dataPublicacaoInput.value);
+      const competencias: Competencia[] = obterCompetenciasSelecionadas();
+      encontrada.competencias = competencias
       vagas[index] = encontrada;
       salvarObjetos<Vaga>("vagas", vagas);
     }
 
-
     btnCadastrar.textContent = "Cadastrar";
     btnCadastrar.onclick = cadastrarVaga;
     btnVoltar.remove();
-    rendenrizarVagaPorEmpresa()
-    limparFormularioVaga()
+    rendenrizarVagaPorEmpresa();
+    limparFormularioVaga();
   };
 }
 
@@ -233,6 +288,6 @@ export function rendenrizarVagaPorEmpresa() {
       card_list?.appendChild(li);
     }
   });
-  adicionaEventoDeletarVagas()
-  adicionaEventoEditarVagas()
+  adicionaEventoDeletarVagas();
+  adicionaEventoEditarVagas();
 }

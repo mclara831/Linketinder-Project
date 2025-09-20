@@ -28,6 +28,11 @@ export function validaTexto(texto: string): boolean {
   return regex.test(texto.trim());
 }
 
+export function validaTextoMaior(texto: string): boolean {
+  const regex = RegExp(/\w{10,}/g);
+  return regex.test(texto.trim());
+}
+
 export function invalido(elemento: HTMLInputElement): void {
   elemento.classList.add("is-invalid");
 }
