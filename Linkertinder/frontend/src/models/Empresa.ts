@@ -3,6 +3,7 @@ import type { Competencia } from "./Competencia"
 export class Empresa {
     nome: string
     email: string
+    linkedin: string
     cnpj: string
     estado: string
     cep: string
@@ -11,9 +12,10 @@ export class Empresa {
     competencias: Competencia[] = new Array<Competencia>
     
 
-    constructor(nome: string, email: string, cnpj: string, estado: string, cep: string, pais: string, descricao: string, competencias: Competencia[]) {
+    constructor(nome: string, email: string, linkedin: string, cnpj: string, estado: string, cep: string, pais: string, descricao: string, competencias: Competencia[]) {
         this.nome = nome
         this.email = email
+        this.linkedin = linkedin
         this.cnpj = cnpj
         this.estado = estado
         this.cep = cep

@@ -9,7 +9,7 @@ export function validaCNPJ(cnpj: string): boolean {
 }
 
 export function validaCEP(cep: string): boolean {
-  const regex = RegExp(/\d{2}\.\d{3}\-\d{3}/g);
+  const regex = RegExp(/\d{2}\.\d{3}\-\d{2}/g);
   return regex.test(cep);
 }
 
@@ -19,7 +19,7 @@ export function validaEmail(cep: string): boolean {
 }
 
 export function validaLinkedin(linkedin: string): boolean {
-  const regex = RegExp(/(http:\/\/)?(www\.)?linkedin\.com\/in\/\w+/g);
+  const regex = RegExp(/(https:\/\/)?(www\.)?linkedin\.com\/in\/\w+/g);
   return regex.test(linkedin);
 }
 

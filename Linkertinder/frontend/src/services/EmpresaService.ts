@@ -40,6 +40,7 @@ function limparFormularioEmpresaBtn() {
 export function logarEmpresa(empresa: Empresa): void {
   const nameSpan = document.querySelector<HTMLSpanElement>(".company-name");
   const emailSpan = document.querySelector<HTMLSpanElement>(".company-email");
+  const linkedinSpan = document.querySelector<HTMLSpanElement>(".company-linkedin");
   const cnpjSpan = document.querySelector<HTMLSpanElement>(".company-cnpj");
   const stateSpan = document.querySelector<HTMLSpanElement>(".company-state");
   const cepSpan = document.querySelector<HTMLSpanElement>(".company-cep");
@@ -55,6 +56,7 @@ export function logarEmpresa(empresa: Empresa): void {
 
   if (nameSpan) nameSpan.textContent = empresa.nome;
   if (emailSpan) emailSpan.textContent = empresa.email;
+  if (linkedinSpan) linkedinSpan.textContent = empresa.linkedin;
   if (cnpjSpan) cnpjSpan.textContent = empresa.cnpj;
   if (stateSpan) stateSpan.textContent = empresa.estado;
   if (cepSpan) cepSpan.textContent = empresa.cep;

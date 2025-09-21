@@ -91,6 +91,7 @@ export function carregarCompetencias(): CompetenciaQuantificada[] {
 export function logarCandidato(candidato: Candidato): void {
   const nameSpan = document.querySelector<HTMLSpanElement>(".candidate-name");
   const emailSpan = document.querySelector<HTMLSpanElement>(".candidate-email");
+  const linkedinSpan = document.querySelector<HTMLSpanElement>(".candidate-linkedin");
   const bornSpan = document.querySelector<HTMLSpanElement>(".candidate-born-date");
   const cpfSpan = document.querySelector<HTMLSpanElement>(".candidate-cnpj");
   const stateSpan = document.querySelector<HTMLSpanElement>(".candidate-state");
@@ -101,7 +102,8 @@ export function logarCandidato(candidato: Candidato): void {
 
   if (nameSpan) nameSpan.textContent = candidato.nome;
   if (emailSpan) emailSpan.textContent = candidato.email;
-  if (bornSpan) bornSpan.textContent = new Date(candidato.data_nascimento).toString(); ///////atenção
+  if (linkedinSpan) linkedinSpan.textContent = candidato.linkedin;
+  if (bornSpan) bornSpan.textContent = new Date(candidato.data_nascimento).toLocaleDateString(); ///////atenção
   if (cpfSpan) cpfSpan.textContent = candidato.cpf;
   if (stateSpan) stateSpan.textContent = candidato.estado;
   if (cepSpan) cepSpan.textContent = candidato.cep;
