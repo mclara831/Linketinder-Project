@@ -16,7 +16,7 @@ export const carregarGraphic = () => {
       datasets: [
         {
           label: "Quantidade de Candidatos",
-          data: competencias.map((c) => c.quantidade), // valores numéricos
+          data: competencias.map((c) => c.quantidade), 
           backgroundColor: [
             "#ff6384",
             "#36a2eb",

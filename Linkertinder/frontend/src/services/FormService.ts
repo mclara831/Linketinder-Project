@@ -12,6 +12,7 @@ import {
   validaCPF,
   validaEmail,
   validaLinkedin,
+  validaTelefone,
   validaTexto,
   valido,
 } from "./ValidacaoService";
@@ -98,6 +99,7 @@ export function lerInfoFomularioCandidato(): Candidato | null {
   let nome = form.querySelector('[name="name"]') as HTMLInputElement;
   let email = form.querySelector('[name="email"]') as HTMLInputElement;
   let linkedin = form.querySelector('[name="linkedin"]') as HTMLInputElement;
+  let telefone = form.querySelector('[name="telefone"]') as HTMLInputElement;
   let cpf = form.querySelector('[name="cpf"]') as HTMLInputElement;
   let data_nascimento = form.querySelector(
     '[name="data-nascimento"]'
@@ -113,6 +115,7 @@ export function lerInfoFomularioCandidato(): Candidato | null {
     nome,
     email,
     linkedin,
+    telefone,
     cpf,
     null,
     cep,
@@ -132,6 +135,7 @@ export function lerInfoFomularioCandidato(): Candidato | null {
     nome.value,
     email.value,
     linkedin.value,
+    telefone.value,
     new Date(ano, mes - 1, dia),
     cpf.value,
     estado.value,
@@ -145,6 +149,7 @@ function validaCampos(
   nome: HTMLInputElement,
   email: HTMLInputElement,
   linkedin: HTMLInputElement,
+  telefone: HTMLInputElement | null,
   cpf: HTMLInputElement | null,
   cnpj: HTMLInputElement | null,
   cep: HTMLInputElement,
@@ -172,6 +177,12 @@ function validaCampos(
     invalido(linkedin);
   } else {
     valido(linkedin);
+  }
+  if (telefone != null && !validaTelefone(telefone.value)) {
+    flag = false;
+    invalido(telefone);
+  } else if (telefone != null) {
+    valido(telefone);
   }
   if (
     data_nascimento != null &&
@@ -244,6 +255,7 @@ export function lerInfoFomularioEmpresa(): Empresa | null {
       nome,
       email,
       linkedin,
+      null,
       null,
       cnpj,
       cep,
@@ -326,7 +338,15 @@ export function limparFormularioCandidato() {
   linkedin.value = "";
   linkedin.classList.remove("is-invalid");
 
-  let cpf = form.querySelector('[name="cpf"]') as HTMLInputElement
+  let telefone = form.querySelector('[name="telefone"]') as HTMLInputElement;
+  telefone.value = "";
+  telefone.classList.remove("is-invalid");
+
+  let data_nascimento = form.querySelector('[name="data-nascimento"]') as HTMLInputElement;
+  data_nascimento.value = "";
+  data_nascimento.classList.remove("is-invalid");
+
+  let cpf = form.querySelector('[name="cpf"]') as HTMLInputElement;
   cpf.value = "";
   cpf.classList.remove("is-invalid");
 
@@ -334,11 +354,13 @@ export function limparFormularioCandidato() {
   estado.value = "";
   estado.classList.remove("is-invalid");
 
-  let cep = form.querySelector('[name="cep"]') as HTMLInputElement
+  let cep = form.querySelector('[name="cep"]') as HTMLInputElement;
   cep.value = "";
   cep.classList.remove("is-invalid");
 
-  let description = form.querySelector('[name="description"]') as HTMLTextAreaElement
+  let description = form.querySelector(
+    '[name="description"]'
+  ) as HTMLTextAreaElement;
   description.value = "";
   description.classList.remove("is-invalid");
 

@@ -23,6 +23,11 @@ export function validaLinkedin(linkedin: string): boolean {
   return regex.test(linkedin);
 }
 
+export function validaTelefone(telefone: string): boolean {
+  const regex = RegExp(/\+\d{1,3}\s?\(?\d{2,3}\)?\s?\d{4,5}-\d{4}/g);
+  return regex.test(telefone);
+}
+
 export function validaTexto(texto: string): boolean {
   const regex = RegExp(/\w{3,}/g);
   return regex.test(texto.trim());
