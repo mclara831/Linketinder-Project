@@ -248,10 +248,9 @@ export function lerInfoFomularioEmpresa(): Empresa | null {
   let descricao = form.querySelector(
     '[name="description"]'
   ) as HTMLInputElement;
-  let competencias = form.querySelector('[name="skills"]') as HTMLInputElement;
+  let competencias = obterCompetenciasSelecionadas();
 
-  if (
-    validaCampos(
+  var resultado: boolean = validaCampos(
       nome,
       email,
       linkedin,
@@ -263,8 +262,8 @@ export function lerInfoFomularioEmpresa(): Empresa | null {
       estado,
       null,
       pais
-    )
-  ) {
+    );
+  if (!resultado) {
     return null;
   }
 
@@ -277,7 +276,7 @@ export function lerInfoFomularioEmpresa(): Empresa | null {
     cep.value,
     pais.value,
     descricao.value,
-    [competencias.value as Competencia]
+    competencias
   );
 }
 

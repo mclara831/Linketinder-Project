@@ -25,6 +25,7 @@ function adicionarEmpresa() {
         return;
       }
       salvarObjeto<Empresa>("empresas", empresa);
+      limparFormularioEmpresa()
     });
 }
 
