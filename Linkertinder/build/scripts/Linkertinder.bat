@@ -74,7 +74,7 @@ set CLASSPATH=%APP_HOME%\lib\Linkertinder.jar;%APP_HOME%\lib\groovy-4.0.14.jar
 
 
 @rem Execute Linkertinder
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %LINKERTINDER_OPTS%  -classpath "%CLASSPATH%" main.groovy.Main %*
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %LINKERTINDER_OPTS%  -classpath "%CLASSPATH%" org.acelerazg.Main %*
 
 :end
 @rem End local scope for the variables with windows NT shell

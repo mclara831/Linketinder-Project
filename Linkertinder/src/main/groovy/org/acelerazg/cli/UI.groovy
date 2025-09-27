@@ -19,7 +19,7 @@ class UI {
         println "4. Cadastrar novo candidato"
         println "0. Sair"
         println "============================================================"
-        print "Escolhauma opcao: "
+        print "Escolha uma opcao: "
     }
 
     Candidato cadastrarCandidato() {

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="services.PessoaServiceTeste" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-09-10T18:40:29.425Z" hostname="mclara" time="0.209">
+<testsuite name="services.PessoaServiceTeste" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-09-25T15:03:38.639Z" hostname="mclara" time="0.148">
   <properties/>
-  <testcase name="cadastrar Empresa" classname="services.PessoaServiceTeste" time="0.209"/>
+  <testcase name="carregar Dados nos arrays" classname="services.PessoaServiceTeste" time="0.11"/>
+  <testcase name="cadastrar Candidato" classname="services.PessoaServiceTeste" time="0.028"/>
+  <testcase name="cadastrar Empresa" classname="services.PessoaServiceTeste" time="0.008"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
