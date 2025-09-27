@@ -19,6 +19,9 @@ Este repositório será utilizado para o desenvolvimento do Linketinder Project 
     - HTML
     - Css
 
+- Banco de dados:
+    - PostgreSQL
+
 
 
 ## 📂 Estrutura do projeto
@@ -26,6 +29,12 @@ Este repositório será utilizado para o desenvolvimento do Linketinder Project 
 - **Backend**: `Linkertinder/src/main/groovy/org/acelerazg/Main.groovy` → Classe principal para executar a aplicação.
 - **Frontend**:  `Linkertinder/frontend`
 
+## Modelo lógico de Banco de Dados
+Para elaborar esse modelo foi utilizada a ferramenta: https://dbdiagram.io/home
+
+![Modelo do banco de dados](Linketinder-Project.png)
+
+- O Script SQL se encontra na pasta: `Linkertinder/src/main/groovy/resources`
 
 ## 🚀 Como executar
 
@@ -41,9 +50,14 @@ git clone  git@github.com:mclara831/Linketinder-Project.git
     - Navegue atá a classe principal indicada no caminho acima:
 
     ``` 
-    cd Linkertinder/src/main/groovy/org/acelerazg
+    cd Linkertinder
     ```
     - Execute o projeto
+
+    ```
+    java -jar build/libs/Linkertinder-all.jar
+
+    ```
 
 - Frontend: 
     - Navegue atá a classe principal indicada no caminho acima:
