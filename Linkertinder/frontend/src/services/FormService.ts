@@ -1,5 +1,4 @@
 import { Candidato } from "../models/Candidato";
-import type { Competencia } from "../models/Competencia";
 import { Empresa } from "../models/Empresa";
 import { obterCompetenciasSelecionadas } from "../utils/Utils";
 import { obterObjetos } from "./ArmazenamentoService";

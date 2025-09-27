@@ -54,9 +54,9 @@ function cadastrarVaga(): void {
   const btnCadastrar = document.querySelector(
     "#cadastrar-vaga"
   ) as HTMLButtonElement;
-  const empresaAtual = obterEmpresaLogada();
-
+  
   btnCadastrar.onclick = () => {
+    const empresaAtual = obterEmpresaLogada();
     const nome = document.querySelector("#job-name") as HTMLInputElement;
     const descricao = document.querySelector(
       "#description"
