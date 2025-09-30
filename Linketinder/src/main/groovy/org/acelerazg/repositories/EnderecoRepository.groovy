@@ -37,4 +37,14 @@ class EnderecoRepository {
         }
         return null
     }
+
+    String findEnderecoFromId(String id) {
+        GroovyRowResult rs = sql.getConnection()
+                .firstRow("""SELECT * FROM enderecos where id=?""",
+                        [id])
+        if (rs != null) {
+            return new Endereco(rs.pais, rs.estado, rs.cep)
+        }
+        return null
+    }
 }

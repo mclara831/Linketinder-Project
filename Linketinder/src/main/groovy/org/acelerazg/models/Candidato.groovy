@@ -27,7 +27,11 @@ class Candidato extends Pessoa {
 
     @Override
     String toString() {
-        return "\n\nCandidato: " + super.toString() +
-                "\nCPF=" + cpf
+        return "\n\nCandidato:\n" +
+                "\tnome = " + nome +
+                " " + sobrenome +
+                "\n\temail = " + email +
+                "\n\tlinkedin = " + linkedin +
+                "\n\tdescricao = " + descricao
     }
 }

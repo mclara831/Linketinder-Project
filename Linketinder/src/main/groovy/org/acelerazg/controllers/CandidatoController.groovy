@@ -3,22 +3,32 @@ package org.acelerazg.controllers
 import org.acelerazg.cli.UI
 import org.acelerazg.models.Candidato
 import org.acelerazg.services.CandidatoService
+import org.acelerazg.services.CompetenciaService
+import org.acelerazg.services.EnderecoService
 
 import java.time.LocalDate
 
 class CandidatoController {
 
     CandidatoService service
+    EnderecoService enderecoService
+    CompetenciaService competenciaService
     Scanner sc
 
     CandidatoController() {
         this.service = new CandidatoService()
+        this.enderecoService = new EnderecoService()
+        this.competenciaService = new CompetenciaService()
         sc = new Scanner(System.in)
     }
 
     void listarTodosCandidatos() {
         List<Candidato> candidatos = service.findAll()
-        candidatos.each { it -> println(it.toString()) }
+        candidatos.each { it -> {
+            println(it.toString())
+            print( enderecoService.encontrarEnderecoPorID(it.enderecoId).toString())
+            println( "\n\tCompetencias: " + competenciaService.buscaCompetenciasDoCandidatos(it.id).join(", "))
+        }}
     }
 
     void cadastrarCandidato() {
@@ -57,7 +67,10 @@ class CandidatoController {
         print "Digite uma senha: "
         String senha = this.sc.nextLine()
 
-        service.inserirNovoCandidato(nome, sobrenome, email, linkedin, cpf, dataNascimento as LocalDate, descricao, senha, pais, estado, cep);
+        print "Digite suas competencias (competencia1, conpetencia2,...): "
+        String competencias = sc.nextLine()
+
+        service.inserirNovoCandidato(nome, sobrenome, email, linkedin, cpf, dataNascimento as LocalDate, descricao, senha, pais, estado, cep, competencias);
     }
 
     void atualizarCandidato() {
@@ -101,7 +114,10 @@ class CandidatoController {
         print "Digite uma senha: "
         String senha = this.sc.nextLine()
 
-        service.atualizarCandidatoPorCpf(cpf, nome, sobrenome, email, linkedin, dataNascimento as LocalDate, descricao, senha, pais, estado, cep);
+        print "Digite suas competencias (competencia1, conpetencia2,...): "
+        String competencias = sc.nextLine()
+
+        service.atualizarCandidatoPorCpf(cpf, nome, sobrenome, email, linkedin, dataNascimento as LocalDate, descricao, senha, pais, estado, cep, competencias);
     }
 
     void deletarCandidato() {

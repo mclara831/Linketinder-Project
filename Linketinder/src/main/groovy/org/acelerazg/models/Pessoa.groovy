@@ -32,15 +32,12 @@ abstract class Pessoa {
 
     @Override
     String toString() {
-        return "Pessoa{" +
-                "id='" + id + '\'' +
-                ", nome='" + nome + '\'' +
+        return "  nome='" + nome + '\'' +
                 ", email='" + email + '\'' +
                 ", linkedin='" + linkedin + '\'' +
                 ", enderecoId='" + enderecoId + '\'' +
                 ", descricao='" + descricao + '\'' +
-                ", senha='" + senha + '\'' +
-                '}';
+                ", senha='" + senha + '\''
     }
 }
 

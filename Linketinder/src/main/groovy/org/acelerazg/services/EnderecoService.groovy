@@ -11,6 +11,10 @@ class EnderecoService {
         this.enderecoRepository = new EnderecoRepository()
     }
 
+    String encontrarEnderecoPorID(String id) {
+        return enderecoRepository.findEnderecoFromId(id)
+    }
+
     String encontrarEndereco(String pais, String estado, String cep) {
         Endereco e = new Endereco(pais, estado, cep)
         String resultado = enderecoRepository.findIdFromEndereco(e)

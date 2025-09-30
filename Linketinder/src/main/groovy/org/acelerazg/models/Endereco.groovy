@@ -19,4 +19,9 @@ class Endereco {
         this.estado = estado
         this.cep = cep
     }
+
+    @Override
+    String toString() {
+        return "\tEndereco: " + cep + ", " + estado + ", " + pais
+    }
 }

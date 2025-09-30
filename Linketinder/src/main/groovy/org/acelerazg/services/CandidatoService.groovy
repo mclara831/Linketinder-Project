@@ -2,6 +2,7 @@ package org.acelerazg.services
 
 import org.acelerazg.models.Candidato
 import org.acelerazg.repositories.CandidatoRepository
+import org.acelerazg.repositories.CompetenciaRepository
 
 import java.time.LocalDate
 
@@ -9,10 +10,12 @@ class CandidatoService {
 
     CandidatoRepository repository
     EnderecoService enderecoService
+    CompetenciaService competenciaService
 
     CandidatoService() {
         this.repository = new CandidatoRepository()
         this.enderecoService = new EnderecoService()
+        this.competenciaService = new CompetenciaService()
     }
 
     List<Candidato> findAll() {
@@ -20,11 +23,13 @@ class CandidatoService {
     }
 
     void inserirNovoCandidato(String nome, String sobrenome, String email, String linkedin, String cpf, LocalDate dataNascimento, String descricao, String senha,
-                              String pais, String estado, String cep) {
+                              String pais, String estado, String cep, String competencias) {
         Candidato c = repository.findByCpf(cpf)
         if (!c) {
             String enderecoId = enderecoService.encontrarEndereco(pais, estado, cep)
             repository.createNewCandidato(new Candidato(nome, sobrenome, email, linkedin, cpf, dataNascimento, enderecoId, descricao, senha))
+            c = repository.findByCpf(cpf)
+            competenciaService.adicionarCompetenciasACandidato(c.id, competencias)
         } else {
             println "[AVISO]: Não é possível utilizar o cpf fornecido!"
         }
@@ -36,7 +41,7 @@ class CandidatoService {
     }
 
     void atualizarCandidatoPorCpf(String cpf, String nome, String sobrenome, String email, String linkedin, LocalDate dataNascimento, String descricao, String senha,
-                                  String pais, String estado, String cep) {
+                                  String pais, String estado, String cep, String competencias) {
         Candidato c = repository.findByCpf(cpf)
         if (c) {
             String enderecoId = enderecoService.encontrarEndereco(pais, estado, cep)
@@ -48,6 +53,10 @@ class CandidatoService {
             c.setDescricao(descricao)
             c.setSenha(senha)
             c.setEnderecoId(enderecoId)
+
+            competenciaService.removeCompetenciasDoCandidato(c.id)
+            competenciaService.adicionarCompetenciasACandidato(c.id, competencias)
+
             repository.updateCandidatoById(c)
         } else {
             println "[AVISO]: Este CPF não está cadastrado em nossa base de dados!"
@@ -57,6 +66,7 @@ class CandidatoService {
     void deletarCandidatoPorCpf(String cpf) {
         Candidato c = repository.findByCpf(cpf)
         if (c) {
+            competenciaService.removeCompetenciasDoCandidato(c.id)
             repository.deleteByCpf(cpf)
         } else {
             println "[AVISO]: Este CPF não está cadastrado em nossa base de dados!"
