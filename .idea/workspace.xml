@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3759029-e92c-4095-9254-0fad6f93e0d8" name="Changes" comment="" />
+    <list default="true" id="c3759029-e92c-4095-9254-0fad6f93e0d8" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Linketinder/src/main/groovy/org/acelerazg/Main.groovy" beforeDir="false" afterPath="$PROJECT_DIR$/Linketinder/src/main/groovy/org/acelerazg/Main.groovy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Linketinder/src/main/groovy/org/acelerazg/repositories/db/CandidatoRepository.groovy" beforeDir="false" afterPath="$PROJECT_DIR$/Linketinder/src/main/groovy/org/acelerazg/repositories/CandidatoRepository.groovy" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,6 +17,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;mclara831&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:mclara831/Linketinder-Project.git&quot;,
+    &quot;accountId&quot;: &quot;fd052f61-cc5f-4865-9f62-c02b7b5495c5&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -34,7 +50,7 @@
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/mclara/Acelera ZG/projetos/Linketinder-Project&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/mclara/Acelera ZG/projetos/Linketinder-Project_2/Linketinder-Project&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -103,6 +119,9 @@
       <workItem from="1756245302119" duration="1487000" />
       <workItem from="1756246981887" duration="16000" />
       <workItem from="1756407019037" duration="57000" />
+      <workItem from="1759246344426" duration="49000" />
+      <workItem from="1759246399990" duration="3000" />
+      <workItem from="1759246473135" duration="2000" />
     </task>
     <servers />
   </component>

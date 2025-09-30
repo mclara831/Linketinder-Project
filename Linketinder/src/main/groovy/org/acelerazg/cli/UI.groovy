@@ -2,10 +2,18 @@ package org.acelerazg.cli
 
 import org.acelerazg.models.Candidato
 import org.acelerazg.models.Empresa
+import org.acelerazg.services.CandidatoService
+
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 class UI {
 
     Scanner sc
+    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    CandidatoService candidatoService = new CandidatoService()
 
     UI() {
         this.sc = new Scanner(System.in)
@@ -17,38 +25,67 @@ class UI {
         println "2. Cadastrar nova empresa"
         println "3. Listar todos candidatos"
         println "4. Cadastrar novo candidato"
+        println "5. Atualizar dados de candidato"
+        println "6. Deletar candidato"
         println "0. Sair"
         println "============================================================"
         print "Escolha uma opcao: "
     }
 
+    static LocalDate lerData() {
+        Scanner scanner = new Scanner(System.in)
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        boolean continuar = true;
+        LocalDate dataFormatada = null;
+        while (continuar) {
+            try {
+                String data = scanner.next();
+                dataFormatada = LocalDate.parse(data, dateTimeFormatter);
+                continuar = false;
+            } catch (DateTimeParseException e) {
+                System.out.println("Data está em formato inválido! Digite novamente: ");
+            }
+        }
+        return dataFormatada;
+    }
+
     Candidato cadastrarCandidato() {
         print "Digite o nome: "
-        def nome = this.sc.nextLine()
+        String nome = this.sc.nextLine()
 
-        print "Digite a idade: "
-        def idade = this.sc.nextInt()
+        print "Digite o sobrenome: "
+        String sobrenome = this.sc.nextLine()
 
         this.sc.nextLine()
         print "Digite o email: "
-        def email = this.sc.nextLine()
+        String email = this.sc.nextLine()
+
+        this.sc.nextLine()
+        print "Digite o linkedin: "
+        String linkedin = this.sc.nextLine()
 
         print "Digite o cpf: "
-        def cpf = this.sc.nextLine()
+        String cpf = this.sc.nextLine()
+
+        print "Digite a data de nascimento: "
+        String idade = lerData()
+
+        print "Digite o pais: "
+        String pais = this.sc.nextLine()
 
         print "Digite o estado: "
-        def estado = this.sc.nextLine()
+        String estado = this.sc.nextLine()
 
         print "Digite o cep: "
-        def cep = this.sc.nextLine()
+        String cep = this.sc.nextLine()
 
         print "Digite uma descrição: "
-        def descricao = this.sc.nextLine()
+        String descricao = this.sc.nextLine()
 
-        print "Digite suas competencias (competencia1, contencia2,...): "
-        def competencias = this.sc.nextLine()
+        print "Digite uma senha: "
+        String senha = this.sc.nextLine()
 
-        return new Candidato(nome: nome, idade: idade, cpf: cpf, email: email, cep: cep, estado: estado, descricao: descricao, competencias: competencias.split(","))
+
     }
 
     Empresa cadastrarEmpresa() {

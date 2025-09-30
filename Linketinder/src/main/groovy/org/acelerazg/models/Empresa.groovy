@@ -3,7 +3,11 @@ package org.acelerazg.models
 class Empresa extends Pessoa {
 
     String cnpj
-    String pais
+
+    Empresa(UUID id, String nome, String email, String linkedin, String enderecoId, String descricao, String senha, String cnpj) {
+        super(id, nome, email, linkedin, enderecoId, descricao, senha)
+        this.cnpj = cnpj
+    }
 
     @Override
     public String toString() {

@@ -2,16 +2,32 @@ package org.acelerazg.models
 
 import groovy.transform.ToString
 
+import java.time.LocalDate
+
 @ToString
 class Candidato extends Pessoa {
 
+    String sobrenome
+    LocalDate dataNascimento
     String cpf
-    Integer idade
+
+    Candidato(String id, String nome, String sobrenome, String email, String linkedin, String cpf, LocalDate dataNascimento, String enderecoId, String descricao, String senha) {
+        super(id, nome, email, linkedin, enderecoId, descricao, senha)
+        this.sobrenome = sobrenome
+        this.dataNascimento = dataNascimento
+        this.cpf = cpf
+    }
+
+    Candidato(String nome, String sobrenome, String email, String linkedin, String cpf, LocalDate dataNascimento, String enderecoId, String descricao, String senha) {
+        super(nome, email, linkedin, enderecoId, descricao, senha)
+        this.sobrenome = sobrenome
+        this.dataNascimento = dataNascimento
+        this.cpf = cpf
+    }
 
     @Override
-    public String toString() {
+    String toString() {
         return "\n\nCandidato: " + super.toString() +
-                "\nCPF=" + cpf +
-                "\nidade=" + idade
+                "\nCPF=" + cpf
     }
 }

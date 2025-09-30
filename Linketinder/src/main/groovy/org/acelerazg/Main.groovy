@@ -1,19 +1,20 @@
 package org.acelerazg
 
 import org.acelerazg.cli.UI
-import org.acelerazg.repositories.db.CandidatoRepository
+import org.acelerazg.controllers.CandidatoController
+import org.acelerazg.repositories.CandidatoRepository
 import org.acelerazg.services.PessoaService
 
 static void main(String[] args) {
 
+    CandidatoController candidatoController = new CandidatoController()
     UI ui = new UI()
     PessoaService service = new PessoaService()
 
     Scanner sc = new Scanner(System.in)
     boolean continuar = true
     int opcao
-    CandidatoRepository candidatoRepository = new CandidatoRepository()
-    candidatoRepository.findAll()
+
 
     while (continuar) {
         ui.menu()
@@ -28,11 +29,16 @@ static void main(String[] args) {
                 service.empresas.add(empresa)
                 break
             case 3:
-                service.candidatos.each { it -> println(it.toString()) }
+                candidatoController.listarTodosCandidatos()
                 break
             case 4:
-                def candidato = ui.cadastrarCandidato()
-                service.candidatos.add(candidato)
+                candidatoController.cadastrarCandidato()
+                break
+            case 5:
+                candidatoController.atualizarCandidato()
+                break
+            case 6:
+                candidatoController.deletarCandidato()
                 break
             case 0:
                 println("Obrigado por utilizar o Linketinder!")
