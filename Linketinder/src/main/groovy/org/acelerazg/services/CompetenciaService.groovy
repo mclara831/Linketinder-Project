@@ -53,4 +53,26 @@ class CompetenciaService {
         repository.removeCompetenciasFromEmpresa(empresaId)
     }
 
+    List<String> buscaCompetenciasDaVaga(String vagaID) {
+        return repository.findCompetenciasByVagaId(vagaID)
+    }
+
+    void adicionarCompetenciasAVaga(String vagaId, String competencias) {
+        List<String> comps = competencias.split(", ")
+        comps.forEach { it ->
+            it = it.trim()
+            it = it[0].toUpperCase() + it.substring(1).toLowerCase()
+            String compId = repository.findCompetenciaIdByNome(it)
+            if (compId == null) {
+                repository.createNewCompetencias(it)
+                compId = repository.findCompetenciaIdByNome(it)
+            }
+            repository.addCompetenciasToVaga(vagaId, compId)
+        }
+    }
+
+    void removeCompetenciasDaVaga(String vagaId) {
+        repository.removeCompetenciasFromVaga(vagaId)
+    }
+
 }
