@@ -16,7 +16,7 @@ class CompetenciaService {
 
     void adicionarCompetenciasACandidato(String candidatoId, String competencias) {
         List<String> comps = competencias.split(", ")
-        comps.forEach {it ->
+        comps.forEach { it ->
             it.trim()[0].toUpperCase()
             String compId = repository.findCompetenciaIdByNome(it)
             if (compId == null) {
@@ -28,7 +28,29 @@ class CompetenciaService {
     }
 
     void removeCompetenciasDoCandidato(String candidatoId) {
-       repository.removeCompetenciasFromCandidato(candidatoId)
+        repository.removeCompetenciasFromCandidato(candidatoId)
+    }
+
+    List<String> buscaCompetenciasDaEmpresa(String empresaId) {
+        return repository.findCompetenciasByEmpresaId(empresaId)
+    }
+
+    void adicionarCompetenciasAEmpresa(String empresaId, String competencias) {
+        List<String> comps = competencias.split(", ")
+        comps.forEach { it ->
+            it = it.trim()
+            it = it[0].toUpperCase() + it.substring(1).toLowerCase()
+            String compId = repository.findCompetenciaIdByNome(it)
+            if (compId == null) {
+                repository.createNewCompetencias(it)
+                compId = repository.findCompetenciaIdByNome(it)
+            }
+            repository.addCompetenciasToEmpresa(empresaId, compId)
+        }
+    }
+
+    void removeCompetenciasDaEmpresa(String empresaId) {
+        repository.removeCompetenciasFromEmpresa(empresaId)
     }
 
 }

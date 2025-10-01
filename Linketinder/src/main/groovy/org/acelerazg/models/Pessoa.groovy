@@ -29,7 +29,6 @@ abstract class Pessoa {
         this.senha = senha
     }
 
-
     @Override
     String toString() {
         return "  nome='" + nome + '\'' +

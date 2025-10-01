@@ -2,7 +2,6 @@ package org.acelerazg.services
 
 import org.acelerazg.models.Candidato
 import org.acelerazg.repositories.CandidatoRepository
-import org.acelerazg.repositories.CompetenciaRepository
 
 import java.time.LocalDate
 

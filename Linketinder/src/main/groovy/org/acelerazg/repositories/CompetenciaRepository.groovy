@@ -69,4 +69,25 @@ class CompetenciaRepository {
                         [candidatoId])
     }
 
+    List<String> findCompetenciasByEmpresaId(String empresaId) {
+        List<String> competencias = new ArrayList<>()
+        sql.getConnection().eachRow("SELECT * FROM empresas_competencias WHERE empresa_id=?", [empresaId]) { rs ->
+            String comp = findCompetenciaIdById(rs.competencia_id)
+            competencias.add(comp)
+        }
+        return competencias
+    }
+
+    void addCompetenciasToEmpresa(String empresaId, String competenciaId) {
+        sql.getConnection()
+                .execute("""INSERT INTO empresas_competencias(empresa_id, competencia_id) VALUES (?, ?)""",
+                        [empresaId, competenciaId])
+    }
+
+    void removeCompetenciasFromEmpresa(String empresaId) {
+        sql.getConnection()
+                .execute("""DELETE FROM empresas_competencias WHERE empresa_id=?""",
+                        [empresaId])
+    }
+
 }

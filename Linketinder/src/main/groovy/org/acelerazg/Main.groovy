@@ -2,12 +2,13 @@ package org.acelerazg
 
 import org.acelerazg.cli.UI
 import org.acelerazg.controllers.CandidatoController
-import org.acelerazg.repositories.CandidatoRepository
+import org.acelerazg.controllers.EmpresaController
 import org.acelerazg.services.PessoaService
 
 static void main(String[] args) {
 
     CandidatoController candidatoController = new CandidatoController()
+    EmpresaController empresaController = new EmpresaController()
     UI ui = new UI()
     PessoaService service = new PessoaService()
 
@@ -22,22 +23,27 @@ static void main(String[] args) {
 
         switch (opcao) {
             case 1:
-                service.empresas.each { it -> println(it.toString()) }
+                empresaController.listarTodasEmpresas()
                 break
             case 2:
-                def empresa = ui.cadastrarEmpresa()
-                service.empresas.add(empresa)
+                empresaController.cadastrarEmpresa()
                 break
             case 3:
-                candidatoController.listarTodosCandidatos()
+                empresaController.atualizarEmpresa()
                 break
             case 4:
-                candidatoController.cadastrarCandidato()
+                empresaController.deletarEmpresa()
                 break
             case 5:
-                candidatoController.atualizarCandidato()
+                candidatoController.listarTodosCandidatos()
                 break
             case 6:
+                candidatoController.cadastrarCandidato()
+                break
+            case 7:
+                candidatoController.atualizarCandidato()
+                break
+            case 8:
                 candidatoController.deletarCandidato()
                 break
             case 0:

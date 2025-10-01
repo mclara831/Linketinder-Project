@@ -31,6 +31,8 @@ class Candidato extends Pessoa {
                 "\tnome = " + nome +
                 " " + sobrenome +
                 "\n\temail = " + email +
+                "\n\tcpf = " + cpf +
+                "\n\tdata de nascimento = " + dataNascimento +
                 "\n\tlinkedin = " + linkedin +
                 "\n\tdescricao = " + descricao
     }
