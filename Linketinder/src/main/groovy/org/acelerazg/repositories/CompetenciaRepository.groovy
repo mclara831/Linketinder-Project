@@ -17,42 +17,46 @@ class CompetenciaRepository {
         sql.getConnection().eachRow("SELECT * FROM competencias") { rs ->
             competencias.add(new Competencia(rs.id, rs.nome))
         }
-
-        sql.closeConnection()
         return competencias
     }
 
     void createNewCompetencias(String nome) {
-        sql.getConnection()
-                .execute("""INSERT INTO competencias(nome) VALUES (?)""",
-                        [nome])
+        sql.getConnection().execute("""INSERT INTO competencias(nome) VALUES (?)""", [nome])
     }
 
-    String findCompetenciaIdByNome(String nome) {
-        GroovyRowResult rs = sql.getConnection()
-                .firstRow("""SELECT * FROM competencias where nome=?""",
-                        [nome])
+    void createNewCompetenciaComplete(String id, String nome) {
+        sql.getConnection().execute("""INSERT INTO competencias(id, nome) VALUES (?, ?)""", [id, nome])
+    }
+
+    Competencia findCompetenciaIdByNome(String nome) {
+        GroovyRowResult rs = sql.getConnection().firstRow("""SELECT * FROM competencias where nome=?""", [nome])
         if (rs != null) {
-            return rs.id
+            return new Competencia(rs.id, rs.nome)
         }
         return null
     }
 
-    String findCompetenciaIdById(String id) {
-        GroovyRowResult rs = sql.getConnection()
-                .firstRow("""SELECT * FROM competencias where id=?""",
-                        [id])
+    Competencia findCompetenciaById(String id) {
+        GroovyRowResult rs = sql.getConnection().firstRow("""SELECT * FROM competencias where id=?""", [id])
         if (rs != null) {
-            return rs.nome
+            return new Competencia(rs.id, rs.nome)
         }
         return null
+    }
+
+    void updateCompetenciaById(Competencia competencia) {
+        sql.getConnection().executeInsert(""" UPDATE competencias SET nome=? WHERE id=?""", [competencia.nome, competencia.id])
+    }
+
+    void deleteCompetenciaById(Competencia competencia) {
+        sql.getConnection().executeInsert(""" DELETE from competencias WHERE id=?""", [competencia.id])
     }
 
     List<String> findCompetenciasByCandidatoId(String candidatoId) {
         List<String> competencias = new ArrayList<>()
         sql.getConnection().eachRow("SELECT * FROM candidatos_competencias WHERE candidato_id=?", [candidatoId]) { rs ->
-            String comp = findCompetenciaIdById(rs.competencia_id)
-            competencias.add(comp)
+            Competencia comp = findCompetenciaById(rs.competencia_id)
+            competencias.add(comp.nome)
         }
         return competencias
     }
@@ -72,8 +76,8 @@ class CompetenciaRepository {
     List<String> findCompetenciasByEmpresaId(String empresaId) {
         List<String> competencias = new ArrayList<>()
         sql.getConnection().eachRow("SELECT * FROM empresas_competencias WHERE empresa_id=?", [empresaId]) { rs ->
-            String comp = findCompetenciaIdById(rs.competencia_id)
-            competencias.add(comp)
+            Competencia comp = findCompetenciaById(rs.competencia_id)
+            competencias.add(comp.nome)
         }
         return competencias
     }
@@ -93,8 +97,8 @@ class CompetenciaRepository {
     List<String> findCompetenciasByVagaId(String vagaId) {
         List<String> competencias = new ArrayList<>()
         sql.getConnection().eachRow("SELECT * FROM vagas_competencias WHERE vaga_id=?", [vagaId]) { rs ->
-            String comp = findCompetenciaIdById(rs.competencia_id)
-            competencias.add(comp)
+            Competencia comp = findCompetenciaById(rs.competencia_id)
+            competencias.add(comp.nome)
         }
         return competencias
     }

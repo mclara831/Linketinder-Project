@@ -21,7 +21,6 @@ class CandidatoRepository {
             LocalDate dataNascimento = rs.data_nascimento?.toLocalDate()
             candidatos.add(new Candidato(rs.id, rs.nome, rs.sobrenome, rs.email, rs.linkedin, rs.cpf, dataNascimento, rs.endereco_id, rs.descricao, rs.senha))
         }
-
         return candidatos
     }
 

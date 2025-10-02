@@ -49,6 +49,11 @@ class CandidatoController {
         print "Digite o cpf: "
         String cpf = this.sc.nextLine()
 
+        if(service.cpfValido(cpf)) {
+            println "[AVISO]: Este CPF não pode ser utilizado!"
+            return
+        }
+
         print "Digite a data de nascimento: "
         LocalDate dataNascimento = UI.lerData()
 

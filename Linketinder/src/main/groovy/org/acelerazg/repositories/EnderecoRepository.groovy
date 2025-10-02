@@ -17,8 +17,6 @@ class EnderecoRepository {
         sql.getConnection().eachRow("SELECT * FROM enderecos") { rs ->
             enderecos.add(new Endereco(rs.id, rs.pais, rs.estado, rs.cep))
         }
-
-        sql.closeConnection()
         return enderecos
     }
 
@@ -39,9 +37,7 @@ class EnderecoRepository {
     }
 
     String findEnderecoFromId(String id) {
-        GroovyRowResult rs = sql.getConnection()
-                .firstRow("""SELECT * FROM enderecos where id=?""",
-                        [id])
+        GroovyRowResult rs = sql.getConnection().firstRow("""SELECT * FROM enderecos where id=?""", [id])
         if (rs != null) {
             return new Endereco(rs.pais, rs.estado, rs.cep)
         }

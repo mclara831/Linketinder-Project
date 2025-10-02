@@ -201,6 +201,7 @@ values ('UX/UI Designer',
         '4bbd2bd4-ef27-4fa5-b8aa-eb16c97ba5fb');
 
 select * from vagas
+alter table vagas alter column criada_em set default CURRENT_DATE;
 
 insert into candidatos_competencias (candidato_id, competencia_id)
 values ('09134f66-3ebe-4157-b9da-1edc9ec38486', 'fb623f86-8049-475c-98cd-e23884f19c2b');
@@ -235,8 +236,3 @@ insert into vagas_competencias (vaga_id, competencia_id)
 values ('313ff857-a6a0-43e8-a963-5a7c0546d4a7', '890abf3b-8098-4352-92dd-121f1e8fcd95');
 insert into vagas_competencias (vaga_id, competencia_id)
 values ('4bc1b3e4-4bb1-4005-a72b-a0f2bddd63cf', '890abf3b-8098-4352-92dd-121f1e8fcd95');
-
-
-
-
-

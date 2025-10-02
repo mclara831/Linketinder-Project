@@ -9,7 +9,9 @@ class Competencia {
         this.nome = nome
     }
 
-    Competencia(String nome) {
-        this.nome
+
+    @Override
+    String toString() {
+        return "nome = " + nome
     }
 }
