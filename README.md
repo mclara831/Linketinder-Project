@@ -3,10 +3,31 @@
 Este repositório será utilizado para o desenvolvimento do Linketinder Project durante o Acelera ZG.
 
 ## 📌 Funcionalidades
-1. Listar todas as empresas
-2. Cadastrar nova empresa
-3. Listar todos os candidatos
-4. Cadastrar novo candidato
+    ===> Empresas
+    1. Listar todas empresas
+    2. Cadastrar nova empresa
+    3. Atualizar dados de empresa
+    4. Deletar empresa
+
+    ===> Candidatos
+    5. Listar todos candidatos
+    6. Cadastrar novo candidato
+    7. Atualizar dados de candidato
+    8. Deletar candidato
+
+    ===> Vagas
+    9. Listar todas vagas
+    10. Encontrar vagas por CNPJ
+    11. Cadastrar nova vaga
+    12. Atualizar dados de vaga
+    13. Deletar vaga
+    
+    ===> Competencias
+    14. Listar todas competências
+    15. Cadastrar nova competência
+    16. Cadastrar uma lista de competência
+    17. Atualizar dados de competência
+    18. Deletar competência
 
 
 
