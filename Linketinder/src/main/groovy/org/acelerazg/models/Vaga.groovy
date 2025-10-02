@@ -42,7 +42,6 @@ class Vaga {
         return "Vaga: " +
                 "\n\tnome=" + nome +
                 "\n\tdescricao=" + descricao +
-                "\n\tcriada em=" + criadaEm +
-                "\n\tempresa= Anônima"
+                "\n\tcriada em=" + criadaEm
     }
 }

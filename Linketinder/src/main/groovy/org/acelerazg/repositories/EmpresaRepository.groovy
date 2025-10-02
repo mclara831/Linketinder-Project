@@ -22,6 +22,14 @@ class EmpresaRepository {
         return empresas
     }
 
+    Empresa findEmpresaById(String id) {
+        GroovyRowResult rs = sql.getConnection().firstRow("SELECT * FROM empresas WHERE id=?", [id])
+        if (rs) {
+            return new Empresa(rs.id, rs.nome, rs.email, rs.linkedin, rs.endereco_id, rs.descricao, rs.senha, rs.cnpj)
+        }
+        return null
+    }
+
     void createNewEmpresa(Empresa empresa) {
         sql.getConnection().executeInsert(""" INSERT INTO empresas
                 (nome, email, linkedin, cnpj, endereco_id, descricao, senha)

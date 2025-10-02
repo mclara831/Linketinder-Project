@@ -19,6 +19,10 @@ class EmpresaService {
         return repository.findAll()
     }
 
+    Empresa encontrarEmpresaPorId(String empresaId) {
+        return repository.findEmpresaById(empresaId)
+    }
+
     void inserirNovaEmpresa(String nome, String email, String linkedin, String cnpj, String descricao, String senha,
                             String pais, String estado, String cep, String competencias) {
         Empresa e = repository.findByCnpj(cnpj)

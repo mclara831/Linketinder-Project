@@ -55,27 +55,30 @@ static void main(String[] args) {
                 vagaController.listarTodasVagas()
                 break
             case 10:
-                vagaController.cadastrarVaga()
+                vagaController.buscarVagasPorEmpresa()
                 break
             case 11:
-                vagaController.atualizarVaga()
+                vagaController.cadastrarVaga()
                 break
             case 12:
-                vagaController.deletarVaga()
+                vagaController.atualizarVaga()
                 break
             case 13:
-                competenciaController.listarTodasCompetencias()
+                vagaController.deletarVaga()
                 break
             case 14:
-                competenciaController.cadastrarCompetencia()
+                competenciaController.listarTodasCompetencias()
                 break
             case 15:
-                competenciaController.cadastrarListaCompetencias()
+                competenciaController.cadastrarCompetencia()
                 break
             case 16:
-                competenciaController.atualizarCompetencia()
+                competenciaController.cadastrarListaCompetencias()
                 break
             case 17:
+                competenciaController.atualizarCompetencia()
+                break
+            case 18:
                 competenciaController.deletarCompetencia()
                 break
             case 0:

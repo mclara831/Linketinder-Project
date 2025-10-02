@@ -51,10 +51,9 @@ class VagaRepository {
         sql.getConnection().execute("DELETE FROM vagas WHERE id=?", [id])
     }
 
-    List<Vaga> findVagaByEmpresaId(String empresaId) {
+    List<Vaga> findVagasByEmpresaId(String empresaId) {
         List<Vaga> vagas = new ArrayList<>()
-        GroovyRowResult rs = sql.getConnection().eachRow("SELECT * FROM vagas WHERE empresa_id=?", [empresaId])
-        if (rs) {
+        sql.getConnection().eachRow("SELECT * FROM vagas WHERE empresa_id=?", [empresaId]) { rs ->
             LocalDate criadaEm = rs.criada_em?.toLocalDate()
             vagas.add(new Vaga(rs.id, rs.nome, rs.descricao, criadaEm, rs.endereco_id, rs.empresa_id))
         }

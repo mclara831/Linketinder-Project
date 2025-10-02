@@ -69,13 +69,13 @@ class VagaController {
         List<Vaga> vagas = service.listarTodasVagas()
 
         for (i in 0..<vagas.size()) {
-            println( "["+ (i+1) + "] " + vagas[i].toString() + "\n")
+            println("[" + (i + 1) + "] " + vagas[i].toString() + "\n")
         }
 
         print "Escolha o número da vaga que deseja atualizar: "
         int opcao = this.sc.nextInt()
 
-        if(opcao <= 0 || opcao > vagas.size()) {
+        if (opcao <= 0 || opcao > vagas.size()) {
             println "[AVISO]: Esta vaga não é válida!"
             return
         }
@@ -106,17 +106,43 @@ class VagaController {
         List<Vaga> vagas = service.listarTodasVagas()
 
         for (i in 0..<vagas.size()) {
-            println( "["+ (i+1) + "] " + vagas[i].toString())
+            println("[" + (i + 1) + "] " + vagas[i].toString())
         }
 
         print "Escolha o número da vaga que deseja deletar: "
         int opcao = this.sc.nextInt()
 
-        if(opcao <= 0 || opcao > vagas.size()) {
+        if (opcao <= 0 || opcao > vagas.size()) {
             println "[AVISO]: Esta vaga não é válida!"
             return
         }
         service.deletarVagaPorId(vagas[opcao - 1].id)
+    }
+
+    void buscarVagasPorEmpresa() {
+        this.sc.nextLine()
+        print "Digite o cnpj da empresa: "
+        String cnpj = this.sc.nextLine()
+
+        if (!empresaService.cnpjValido(cnpj)) {
+            println "[AVISO]: Este CNPJ não está cadastrado em nossa base de dados!"
+            return
+        }
+
+        List<Vaga> vagas = service.buscarVagasDeEmpresa(cnpj)
+        if (vagas.isEmpty()) {
+            println("[AVISO]: Não foram encontradas vagas cadastradas nesse CNPJ!")
+            return
+        }
+
+        vagas.forEach { it ->
+            {
+                println(it.toString())
+                println("\tEmpresa = " + empresaService.encontrarEmpresaPorId(it.empresaId).nome)
+                print(enderecoService.encontrarEnderecoPorID(it.enderecoId).toString())
+                println("\n\tCompetencias: " + competenciaService.buscaCompetenciasDaVaga(it.id).join(", "))
+            }
+        }
     }
 
 

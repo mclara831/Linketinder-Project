@@ -46,4 +46,9 @@ class VagaService {
         competenciaService.removeCompetenciasDaVaga(id)
         repository.deleteById(id)
     }
+
+    List<Vaga> buscarVagasDeEmpresa(String cnpj) {
+        Empresa e = empresaRepository.findByCnpj(cnpj)
+        return repository.findVagasByEmpresaId(e.id)
+    }
 }
