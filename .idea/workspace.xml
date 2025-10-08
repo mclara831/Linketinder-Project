@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3759029-e92c-4095-9254-0fad6f93e0d8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Linketinder/src/main/groovy/org/acelerazg/Main.groovy" beforeDir="false" afterPath="$PROJECT_DIR$/Linketinder/src/main/groovy/org/acelerazg/Main.groovy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Linketinder/src/main/groovy/org/acelerazg/repositories/db/CandidatoRepository.groovy" beforeDir="false" afterPath="$PROJECT_DIR$/Linketinder/src/main/groovy/org/acelerazg/repositories/CandidatoRepository.groovy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Linketinder/.gradle/8.13/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Linketinder/.gradle/8.13/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Linketinder/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Linketinder/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,6 +121,7 @@
       <workItem from="1759246344426" duration="49000" />
       <workItem from="1759246399990" duration="3000" />
       <workItem from="1759246473135" duration="2000" />
+      <workItem from="1759920134930" duration="33000" />
     </task>
     <servers />
   </component>
