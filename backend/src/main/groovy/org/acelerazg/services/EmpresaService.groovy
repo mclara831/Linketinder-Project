@@ -68,7 +68,7 @@ class EmpresaService {
             competenciaService.removeCompetenciasDaEmpresa(e.id)
             repository.deleteByCnpj(cnpj)
         } else {
-            println "[AVISO]: Este CPF não está cadastrado em nossa base de dados!"
+            println "[AVISO]: Este CNPJ não está cadastrado em nossa base de dados!"
         }
     }
 }

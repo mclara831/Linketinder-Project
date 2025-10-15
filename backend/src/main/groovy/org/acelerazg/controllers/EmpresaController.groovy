@@ -60,7 +60,7 @@ class EmpresaController {
         print "Digite uma senha: "
         String senha = this.sc.nextLine()
 
-        print "Digite suas competencias (competencia1, conpetencia2,...): "
+        print "Digite suas competencias (competencia1, competencia2,...): "
         String competencias = sc.nextLine()
 
         service.inserirNovaEmpresa(nome, email, linkedin, cnpj, descricao, senha, pais, estado, cep, competencias);
