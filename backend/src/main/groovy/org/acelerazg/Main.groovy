@@ -5,8 +5,6 @@ import org.acelerazg.controllers.CandidatoController
 import org.acelerazg.controllers.CompetenciaController
 import org.acelerazg.controllers.EmpresaController
 import org.acelerazg.controllers.VagaController
-import org.acelerazg.services.CompetenciaService
-import org.acelerazg.services.PessoaService
 
 static void main(String[] args) {
 
@@ -14,8 +12,6 @@ static void main(String[] args) {
     EmpresaController empresaController = new EmpresaController()
     VagaController vagaController = new VagaController()
     CompetenciaController competenciaController = new CompetenciaController()
-    UI ui = new UI()
-    PessoaService service = new PessoaService()
 
     Scanner sc = new Scanner(System.in)
     boolean continuar = true
@@ -23,7 +19,7 @@ static void main(String[] args) {
 
 
     while (continuar) {
-        ui.menu()
+        UI.menu()
         opcao = sc.nextInt()
 
         switch (opcao) {
@@ -40,16 +36,16 @@ static void main(String[] args) {
                 empresaController.deletarEmpresa()
                 break
             case 5:
-                candidatoController.listarTodosCandidatos()
+                candidatoController.findAll()
                 break
             case 6:
-                candidatoController.cadastrarCandidato()
+                candidatoController.create()
                 break
             case 7:
-                candidatoController.atualizarCandidato()
+                candidatoController.update()
                 break
             case 8:
-                candidatoController.deletarCandidato()
+                candidatoController.delete()
                 break
             case 9:
                 vagaController.listarTodasVagas()

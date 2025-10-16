@@ -1,13 +1,13 @@
 package org.acelerazg.services
 
-import org.acelerazg.models.Candidato
-import org.acelerazg.models.Empresa
-import org.acelerazg.repositories.CandidatoRepository
+import org.acelerazg.models.Candidate
+import org.acelerazg.models.Company
+import org.acelerazg.repositories.CandidateRepository
 
 class PessoaService {
 
-    List<Candidato> candidatos = new ArrayList<>()
-    List<Empresa> empresas = new ArrayList<>()
+    List<Candidate> candidatos = new ArrayList<>()
+    List<Company> empresas = new ArrayList<>()
 
     PessoaService() {
         carregarDados()
@@ -121,14 +121,14 @@ class PessoaService {
 //                descricao: "Estudante de Sistemas de Informação, interessada em desenvolvimento mobile e UX/UI.",
 //                competencias: ["Flutter", "Dart", "Figma", "Git"]
 //        )
-        candidatos.addAll(new CandidatoRepository().findAll())
+        candidatos.addAll(new CandidateRepository().findAll())
     }
 
-    void cadastrarCandidato(Candidato candidato) {
+    void cadastrarCandidato(Candidate candidato) {
 
     }
 
-    void cadastrarEmpresa(Empresa empresa) {
+    void cadastrarEmpresa(Company empresa) {
 
     }
 }

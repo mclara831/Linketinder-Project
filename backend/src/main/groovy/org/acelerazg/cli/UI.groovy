@@ -1,25 +1,15 @@
 package org.acelerazg.cli
 
-import org.acelerazg.models.Candidato
-import org.acelerazg.models.Empresa
-import org.acelerazg.services.CandidatoService
+import org.acelerazg.models.Candidate
+import org.acelerazg.models.Company
+import org.acelerazg.models.Endereco
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
 class UI {
-
-    Scanner sc
-    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-    CandidatoService candidatoService = new CandidatoService()
-
-    UI() {
-        this.sc = new Scanner(System.in)
-    }
-
-    void menu() {
+    static void menu() {
         println "\n\n========================= MENU ============================="
         println "\nEmpresas "
         println "1. Listar todas empresas"
@@ -65,46 +55,61 @@ class UI {
         return dataFormatada;
     }
 
-    Candidato cadastrarCandidato() {
+    static Candidate readCandidateInfo(boolean isUpdate, String cpfExistente = null) {
+        Scanner scanner = new Scanner(System.in)
         print "Digite o nome: "
-        String nome = this.sc.nextLine()
+        String nome = scanner.nextLine()
 
         print "Digite o sobrenome: "
-        String sobrenome = this.sc.nextLine()
+        String sobrenome = scanner.nextLine()
 
-        this.sc.nextLine()
-        print "Digite o email: "
-        String email = this.sc.nextLine()
+        print "Digite o e-mail: "
+        String email = scanner.nextLine()
 
-        this.sc.nextLine()
-        print "Digite o linkedin: "
-        String linkedin = this.sc.nextLine()
+        print "Digite o LinkedIn: "
+        String linkedin = scanner.nextLine()
 
-        print "Digite o cpf: "
-        String cpf = this.sc.nextLine()
+        String cpf = cpfExistente ?: requestCpf()
 
-        print "Digite a data de nascimento: "
-        String idade = lerData()
-
-        print "Digite o pais: "
-        String pais = this.sc.nextLine()
-
-        print "Digite o estado: "
-        String estado = this.sc.nextLine()
-
-        print "Digite o cep: "
-        String cep = this.sc.nextLine()
+        print "Digite a data de nascimento (dd/MM/yyyy): "
+        LocalDate dataNascimento = lerData()
 
         print "Digite uma descrição: "
-        String descricao = this.sc.nextLine()
+        String descricao = scanner.nextLine()
 
         print "Digite uma senha: "
-        String senha = this.sc.nextLine()
+        String senha = scanner.nextLine()
 
-
+        return new Candidate(nome, sobrenome, email, linkedin, cpf, dataNascimento, descricao, senha)
     }
 
-    Empresa cadastrarEmpresa() {
+    static Endereco readAddress() {
+        Scanner scanner = new Scanner(System.in)
+        print "Digite o país: "
+        String pais = scanner.nextLine()
+
+        print "Digite o estado: "
+        String estado = scanner.nextLine()
+
+        print "Digite o CEP: "
+        String cep = scanner.nextLine()
+
+        return new Endereco(pais, estado, cep)
+    }
+
+    static String readSkills() {
+        Scanner scanner = new Scanner(System.in)
+        print "Digite suas competências (ex: Java, Angular, SQL): "
+        return scanner.nextLine()
+    }
+
+    static String requestCpf() {
+        Scanner scanner = new Scanner(System.in)
+        print "Digite o CPF: "
+        return scanner.nextLine()
+    }
+
+    Company cadastrarEmpresa() {
         print "Digite o nome: "
         def nome = this.sc.nextLine()
 
@@ -129,6 +134,6 @@ class UI {
         print "Digite as competencias (competencia1, contencia2,...): "
         def competencias = this.sc.nextLine()
 
-        return new Empresa(nome: nome, email: email, cnpj: cnpj, cep: cep, estado: estado, pais: pais, descricao: descricao, competencias: competencias.split(","))
+        return new Company(nome: nome, email: email, cnpj: cnpj, cep: cep, estado: estado, pais: pais, descricao: descricao, competencias: competencias.split(","))
     }
 }

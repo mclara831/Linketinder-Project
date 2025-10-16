@@ -1,6 +1,6 @@
 package org.acelerazg.services
 
-import org.acelerazg.models.Empresa
+import org.acelerazg.models.Company
 import org.acelerazg.models.Vaga
 import org.acelerazg.repositories.EmpresaRepository
 import org.acelerazg.repositories.VagaRepository
@@ -25,7 +25,7 @@ class VagaService {
 
     void inserirNovaVaga(String nome, String descricao, String pais, String estado, String cep, String competencias, String cnpj) {
         String enderecoId = enderecoService.encontrarEndereco(pais, estado, cep)
-        Empresa e = empresaRepository.findByCnpj(cnpj)
+        Company e = empresaRepository.findByCnpj(cnpj)
         String idVaga = UUID.randomUUID().toString()
         repository.createNewVaga(new Vaga(idVaga, nome, descricao, enderecoId, e.id))
         competenciaService.adicionarCompetenciasAVaga(idVaga, competencias)
@@ -48,7 +48,7 @@ class VagaService {
     }
 
     List<Vaga> buscarVagasDeEmpresa(String cnpj) {
-        Empresa e = empresaRepository.findByCnpj(cnpj)
+        Company e = empresaRepository.findByCnpj(cnpj)
         return repository.findVagasByEmpresaId(e.id)
     }
 }

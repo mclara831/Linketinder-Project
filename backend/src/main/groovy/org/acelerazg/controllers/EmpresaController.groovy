@@ -1,6 +1,6 @@
 package org.acelerazg.controllers
 
-import org.acelerazg.models.Empresa
+import org.acelerazg.models.Company
 import org.acelerazg.services.CompetenciaService
 import org.acelerazg.services.EmpresaService
 import org.acelerazg.services.EnderecoService
@@ -20,7 +20,7 @@ class EmpresaController {
     }
 
     void listarTodasEmpresas() {
-        List<Empresa> empresas = service.findAll()
+        List<Company> empresas = service.findAll()
         empresas.each { it ->
             {
                 println(it.toString())

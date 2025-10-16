@@ -1,7 +1,6 @@
 package org.acelerazg.repositories
 
 import groovy.sql.GroovyRowResult
-import org.acelerazg.models.Candidato
 import org.acelerazg.models.Vaga
 import org.acelerazg.repositories.db.DatabaseConnection
 

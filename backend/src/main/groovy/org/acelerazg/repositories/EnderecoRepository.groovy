@@ -22,8 +22,8 @@ class EnderecoRepository {
 
     void createNewEndereco(Endereco endereco) {
         sql.getConnection()
-                .execute("""INSERT INTO enderecos(pais, estado, cep) VALUES (?, ?, ?)""",
-                        [endereco.pais, endereco.estado, endereco.cep])
+                .execute("""INSERT INTO enderecos(id, pais, estado, cep) VALUES (?,?, ?, ?)""",
+                        [endereco.id, endereco.pais, endereco.estado, endereco.cep])
     }
 
     String findIdFromEndereco(Endereco endereco) {

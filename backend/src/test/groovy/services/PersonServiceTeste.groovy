@@ -1,12 +1,9 @@
 package services
 
 
-import org.acelerazg.models.Candidato
-import org.acelerazg.models.Empresa
-import org.acelerazg.services.PessoaService
 import spock.lang.Specification
 
-class PessoaServiceTeste extends Specification {
+class PersonServiceTeste extends Specification {
 
 //    def "carregar Dados nos arrays"() {
 //        given:

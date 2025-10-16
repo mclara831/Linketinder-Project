@@ -1,6 +1,6 @@
 package org.acelerazg.services
 
-import org.acelerazg.models.Empresa
+import org.acelerazg.models.Company
 import org.acelerazg.repositories.EmpresaRepository
 
 class EmpresaService {
@@ -15,20 +15,20 @@ class EmpresaService {
         this.competenciaService = new CompetenciaService()
     }
 
-    List<Empresa> findAll() {
+    List<Company> findAll() {
         return repository.findAll()
     }
 
-    Empresa encontrarEmpresaPorId(String empresaId) {
+    Company encontrarEmpresaPorId(String empresaId) {
         return repository.findEmpresaById(empresaId)
     }
 
     void inserirNovaEmpresa(String nome, String email, String linkedin, String cnpj, String descricao, String senha,
                             String pais, String estado, String cep, String competencias) {
-        Empresa e = repository.findByCnpj(cnpj)
+        Company e = repository.findByCnpj(cnpj)
         if (!e) {
             String enderecoId = enderecoService.encontrarEndereco(pais, estado, cep)
-            repository.createNewEmpresa(new Empresa(nome, email, linkedin, enderecoId, descricao, senha, cnpj))
+            repository.createNewEmpresa(new Company(nome, email, linkedin, enderecoId, descricao, senha, cnpj))
             e = repository.findByCnpj(cnpj)
             competenciaService.adicionarCompetenciasAEmpresa(e.id, competencias)
         } else {
@@ -37,13 +37,13 @@ class EmpresaService {
     }
 
     boolean cnpjValido(String cnpj) {
-        Empresa e = repository.findByCnpj(cnpj)
+        Company e = repository.findByCnpj(cnpj)
         return e != null
     }
 
     void atualizarEmpresaPorCnpj(String cnpj, String nome, String email, String linkedin, String descricao, String senha,
                                  String pais, String estado, String cep, String competencias) {
-        Empresa e = repository.findByCnpj(cnpj)
+        Company e = repository.findByCnpj(cnpj)
         if (e) {
             String enderecoId = enderecoService.encontrarEndereco(pais, estado, cep)
             e.setNome(nome)
@@ -63,7 +63,7 @@ class EmpresaService {
     }
 
     void deletarEmpresaPorCnpj(String cnpj) {
-        Empresa e = repository.findByCnpj(cnpj)
+        Company e = repository.findByCnpj(cnpj)
         if (e) {
             competenciaService.removeCompetenciasDaEmpresa(e.id)
             repository.deleteByCnpj(cnpj)

@@ -1,134 +1,66 @@
 package org.acelerazg.controllers
 
 import org.acelerazg.cli.UI
-import org.acelerazg.models.Candidato
-import org.acelerazg.services.CandidatoService
+import org.acelerazg.models.Candidate
+import org.acelerazg.models.Endereco
+import org.acelerazg.services.CandidateService
 import org.acelerazg.services.CompetenciaService
 import org.acelerazg.services.EnderecoService
 
-import java.time.LocalDate
-
 class CandidatoController {
 
-    CandidatoService service
-    EnderecoService enderecoService
-    CompetenciaService competenciaService
-    Scanner sc
+    CandidateService candidateService
+    EnderecoService addressService
+    CompetenciaService skillService
 
     CandidatoController() {
-        this.service = new CandidatoService()
-        this.enderecoService = new EnderecoService()
-        this.competenciaService = new CompetenciaService()
-        sc = new Scanner(System.in)
+        this.candidateService = new CandidateService()
+        this.addressService = new EnderecoService()
+        this.skillService = new CompetenciaService()
     }
 
-    void listarTodosCandidatos() {
-        List<Candidato> candidatos = service.findAll()
-        candidatos.each { it -> {
+    void findAll() {
+        List<Candidate> candidatos = candidateService.findAll()
+
+        candidatos.each { it ->
             println(it.toString())
-            print( enderecoService.encontrarEnderecoPorID(it.enderecoId).toString())
-            println( "\n\tCompetencias: " + competenciaService.buscaCompetenciasDoCandidatos(it.id).join(", "))
-        }}
+            print(addressService.encontrarEnderecoPorID(it.addressId).toString())
+            println("\n\tCompetencias: " + skillService.buscaCompetenciasDoCandidatos(it.id).join(", "))
+        }
     }
 
-    void cadastrarCandidato() {
-        print "Digite o nome: "
-        String nome = this.sc.nextLine()
+    void create() {
+        Candidate candidate = UI.readCandidateInfo(false)
+        Endereco address = UI.readAddress()
+        String skills = UI.readSkills()
 
-        print "Digite o sobrenome: "
-        String sobrenome = this.sc.nextLine()
-
-        this.sc.nextLine()
-        print "Digite o email: "
-        String email = this.sc.nextLine()
-
-        this.sc.nextLine()
-        print "Digite o linkedin: "
-        String linkedin = this.sc.nextLine()
-
-        print "Digite o cpf: "
-        String cpf = this.sc.nextLine()
-
-        if(service.cpfValido(cpf)) {
-            println "[AVISO]: Este CPF não pode ser utilizado!"
+        if (candidateService.cpfValid(candidate.cpf)) {
+            println "[AVISO]: Este CPF já está cadastrado!"
             return
         }
 
-        print "Digite a data de nascimento: "
-        LocalDate dataNascimento = UI.lerData()
-
-        print "Digite o pais: "
-        String pais = this.sc.nextLine()
-
-        print "Digite o estado: "
-        String estado = this.sc.nextLine()
-
-        print "Digite o cep: "
-        String cep = this.sc.nextLine()
-
-        print "Digite uma descrição: "
-        String descricao = this.sc.nextLine()
-
-        print "Digite uma senha: "
-        String senha = this.sc.nextLine()
-
-        print "Digite suas competencias (competencia1, conpetencia2,...): "
-        String competencias = sc.nextLine()
-
-        service.inserirNovoCandidato(nome, sobrenome, email, linkedin, cpf, dataNascimento as LocalDate, descricao, senha, pais, estado, cep, competencias);
+        candidate = candidateService.create(candidate, address, skills)
+        println(candidate.toString())
     }
 
-    void atualizarCandidato() {
-        print "Digite o cpf do candidato: "
-        String cpf = this.sc.nextLine()
+    void update() {
+        String cpf = UI.requestCpf()
 
-        if(!service.cpfValido(cpf)) {
+        if (!candidateService.cpfValid(cpf)) {
             println "[AVISO]: Este CPF não está cadastrado em nossa base de dados!"
             return
         }
 
-        print "Digite o nome: "
-        String nome = this.sc.nextLine()
+        Candidate updatedCandidate = UI.readCandidateInfo(true, cpf)
+        Endereco address = UI.readAddress()
+        String skills = UI.readSkills()
 
-        print "Digite o sobrenome: "
-        String sobrenome = this.sc.nextLine()
-
-        this.sc.nextLine()
-        print "Digite o email: "
-        String email = this.sc.nextLine()
-
-        this.sc.nextLine()
-        print "Digite o linkedin: "
-        String linkedin = this.sc.nextLine()
-
-        print "Digite a data de nascimento: "
-        LocalDate dataNascimento = UI.lerData()
-
-        print "Digite o pais: "
-        String pais = this.sc.nextLine()
-
-        print "Digite o estado: "
-        String estado = this.sc.nextLine()
-
-        print "Digite o cep: "
-        String cep = this.sc.nextLine()
-
-        print "Digite uma descrição: "
-        String descricao = this.sc.nextLine()
-
-        print "Digite uma senha: "
-        String senha = this.sc.nextLine()
-
-        print "Digite suas competencias (competencia1, conpetencia2,...): "
-        String competencias = sc.nextLine()
-
-        service.atualizarCandidatoPorCpf(cpf, nome, sobrenome, email, linkedin, dataNascimento as LocalDate, descricao, senha, pais, estado, cep, competencias);
+        updatedCandidate = candidateService.updateByCpf(updatedCandidate, address, skills)
+        println(updatedCandidate.toString())
     }
 
-    void deletarCandidato() {
-        print "Digite o cpf do candidato: "
-        String cpf = this.sc.nextLine()
-
-        service.deletarCandidatoPorCpf(cpf)
+    void delete() {
+        String cpf = UI.requestCpf()
+        candidateService.deleteByCpf(cpf)
     }
 }
