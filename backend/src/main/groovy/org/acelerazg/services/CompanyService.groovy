@@ -9,13 +9,13 @@ class CompanyService {
 
     CompanyRepository companyRepository
     EnderecoService addressService
-    CompetenciaService skillService
+    SkillService skillService
 
     CompanyService() {
-        this(new CompanyRepository(), new EnderecoService(), new CompetenciaService())
+        this(new CompanyRepository(), new EnderecoService(), new SkillService())
     }
 
-    CompanyService(CompanyRepository repository, EnderecoService addressService, CompetenciaService skillService) {
+    CompanyService(CompanyRepository repository, EnderecoService addressService, SkillService skillService) {
         this.companyRepository = repository
         this.addressService = addressService
         this.skillService = skillService
@@ -40,7 +40,7 @@ class CompanyService {
         company.id = Utils.generateUUID()
 
         Company newCompany = companyRepository.create(company)
-        skillService.adicionarCompetenciasAEmpresa(company.id, skills)
+        skillService.addSkillsToCompany(company.id, skills)
 
         return newCompany
     }
@@ -53,8 +53,8 @@ class CompanyService {
         }
         updateData(address, existing, company)
 
-        skillService.removeCompetenciasDaEmpresa(existing.id)
-        skillService.adicionarCompetenciasAEmpresa(existing.id, skills)
+        skillService.removeSkillsFromCompany(existing.id)
+        skillService.addSkillsToCompany(existing.id, skills)
 
         return companyRepository.updateById(existing)
     }
@@ -66,7 +66,7 @@ class CompanyService {
             println "[AVISO]: Este CNPJ não está cadastrado em nossa base de dados!"
             return
         }
-        skillService.removeCompetenciasDaEmpresa(c.id)
+        skillService.removeSkillsFromCompany(c.id)
         companyRepository.deleteByCnpj(cnpj)
         println "[SUCESSO]: Empresa removido com sucesso!"
     }

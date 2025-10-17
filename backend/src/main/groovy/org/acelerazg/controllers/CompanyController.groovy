@@ -4,21 +4,19 @@ import org.acelerazg.cli.UI
 import org.acelerazg.models.Company
 import org.acelerazg.models.Endereco
 import org.acelerazg.services.CompanyService
-import org.acelerazg.services.CompetenciaService
+import org.acelerazg.services.SkillService
 import org.acelerazg.services.EnderecoService
 
 class CompanyController {
 
     CompanyService companyService
     EnderecoService addressService
-    CompetenciaService skillService
-    Scanner sc
+    SkillService skillService
 
     CompanyController() {
         this.companyService = new CompanyService()
         this.addressService = new EnderecoService()
-        this.skillService = new CompetenciaService()
-        sc = new Scanner(System.in)
+        this.skillService = new SkillService()
     }
 
     void findAll() {
@@ -27,7 +25,7 @@ class CompanyController {
             {
                 println(it.toString())
                 print(addressService.encontrarEnderecoPorID(it.addressId).toString())
-                println("\n\tCompetencias: " + skillService.buscaCompetenciasDaEmpresa(it.id).join(", "))
+                println("\n\tCompetencias: " + skillService.findSkillsByCompany(it.id).join(", "))
             }
         }
     }

@@ -5,7 +5,7 @@ import org.acelerazg.models.Company
 import org.acelerazg.models.Endereco
 import org.acelerazg.repositories.CompanyRepository
 import org.acelerazg.services.CompanyService
-import org.acelerazg.services.CompetenciaService
+import org.acelerazg.services.SkillService
 import org.acelerazg.services.EnderecoService
 import spock.lang.Specification
 
@@ -13,7 +13,7 @@ class CompanyServiceTest extends Specification {
 
     def companyRepository = Mock(CompanyRepository)
     def addressService = Mock(EnderecoService)
-    def skillService = Mock(CompetenciaService)
+    def skillService = Mock(SkillService)
     def companyService = new CompanyService(companyRepository, addressService, skillService)
 
     def "return list of all companies"() {
@@ -43,7 +43,7 @@ class CompanyServiceTest extends Specification {
         companyRepository.findByCnpj(_ as String) >> null
         addressService.find(_ as Endereco) >> "mock-endereco-id"
         companyRepository.create(_ as Company) >> { Company c -> c }
-        skillService.adicionarCompetenciasAEmpresa(_, _) >> {}
+        skillService.addSkillsToCompany(_, _) >> {}
 
         when:
         Company result = companyService.create(company, address, skills)
@@ -69,8 +69,8 @@ class CompanyServiceTest extends Specification {
         companyRepository.findByCnpj(_ as String) >> companies[0]
         addressService.find(_ as Endereco) >> "mock-endereco-id"
         companyService.updateData(_ as Endereco, _ as Company, _ as Company) >> updatedCompany
-        skillService.removeCompetenciasDaEmpresa(_ as String) >> {}
-        skillService.adicionarCompetenciasAEmpresa(_, _) >> {}
+        skillService.removeSkillsFromCompany(_ as String) >> {}
+        skillService.addSkillsToCompany(_, _) >> {}
         companyRepository.updateById(_ as Company) >> { Company c -> c }
 
         when:

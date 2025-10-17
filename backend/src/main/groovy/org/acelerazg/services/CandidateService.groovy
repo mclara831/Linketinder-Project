@@ -9,15 +9,15 @@ class CandidateService {
 
     CandidateRepository candidateRepository
     EnderecoService addressService
-    CompetenciaService skillService
+    SkillService skillService
 
     CandidateService() {
-        this(new CandidateRepository(), new EnderecoService(), new CompetenciaService())
+        this(new CandidateRepository(), new EnderecoService(), new SkillService())
     }
 
     CandidateService(CandidateRepository candidatoRepository,
                      EnderecoService addressService,
-                     CompetenciaService skillService) {
+                     SkillService skillService) {
         this.candidateRepository = candidatoRepository
         this.addressService = addressService
         this.skillService = skillService
@@ -38,7 +38,7 @@ class CandidateService {
         candidate.id = Utils.generateUUID()
 
         Candidate newCandidate = candidateRepository.create(candidate)
-        skillService.adicionarCompetenciasACandidato(newCandidate.id, competencias)
+        skillService.addSkillsToCandidate(newCandidate.id, competencias)
 
         return newCandidate
     }
@@ -52,8 +52,8 @@ class CandidateService {
         }
         existing = updateData(existing, candidate, address)
 
-        skillService.removeCompetenciasDoCandidato(existing.id)
-        skillService.adicionarCompetenciasACandidato(existing.id, skills)
+        skillService.removeSkillsFromCandidate(existing.id)
+        skillService.addSkillsToCandidate(existing.id, skills)
 
         return candidateRepository.updateById(existing)
     }
@@ -65,7 +65,7 @@ class CandidateService {
             return
         }
 
-        skillService.removeCompetenciasDoCandidato(c.id)
+        skillService.removeSkillsFromCandidate(c.id)
         candidateRepository.deleteByCpf(cpf)
 
         println "[SUCESSO]: Candidato removido com sucesso!"

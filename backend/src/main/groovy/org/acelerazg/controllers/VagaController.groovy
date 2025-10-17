@@ -2,7 +2,7 @@ package org.acelerazg.controllers
 
 
 import org.acelerazg.models.Vaga
-import org.acelerazg.services.CompetenciaService
+import org.acelerazg.services.SkillService
 import org.acelerazg.services.CompanyService
 import org.acelerazg.services.EnderecoService
 import org.acelerazg.services.VagaService
@@ -13,14 +13,14 @@ class VagaController {
     VagaService service
     EnderecoService enderecoService
     CompanyService empresaService
-    CompetenciaService competenciaService
+    SkillService competenciaService
 
     VagaController() {
         this.sc = new Scanner(System.in)
         this.service = new VagaService()
         this.enderecoService = new EnderecoService()
         this.empresaService = new CompanyService()
-        this.competenciaService = new CompetenciaService()
+        this.competenciaService = new SkillService()
     }
 
     void listarTodasVagas() {
@@ -29,7 +29,7 @@ class VagaController {
             {
                 println(it.toString())
                 print(enderecoService.encontrarEnderecoPorID(it.enderecoId).toString())
-                println("\n\tCompetencias: " + competenciaService.buscaCompetenciasDaVaga(it.id).join(", "))
+                println("\n\tCompetencias: " + competenciaService.findSkillsByJob(it.id).join(", "))
             }
         }
     }
@@ -138,9 +138,9 @@ class VagaController {
         vagas.forEach { it ->
             {
                 println(it.toString())
-                println("\tEmpresa = " + empresaService.findById(it.empresaId).nome)
+                println("\tEmpresa = " + empresaService.findById(it.empresaId).name)
                 print(enderecoService.encontrarEnderecoPorID(it.enderecoId).toString())
-                println("\n\tCompetencias: " + competenciaService.buscaCompetenciasDaVaga(it.id).join(", "))
+                println("\n\tCompetencias: " + competenciaService.findSkillsByJob(it.id).join(", "))
             }
         }
     }

@@ -140,4 +140,10 @@ class UI {
         print "Digite o CNPJ: "
         return scanner.nextLine().trim()
     }
+
+    static String readLine(String message) {
+        Scanner scanner = new Scanner(System.in)
+        print(message)
+        return scanner.nextLine().trim()
+    }
 }

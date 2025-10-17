@@ -4,7 +4,7 @@ import org.acelerazg.models.Candidate
 import org.acelerazg.models.Endereco
 import org.acelerazg.repositories.CandidateRepository
 import org.acelerazg.services.CandidateService
-import org.acelerazg.services.CompetenciaService
+import org.acelerazg.services.SkillService
 import org.acelerazg.services.EnderecoService
 import spock.lang.Specification
 
@@ -14,7 +14,7 @@ class CandidateServiceTest extends Specification {
 
     def candidateRepository = Mock(CandidateRepository)
     def addressService = Mock(EnderecoService)
-    def skillService = Mock(CompetenciaService)
+    def skillService = Mock(SkillService)
     def candidateService = new CandidateService(candidateRepository, addressService, skillService)
 
     def "return list of all candidates"() {
@@ -45,7 +45,7 @@ class CandidateServiceTest extends Specification {
         candidateRepository.findByCpf(_ as String) >> null
         addressService.find(_ as Endereco) >> "mock-endereco-id"
         candidateRepository.create(_ as Candidate) >> { Candidate c -> c }
-        skillService.adicionarCompetenciasACandidato(_, _) >> {}
+        skillService.addSkillsToCandidate(_, _) >> {}
 
         when:
         Candidate result = candidateService.create(candidate, address, skills)
@@ -73,8 +73,8 @@ class CandidateServiceTest extends Specification {
         candidateRepository.findByCpf(_ as String) >> candidates[0]
         addressService.find(_ as Endereco) >> "mock-endereco-id"
         candidateService.updateData(_ as Candidate, _ as Candidate, _ as Endereco) >> updatedCandidate
-        skillService.removeCompetenciasDoCandidato(_, _) >> {}
-        skillService.adicionarCompetenciasACandidato(_, _) >> {}
+        skillService.removeSkillsFromCandidate(_, _) >> {}
+        skillService.addSkillsToCandidate(_, _) >> {}
         candidateRepository.updateById(_ as Candidate) >> { Candidate c -> c }
 
         when:

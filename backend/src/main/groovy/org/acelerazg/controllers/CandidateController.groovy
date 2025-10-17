@@ -4,19 +4,19 @@ import org.acelerazg.cli.UI
 import org.acelerazg.models.Candidate
 import org.acelerazg.models.Endereco
 import org.acelerazg.services.CandidateService
-import org.acelerazg.services.CompetenciaService
+import org.acelerazg.services.SkillService
 import org.acelerazg.services.EnderecoService
 
-class CandidatoController {
+class CandidateController {
 
     CandidateService candidateService
     EnderecoService addressService
-    CompetenciaService skillService
+    SkillService skillService
 
-    CandidatoController() {
+    CandidateController() {
         this.candidateService = new CandidateService()
         this.addressService = new EnderecoService()
-        this.skillService = new CompetenciaService()
+        this.skillService = new SkillService()
     }
 
     void findAll() {
@@ -25,7 +25,7 @@ class CandidatoController {
         candidatos.each { it ->
             println(it.toString())
             print(addressService.encontrarEnderecoPorID(it.addressId).toString())
-            println("\n\tCompetencias: " + skillService.buscaCompetenciasDoCandidatos(it.id).join(", "))
+            println("\n\tCompetencias: " + skillService.findSkillsByCandidate(it.id).join(", "))
         }
     }
 

@@ -1,17 +1,17 @@
 package org.acelerazg
 
 import org.acelerazg.cli.UI
-import org.acelerazg.controllers.CandidatoController
-import org.acelerazg.controllers.CompetenciaController
+import org.acelerazg.controllers.CandidateController
+import org.acelerazg.controllers.SkillController
 import org.acelerazg.controllers.CompanyController
 import org.acelerazg.controllers.VagaController
 
 static void main(String[] args) {
 
-    CandidatoController candidatoController = new CandidatoController()
+    CandidateController candidatoController = new CandidateController()
     CompanyController empresaController = new CompanyController()
     VagaController vagaController = new VagaController()
-    CompetenciaController competenciaController = new CompetenciaController()
+    SkillController competenciaController = new SkillController()
 
     Scanner sc = new Scanner(System.in)
     boolean continuar = true
@@ -63,19 +63,19 @@ static void main(String[] args) {
                 vagaController.deletarVaga()
                 break
             case 14:
-                competenciaController.listarTodasCompetencias()
+                competenciaController.findAll()
                 break
             case 15:
-                competenciaController.cadastrarCompetencia()
+                competenciaController.create()
                 break
             case 16:
-                competenciaController.cadastrarListaCompetencias()
+                competenciaController.registerAList()
                 break
             case 17:
-                competenciaController.atualizarCompetencia()
+                competenciaController.update()
                 break
             case 18:
-                competenciaController.deletarCompetencia()
+                competenciaController.delete()
                 break
             case 0:
                 println("Obrigado por utilizar o Linketinder!")

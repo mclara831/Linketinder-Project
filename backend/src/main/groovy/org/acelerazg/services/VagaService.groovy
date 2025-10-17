@@ -9,13 +9,13 @@ class VagaService {
 
     VagaRepository repository
     EnderecoService enderecoService
-    CompetenciaService competenciaService
+    SkillService competenciaService
     CompanyRepository empresaRepository
 
     VagaService() {
         this.repository = new VagaRepository()
         this.enderecoService = new EnderecoService()
-        this.competenciaService = new CompetenciaService()
+        this.competenciaService = new SkillService()
         this.empresaRepository = new CompanyRepository()
     }
 
@@ -28,7 +28,7 @@ class VagaService {
         Company e = empresaRepository.findByCnpj(cnpj)
         String idVaga = UUID.randomUUID().toString()
         repository.createNewVaga(new Vaga(idVaga, nome, descricao, enderecoId, e.id))
-        competenciaService.adicionarCompetenciasAVaga(idVaga, competencias)
+        competenciaService.addSkillsToJob(idVaga, competencias)
     }
 
     void atualizarVagaPorId(Vaga v, String nome, String descricao, String pais, String estado, String cep, String competencias) {
@@ -36,14 +36,14 @@ class VagaService {
         v.setNome(nome)
         v.setDescricao(descricao)
         v.setEnderecoId(enderecoId)
-        competenciaService.removeCompetenciasDaVaga(v.id)
-        competenciaService.adicionarCompetenciasAVaga(v.id, competencias)
+        competenciaService.removeSkillsFromJob(v.id)
+        competenciaService.addSkillsToJob(v.id, competencias)
 
         repository.updateVagaById(v)
     }
 
     void deletarVagaPorId(String id) {
-        competenciaService.removeCompetenciasDaVaga(id)
+        competenciaService.removeSkillsFromJob(id)
         repository.deleteById(id)
     }
 
