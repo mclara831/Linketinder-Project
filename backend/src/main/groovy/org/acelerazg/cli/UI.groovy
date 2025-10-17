@@ -55,7 +55,7 @@ class UI {
         return dataFormatada;
     }
 
-    static Candidate readCandidateInfo(boolean isUpdate, String cpfExistente = null) {
+    static Candidate readCandidateInfo(String cpf = null) {
         Scanner scanner = new Scanner(System.in)
         print "Digite o nome: "
         String nome = scanner.nextLine()
@@ -69,7 +69,8 @@ class UI {
         print "Digite o LinkedIn: "
         String linkedin = scanner.nextLine()
 
-        String cpf = cpfExistente ?: requestCpf()
+        if (cpf == null)
+            cpf = requestCpf()
 
         print "Digite a data de nascimento (dd/MM/yyyy): "
         LocalDate dataNascimento = lerData()
@@ -83,7 +84,7 @@ class UI {
         return new Candidate(nome, sobrenome, email, linkedin, cpf, dataNascimento, descricao, senha)
     }
 
-    static Endereco readAddress() {
+    static Endereco readAdress() {
         Scanner scanner = new Scanner(System.in)
         print "Digite o país: "
         String pais = scanner.nextLine()
@@ -109,31 +110,34 @@ class UI {
         return scanner.nextLine()
     }
 
-    Company cadastrarEmpresa() {
+    static Company readCompanyInfo(String cnpj = null) {
+        Scanner scanner = new Scanner(System.in)
+
         print "Digite o nome: "
-        def nome = this.sc.nextLine()
+        String name = scanner.nextLine()
 
-        print "Digite o email: "
-        def email = this.sc.nextLine()
+        print "Digite o e-mail: "
+        String email = scanner.nextLine()
 
-        print "Digite o cnpj: "
-        def cnpj = this.sc.nextLine()
+        print "Digite o LinkedIn: "
+        String linkedin = scanner.nextLine()
 
-        print "Digite o estado: "
-        def estado = this.sc.nextLine()
-
-        print "Digite o pais: "
-        def pais = this.sc.nextLine()
-
-        print "Digite o cep: "
-        def cep = this.sc.nextLine()
+        if (cnpj == null) {
+            cnpj = requestCnpj()
+        }
 
         print "Digite uma descrição: "
-        def descricao = this.sc.nextLine()
+        String description = scanner.nextLine()
 
-        print "Digite as competencias (competencia1, contencia2,...): "
-        def competencias = this.sc.nextLine()
+        print "Digite uma senha: "
+        String password = scanner.nextLine()
 
-        return new Company(nome: nome, email: email, cnpj: cnpj, cep: cep, estado: estado, pais: pais, descricao: descricao, competencias: competencias.split(","))
+        return new Company(name, email, linkedin, description, password, cnpj)
+    }
+
+    static String requestCnpj() {
+        Scanner scanner = new Scanner(System.in)
+        print "Digite o CNPJ: "
+        return scanner.nextLine().trim()
     }
 }

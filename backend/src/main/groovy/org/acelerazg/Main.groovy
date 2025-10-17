@@ -3,13 +3,13 @@ package org.acelerazg
 import org.acelerazg.cli.UI
 import org.acelerazg.controllers.CandidatoController
 import org.acelerazg.controllers.CompetenciaController
-import org.acelerazg.controllers.EmpresaController
+import org.acelerazg.controllers.CompanyController
 import org.acelerazg.controllers.VagaController
 
 static void main(String[] args) {
 
     CandidatoController candidatoController = new CandidatoController()
-    EmpresaController empresaController = new EmpresaController()
+    CompanyController empresaController = new CompanyController()
     VagaController vagaController = new VagaController()
     CompetenciaController competenciaController = new CompetenciaController()
 
@@ -24,16 +24,16 @@ static void main(String[] args) {
 
         switch (opcao) {
             case 1:
-                empresaController.listarTodasEmpresas()
+                empresaController.findAll()
                 break
             case 2:
-                empresaController.cadastrarEmpresa()
+                empresaController.create()
                 break
             case 3:
-                empresaController.atualizarEmpresa()
+                empresaController.update()
                 break
             case 4:
-                empresaController.deletarEmpresa()
+                empresaController.delete()
                 break
             case 5:
                 candidatoController.findAll()

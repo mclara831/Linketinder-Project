@@ -2,7 +2,7 @@ package org.acelerazg.services
 
 import org.acelerazg.models.Company
 import org.acelerazg.models.Vaga
-import org.acelerazg.repositories.EmpresaRepository
+import org.acelerazg.repositories.CompanyRepository
 import org.acelerazg.repositories.VagaRepository
 
 class VagaService {
@@ -10,13 +10,13 @@ class VagaService {
     VagaRepository repository
     EnderecoService enderecoService
     CompetenciaService competenciaService
-    EmpresaRepository empresaRepository
+    CompanyRepository empresaRepository
 
     VagaService() {
         this.repository = new VagaRepository()
         this.enderecoService = new EnderecoService()
         this.competenciaService = new CompetenciaService()
-        this.empresaRepository = new EmpresaRepository()
+        this.empresaRepository = new CompanyRepository()
     }
 
     List<Vaga> listarTodasVagas() {

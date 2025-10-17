@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="services.CandidateServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-10-16T19:14:12.631Z" hostname="mclara" time="0.078">
+<testsuite name="services.CandidateServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2025-10-17T12:28:51.956Z" hostname="mclara" time="0.309">
   <properties/>
-  <testcase name="delete candidate" classname="services.CandidateServiceTest" time="0.078"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="return list of all candidates" classname="services.CandidateServiceTest" time="0.069"/>
+  <testcase name="insert new candidate" classname="services.CandidateServiceTest" time="0.063"/>
+  <testcase name="update candidate" classname="services.CandidateServiceTest" time="0.032"/>
+  <testcase name="delete candidate" classname="services.CandidateServiceTest" time="0.141"/>
+  <system-out><![CDATA[[SUCESSO]: Candidato removido com sucesso!
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

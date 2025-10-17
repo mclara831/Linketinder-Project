@@ -39,17 +39,18 @@ class CandidateService {
 
         Candidate newCandidate = candidateRepository.create(candidate)
         skillService.adicionarCompetenciasACandidato(newCandidate.id, competencias)
-        return newCandidate
 
+        return newCandidate
     }
 
     Candidate updateByCpf(Candidate candidate, Endereco address, String skills) {
         Candidate existing = candidateRepository.findByCpf(candidate.cpf)
+
         if (!existing) {
             println "[AVISO]: Este CPF não está cadastrado em nossa base de dados!"
             return null
         }
-        existing = updateData(candidate, address)
+        existing = updateData(existing, candidate, address)
 
         skillService.removeCompetenciasDoCandidato(existing.id)
         skillService.adicionarCompetenciasACandidato(existing.id, skills)
@@ -70,7 +71,7 @@ class CandidateService {
         println "[SUCESSO]: Candidato removido com sucesso!"
     }
 
-    private Candidate updateData(Candidate existing, Candidate updated, Endereco address) {
+    Candidate updateData(Candidate existing, Candidate updated, Endereco address) {
         existing.setName(updated.name)
         existing.setLastname(updated.lastname)
         existing.setEmail(updated.email)

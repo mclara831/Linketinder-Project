@@ -30,8 +30,8 @@ class CandidatoController {
     }
 
     void create() {
-        Candidate candidate = UI.readCandidateInfo(false)
-        Endereco address = UI.readAddress()
+        Candidate candidate = UI.readCandidateInfo()
+        Endereco address = UI.readAdress()
         String skills = UI.readSkills()
 
         if (candidateService.cpfValid(candidate.cpf)) {
@@ -51,8 +51,8 @@ class CandidatoController {
             return
         }
 
-        Candidate updatedCandidate = UI.readCandidateInfo(true, cpf)
-        Endereco address = UI.readAddress()
+        Candidate updatedCandidate = UI.readCandidateInfo(cpf)
+        Endereco address = UI.readAdress()
         String skills = UI.readSkills()
 
         updatedCandidate = candidateService.updateByCpf(updatedCandidate, address, skills)

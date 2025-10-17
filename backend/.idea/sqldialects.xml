@@ -2,7 +2,7 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/src/main/groovy/org/acelerazg/repositories/CandidateRepository.groovy" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/groovy/org/acelerazg/repositories/EmpresaRepository.groovy" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/groovy/org/acelerazg/repositories/CompanyRepository.groovy" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/resources/linketinder-project.sql" dialect="PostgreSQL" />
   </component>
 </project>

@@ -3,7 +3,7 @@ package org.acelerazg.controllers
 
 import org.acelerazg.models.Vaga
 import org.acelerazg.services.CompetenciaService
-import org.acelerazg.services.EmpresaService
+import org.acelerazg.services.CompanyService
 import org.acelerazg.services.EnderecoService
 import org.acelerazg.services.VagaService
 
@@ -12,14 +12,14 @@ class VagaController {
     Scanner sc
     VagaService service
     EnderecoService enderecoService
-    EmpresaService empresaService
+    CompanyService empresaService
     CompetenciaService competenciaService
 
     VagaController() {
         this.sc = new Scanner(System.in)
         this.service = new VagaService()
         this.enderecoService = new EnderecoService()
-        this.empresaService = new EmpresaService()
+        this.empresaService = new CompanyService()
         this.competenciaService = new CompetenciaService()
     }
 
@@ -39,7 +39,7 @@ class VagaController {
         print "Digite o cnpj da empresa: "
         String cnpj = this.sc.nextLine()
 
-        if (!empresaService.cnpjValido(cnpj)) {
+        if (!empresaService.cnpjValid(cnpj)) {
             println "[AVISO]: Este CNPJ não está cadastrado em nossa base de dados!"
             return
         }
@@ -124,7 +124,7 @@ class VagaController {
         print "Digite o cnpj da empresa: "
         String cnpj = this.sc.nextLine()
 
-        if (!empresaService.cnpjValido(cnpj)) {
+        if (!empresaService.cnpjValid(cnpj)) {
             println "[AVISO]: Este CNPJ não está cadastrado em nossa base de dados!"
             return
         }
@@ -138,7 +138,7 @@ class VagaController {
         vagas.forEach { it ->
             {
                 println(it.toString())
-                println("\tEmpresa = " + empresaService.encontrarEmpresaPorId(it.empresaId).nome)
+                println("\tEmpresa = " + empresaService.findById(it.empresaId).nome)
                 print(enderecoService.encontrarEnderecoPorID(it.enderecoId).toString())
                 println("\n\tCompetencias: " + competenciaService.buscaCompetenciasDaVaga(it.id).join(", "))
             }

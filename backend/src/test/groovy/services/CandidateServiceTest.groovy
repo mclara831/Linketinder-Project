@@ -13,9 +13,9 @@ import java.time.LocalDate
 class CandidateServiceTest extends Specification {
 
     def candidateRepository = Mock(CandidateRepository)
-    def enderecoService = Mock(EnderecoService)
-    def competenciaService = Mock(CompetenciaService)
-    def candidatoService = new CandidateService(candidateRepository, enderecoService, competenciaService)
+    def addressService = Mock(EnderecoService)
+    def skillService = Mock(CompetenciaService)
+    def candidateService = new CandidateService(candidateRepository, addressService, skillService)
 
     def "return list of all candidates"() {
         given:
@@ -27,7 +27,7 @@ class CandidateServiceTest extends Specification {
         candidateRepository.findAll() >> candidates
 
         when:
-        def result = candidatoService.findAll()
+        def result = candidateService.findAll()
 
         then:
         result.size() == 1
@@ -39,20 +39,20 @@ class CandidateServiceTest extends Specification {
         Candidate candidate = new Candidate("Joao", "Silva", "joao@example.com",
                 "linkedin.com/in/joao", "111.111.111-11", LocalDate.now(), UUID.randomUUID().toString(),
                 "Test example", "test")
-        Endereco adress = new Endereco("Brasil", "Sao Paulo", "12.345-67")
+        Endereco address = new Endereco("Brasil", "Sao Paulo", "12.345-67")
         String skills = "Java, Angular"
 
         candidateRepository.findByCpf(_ as String) >> null
-        enderecoService.find(_ as Endereco) >> "mock-endereco-id"
+        addressService.find(_ as Endereco) >> "mock-endereco-id"
         candidateRepository.create(_ as Candidate) >> { Candidate c -> c }
-        competenciaService.adicionarCompetenciasACandidato(_, _) >> {}
+        skillService.adicionarCompetenciasACandidato(_, _) >> {}
 
         when:
-        Candidate result = candidatoService.create(candidate, adress, skills)
+        Candidate result = candidateService.create(candidate, address, skills)
 
         then:
         result == candidate
-        result.adressId == "mock-endereco-id"
+        result.addressId == "mock-endereco-id"
     }
 
     def "update candidate"() {
@@ -71,14 +71,15 @@ class CandidateServiceTest extends Specification {
 
         candidateRepository.findAll() >> candidates
         candidateRepository.findByCpf(_ as String) >> candidates[0]
-        enderecoService.find(_ as Endereco) >> "mock-endereco-id"
-        competenciaService.removeCompetenciasDoCandidato(_, _) >> {}
-        competenciaService.adicionarCompetenciasACandidato(_, _) >> {}
+        addressService.find(_ as Endereco) >> "mock-endereco-id"
+        candidateService.updateData(_ as Candidate, _ as Candidate, _ as Endereco) >> updatedCandidate
+        skillService.removeCompetenciasDoCandidato(_, _) >> {}
+        skillService.adicionarCompetenciasACandidato(_, _) >> {}
         candidateRepository.updateById(_ as Candidate) >> { Candidate c -> c }
 
         when:
-        candidatoService.updateByCpf(updatedCandidate, address, skills)
-        def result = candidatoService.findAll()
+        candidateService.updateByCpf(updatedCandidate, address, skills)
+        def result = candidateService.findAll()
 
         then:
         result.size() == 1
@@ -94,8 +95,8 @@ class CandidateServiceTest extends Specification {
         candidateRepository.findAll() >> []
 
         when:
-        candidatoService.deleteByCpf(candidates[0].cpf)
-        def result = candidatoService.findAll()
+        candidateService.deleteByCpf(candidates[0].cpf)
+        def result = candidateService.findAll()
 
         then:
         result.size() == 0
