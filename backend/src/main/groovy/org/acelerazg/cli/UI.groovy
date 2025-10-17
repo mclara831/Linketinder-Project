@@ -3,6 +3,7 @@ package org.acelerazg.cli
 import org.acelerazg.models.Candidate
 import org.acelerazg.models.Company
 import org.acelerazg.models.Endereco
+import org.acelerazg.models.Job
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -146,4 +147,21 @@ class UI {
         print(message)
         return scanner.nextLine().trim()
     }
+
+    static int readInt() {
+        Scanner scanner = new Scanner(System.in)
+        print("Escolha o número da vaga que deseja: ")
+        return scanner.nextInt()
+    }
+
+    static Job readJobInfo() {
+        Scanner scanner = new Scanner(System.in)
+        print "Digite o nome: "
+        String name = scanner.nextLine()
+
+        print "Digite uma descrição: "
+        String description = scanner.nextLine()
+        return new Job(name, description)
+    }
+
 }

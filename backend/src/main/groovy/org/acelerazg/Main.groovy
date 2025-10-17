@@ -4,13 +4,13 @@ import org.acelerazg.cli.UI
 import org.acelerazg.controllers.CandidateController
 import org.acelerazg.controllers.SkillController
 import org.acelerazg.controllers.CompanyController
-import org.acelerazg.controllers.VagaController
+import org.acelerazg.controllers.JobController
 
 static void main(String[] args) {
 
     CandidateController candidatoController = new CandidateController()
     CompanyController empresaController = new CompanyController()
-    VagaController vagaController = new VagaController()
+    JobController vagaController = new JobController()
     SkillController competenciaController = new SkillController()
 
     Scanner sc = new Scanner(System.in)
@@ -48,19 +48,19 @@ static void main(String[] args) {
                 candidatoController.delete()
                 break
             case 9:
-                vagaController.listarTodasVagas()
+                vagaController.findAll()
                 break
             case 10:
-                vagaController.buscarVagasPorEmpresa()
+                vagaController.findJobFromACompany()
                 break
             case 11:
-                vagaController.cadastrarVaga()
+                vagaController.create()
                 break
             case 12:
-                vagaController.atualizarVaga()
+                vagaController.update()
                 break
             case 13:
-                vagaController.deletarVaga()
+                vagaController.delete()
                 break
             case 14:
                 competenciaController.findAll()
