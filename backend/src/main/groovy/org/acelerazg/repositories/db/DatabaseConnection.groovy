@@ -11,9 +11,4 @@ class DatabaseConnection {
         String driver = 'org.postgresql.Driver'
         return Sql.newInstance(url, user, password, driver)
     }
-
-    static void useConnection(Closure action) throws Exception {
-        getConnection().withCloseable { connection -> action(connection)
-        }
-    }
 }

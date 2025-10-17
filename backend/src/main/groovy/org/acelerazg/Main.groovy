@@ -8,78 +8,78 @@ import org.acelerazg.controllers.JobController
 
 static void main(String[] args) {
 
-    CandidateController candidatoController = new CandidateController()
-    CompanyController empresaController = new CompanyController()
-    JobController vagaController = new JobController()
-    SkillController competenciaController = new SkillController()
+    CandidateController candidateController = new CandidateController()
+    CompanyController companyController = new CompanyController()
+    JobController jobController = new JobController()
+    SkillController skillController = new SkillController()
 
     Scanner sc = new Scanner(System.in)
-    boolean continuar = true
-    int opcao
+    boolean keepGoing = true
+    int option
 
 
-    while (continuar) {
+    while (keepGoing) {
         UI.menu()
-        opcao = sc.nextInt()
+        option = sc.nextInt()
 
-        switch (opcao) {
+        switch (option) {
             case 1:
-                empresaController.findAll()
+                companyController.findAll()
                 break
             case 2:
-                empresaController.create()
+                companyController.create()
                 break
             case 3:
-                empresaController.update()
+                companyController.update()
                 break
             case 4:
-                empresaController.delete()
+                companyController.delete()
                 break
             case 5:
-                candidatoController.findAll()
+                candidateController.findAll()
                 break
             case 6:
-                candidatoController.create()
+                candidateController.create()
                 break
             case 7:
-                candidatoController.update()
+                candidateController.update()
                 break
             case 8:
-                candidatoController.delete()
+                candidateController.delete()
                 break
             case 9:
-                vagaController.findAll()
+                jobController.findAll()
                 break
             case 10:
-                vagaController.findJobFromACompany()
+                jobController.findJobFromACompany()
                 break
             case 11:
-                vagaController.create()
+                jobController.create()
                 break
             case 12:
-                vagaController.update()
+                jobController.update()
                 break
             case 13:
-                vagaController.delete()
+                jobController.delete()
                 break
             case 14:
-                competenciaController.findAll()
+                skillController.findAll()
                 break
             case 15:
-                competenciaController.create()
+                skillController.create()
                 break
             case 16:
-                competenciaController.registerAList()
+                skillController.registerAList()
                 break
             case 17:
-                competenciaController.update()
+                skillController.update()
                 break
             case 18:
-                competenciaController.delete()
+                skillController.delete()
                 break
             case 0:
                 println("Obrigado por utilizar o Linketinder!")
-                continuar = false
+                keepGoing = false
                 break
             default:
                 println("Opção inválida!")

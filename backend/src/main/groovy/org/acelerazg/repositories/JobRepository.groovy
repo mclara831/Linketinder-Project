@@ -62,6 +62,16 @@ class JobRepository {
         return result
     }
 
+    void delete(String id) {
+        try {
+            sql.getConnection().execute("DELETE FROM vagas WHERE id=?", [id])
+        } catch (Exception e) {
+            println("[ERROR]: It wasn't possible to delete the job.")
+        } finally {
+            sql.getConnection().close()
+        }
+    }
+
     Job findById(String id) {
         try {
             GroovyRowResult rs = sql.getConnection().firstRow("SELECT * FROM vagas WHERE id=?", [id])
@@ -74,16 +84,6 @@ class JobRepository {
             sql.getConnection().close()
         }
         return null
-    }
-
-    void delete(String id) {
-        try {
-            sql.getConnection().execute("DELETE FROM vagas WHERE id=?", [id])
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to delete the job.")
-        } finally {
-            sql.getConnection().close()
-        }
     }
 
     List<Job> findJobFromACompany(String empresaId) {

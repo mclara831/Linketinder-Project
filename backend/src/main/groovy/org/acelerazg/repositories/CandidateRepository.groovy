@@ -1,6 +1,6 @@
 package org.acelerazg.repositories
 
-import groovy.sql.GroovyRowResult
+
 import org.acelerazg.models.Candidate
 import org.acelerazg.repositories.db.DatabaseConnection
 
@@ -18,8 +18,7 @@ class CandidateRepository {
         List<Candidate> candidates = new ArrayList<>()
 
         try {
-            sql.getConnection().eachRow("SELECT * FROM candidatos") { row ->
-                candidates.add(mapRowToCandidate(row))
+            sql.getConnection().eachRow("SELECT * FROM candidatos") { row -> candidates.add(mapRowToCandidate(row))
             }
         } catch (Exception e) {
             println("[ERROR]: It wasn't possible to list all candidates!\n${e.getMessage()}")
@@ -82,39 +81,31 @@ class CandidateRepository {
 
     Candidate findById(String id) {
         String query = "SELECT * FROM candidatos WHERE id=?"
-        try {
-            def result = sql.getConnection().firstRow(query, id)
-            if (result) {
-                return mapRowToCandidate(result)
-            }
-        } catch (Exception e) {
-            println("find candidate with params ${param}")
-            println(e.getMessage())
-        } finally {
-            sql.getConnection().close()
-        }
-        return null
+        return findByField(query, id)
     }
 
     Candidate findByCpf(String cpf) {
+        String query = "SELECT * FROM candidatos WHERE cpf=?"
+        return findByField(query, cpf)
+    }
+
+    private Candidate findByField(String query, String object) {
         try {
-            GroovyRowResult rs = sql.getConnection().firstRow("SELECT * FROM candidatos WHERE cpf=?", [cpf])
-            if (rs) {
-                return mapRowToCandidate(rs)
-            }
-            return null
+            def result = sql.getConnection().firstRow(query, [object])
+            return result ? mapRowToCandidate(result) : null
         } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to find candidate ${cpf}!")
+            println("[ERROR]: Failed to find candidate by ${field}=${value} - ${e.message}")
         } finally {
             sql.getConnection().close()
         }
+
+        return null
     }
 
     private Candidate mapRowToCandidate(Object rs) {
         LocalDate birthDate = rs.data_nascimento ? rs.data_nascimento.toLocalDate() : null
 
-        return new Candidate(
-                rs.id,
+        return new Candidate(rs.id,
                 rs.nome,
                 rs.sobrenome,
                 rs.email,
@@ -123,7 +114,6 @@ class CandidateRepository {
                 birthDate,
                 rs.endereco_id,
                 rs.descricao,
-                rs.senha
-        )
+                rs.senha)
     }
 }

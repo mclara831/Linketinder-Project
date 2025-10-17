@@ -19,6 +19,7 @@ class SkillController {
 
     void create() {
         String skill = UI.readLine("Digite o nome da nova competência: ")
+
         Skill created = skillService.create(skill)
         println("[CREATED]: skill ${created}")
     }

@@ -10,8 +10,7 @@ abstract class Person {
     String description
     String password
 
-    Person(String id, String name, String email, String linkedin, String addressId, String description, String password) {
-        this.id = id
+    Person(String name, String email, String linkedin, String description, String password) {
         this.name = name
         this.email = email
         this.linkedin = linkedin
@@ -29,7 +28,8 @@ abstract class Person {
         this.password = password
     }
 
-    Person(String name, String email, String linkedin, String description, String password) {
+    Person(String id, String name, String email, String linkedin, String addressId, String description, String password) {
+        this.id = id
         this.name = name
         this.email = email
         this.linkedin = linkedin

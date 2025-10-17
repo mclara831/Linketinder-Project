@@ -12,7 +12,7 @@ class AddressRepository {
     }
 
     void create(Address address) {
-        String query = "NSERT INTO enderecos(id, pais, estado, cep) VALUES (?,?,?,?)"
+        String query = "INSERT INTO enderecos(id, pais, estado, cep) VALUES (?,?,?,?)"
         try {
             sql.getConnection()
                     .execute(query,

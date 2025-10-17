@@ -6,14 +6,13 @@ class Address {
     String region
     String cep
 
-    Address(String id, String country, String region, String cep) {
-        this.id = id
+    Address(String country, String region, String cep) {
         this.country = country
         this.region = region
         this.cep = cep
     }
 
-    Address(String country, String region, String cep) {
+    Address(String id, String country, String region, String cep) {
         this.id = id
         this.country = country
         this.region = region

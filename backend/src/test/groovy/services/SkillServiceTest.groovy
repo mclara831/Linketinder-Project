@@ -44,7 +44,6 @@ class SkillServiceTest extends Specification {
         Skill existing = new Skill("Git")
         Skill updated = new Skill("Java")
 
-
         skillRepository.findByName(existing.name) >> existing
         skillRepository.findByName(updated.name) >> null
         skillRepository.updateCompetenciaById(_ as Skill) >> updated
@@ -62,7 +61,7 @@ class SkillServiceTest extends Specification {
         skillRepository.findByName(_ as String) >> skill
 
         when:
-        Skill result = skillService.delete(skill.name)
+        skillService.delete(skill.name)
 
         then:
         1 * skillRepository.deleteCompetenciaById(skill)

@@ -1,6 +1,6 @@
 package org.acelerazg.repositories
 
-import groovy.sql.GroovyRowResult
+
 import org.acelerazg.models.Company
 import org.acelerazg.repositories.db.DatabaseConnection
 
@@ -16,8 +16,7 @@ class CompanyRepository {
         List<Company> companies = new ArrayList<>()
 
         try {
-            sql.getConnection().eachRow("SELECT * FROM empresas") { row ->
-                companies.add(mapRowToCompany(row))
+            sql.getConnection().eachRow("SELECT * FROM empresas") { row -> companies.add(mapRowToCompany(row))
             }
         } catch (Exception e) {
             println("[ERROR]: It wasn't possible to list all companies!\n${e.getMessage()}")
@@ -76,30 +75,24 @@ class CompanyRepository {
 
     Company findById(String id) {
         String query = "SELECT * FROM empresas WHERE id=?"
-        try {
-            GroovyRowResult rs = sql.getConnection().firstRow(query, [id])
-            if (rs) {
-                return mapRowToCompany(rs)
-            }
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to delete company ${cnpj}!")
-        } finally {
-            sql.getConnection().close()
-        }
-        return null
+        return findByField(query, id)
     }
 
     Company findByCnpj(String cnpj) {
+        String query = "SELECT * FROM empresas WHERE cnpj=?"
+        return findByField(query, cnpj)
+    }
+
+    private Company findByField(String query, String object) {
         try {
-            GroovyRowResult rs = sql.getConnection().firstRow("SELECT * FROM empresas WHERE cnpj=?", [cnpj])
-            if (rs) {
-                return mapRowToCompany(rs)
-            }
+            def result = sql.getConnection().firstRow(query, [object])
+            return result ? mapRowToCompany(result) : null
         } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to delete company ${cnpj}!")
+            println("[ERROR]: Failed to find candidate by ${field}=${value} - ${e.message}")
         } finally {
             sql.getConnection().close()
         }
+
         return null
     }
 

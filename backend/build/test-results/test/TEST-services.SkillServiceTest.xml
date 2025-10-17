@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="services.SkillServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2025-10-17T21:43:07.140Z" hostname="mclara" time="0.064">
+  <properties/>
+  <testcase name="list all skills" classname="services.SkillServiceTest" time="0.01"/>
+  <testcase name="insert new skill" classname="services.SkillServiceTest" time="0.035"/>
+  <testcase name="update a skill" classname="services.SkillServiceTest" time="0.01"/>
+  <testcase name="delete a skill" classname="services.SkillServiceTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
