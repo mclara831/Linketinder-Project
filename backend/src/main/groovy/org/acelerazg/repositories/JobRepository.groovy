@@ -63,9 +63,15 @@ class JobRepository {
     }
 
     Job findById(String id) {
-        GroovyRowResult rs = sql.getConnection().firstRow("SELECT * FROM vagas WHERE id=?", [id])
-        if (rs) {
-            return mapperRowToJob(rs)
+        try {
+            GroovyRowResult rs = sql.getConnection().firstRow("SELECT * FROM vagas WHERE id=?", [id])
+            if (rs) {
+                return mapperRowToJob(rs)
+            }
+        }catch (Exception e) {
+            println("[ERROR]: It wasn't possible to find the job.")
+        } finally {
+            sql.getConnection().close()
         }
         return null
     }

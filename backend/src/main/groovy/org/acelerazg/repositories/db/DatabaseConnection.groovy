@@ -13,9 +13,7 @@ class DatabaseConnection {
     }
 
     static void useConnection(Closure action) throws Exception {
-        getConnection().withCloseable { connection ->
-            action(connection)
+        getConnection().withCloseable { connection -> action(connection)
         }
     }
-
 }

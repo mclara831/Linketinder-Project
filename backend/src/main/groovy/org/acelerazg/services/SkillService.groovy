@@ -20,7 +20,7 @@ class SkillService {
     }
 
     Skill create(String skill) {
-        skill = formatSkill(skill)
+        skill = formattSkill(skill)
         Skill existing = skillRepository.findByName(skill)
         if (existing) {
             println("[AVISO]: Esta competência " + skill.toUpperCase() + " já existe em nossa base de dados!")
@@ -36,14 +36,14 @@ class SkillService {
     }
 
     boolean existsSkill(String skill) {
-        skill = formatSkill(skill)
+        skill = formattSkill(skill)
         Skill c = skillRepository.findByName(skill)
         return c != null
     }
 
     Skill update(String existingSkill, String updatedSkill) {
-        updatedSkill = formatSkill(updatedSkill)
-        existingSkill = formatSkill(existingSkill)
+        updatedSkill = formattSkill(updatedSkill)
+        existingSkill = formattSkill(existingSkill)
         if (existsSkill(updatedSkill)) {
             println("[AVISO]: Essa competência já existe em nossa base de dados!")
             return null
@@ -54,7 +54,7 @@ class SkillService {
     }
 
     void delete(String skill) {
-        skill = formatSkill(skill)
+        skill = formattSkill(skill)
         Skill existing = skillRepository.findByName(skill)
         skillRepository.deleteCompetenciaById(existing)
     }
@@ -104,7 +104,7 @@ class SkillService {
     private void addSkills(String skillList, Closure<Void> function) {
         List<String> skills = skillList.split(", ")
         skills.forEach { name ->
-            String formatted = formatSkill(name)
+            String formatted = formattSkill(name)
             Skill skill = skillRepository.findByName(formatted)
 
             if (!skill) {
@@ -115,7 +115,7 @@ class SkillService {
         }
     }
 
-    private String formatSkill(String skill) {
+    private String formattSkill(String skill) {
         skill = skill.trim()
         skill = skill[0].toUpperCase() + skill.substring(1).toLowerCase()
         return skill

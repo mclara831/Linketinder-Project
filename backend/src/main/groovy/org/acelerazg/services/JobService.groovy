@@ -1,7 +1,7 @@
 package org.acelerazg.services
 
 import org.acelerazg.models.Company
-import org.acelerazg.models.Endereco
+import org.acelerazg.models.Address
 import org.acelerazg.models.Job
 import org.acelerazg.repositories.CompanyRepository
 import org.acelerazg.repositories.JobRepository
@@ -10,15 +10,15 @@ import org.acelerazg.utils.Utils
 class JobService {
 
     JobRepository jobRepository
-    EnderecoService addressService
+    AddressService addressService
     SkillService skillService
     CompanyRepository companyRepository
 
     JobService() {
-        this(new JobRepository(), new EnderecoService(), new SkillService(), new CompanyRepository())
+        this(new JobRepository(), new AddressService(), new SkillService(), new CompanyRepository())
     }
 
-    JobService(JobRepository jobRepository, EnderecoService addressService, SkillService skillService, CompanyRepository companyRepository) {
+    JobService(JobRepository jobRepository, AddressService addressService, SkillService skillService, CompanyRepository companyRepository) {
         this.jobRepository = jobRepository
         this.addressService = addressService
         this.skillService = skillService
@@ -29,7 +29,7 @@ class JobService {
         return jobRepository.findAll()
     }
 
-    Job create(Job job, Endereco address, String skills, String cnpj) {
+    Job create(Job job, Address address, String skills, String cnpj) {
         Company company = companyRepository.findByCnpj(cnpj)
 
         job.id = Utils.generateUUID()
@@ -41,7 +41,7 @@ class JobService {
         return created
     }
 
-    Job update(Job job, Endereco address, String skills) {
+    Job update(Job job, Address address, String skills) {
         String addressId = addressService.find(address)
         job.addressId = addressId
 

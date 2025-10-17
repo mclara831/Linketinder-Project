@@ -1,23 +1,23 @@
 package org.acelerazg.controllers
 
 import org.acelerazg.cli.UI
-import org.acelerazg.models.Endereco
+import org.acelerazg.models.Address
 import org.acelerazg.models.Job
+import org.acelerazg.services.AddressService
 import org.acelerazg.services.CompanyService
-import org.acelerazg.services.EnderecoService
 import org.acelerazg.services.JobService
 import org.acelerazg.services.SkillService
 
 class JobController {
 
     JobService jobService
-    EnderecoService addressService
+    AddressService addressService
     CompanyService companyService
     SkillService skillService
 
     JobController() {
         this.jobService = new JobService()
-        this.addressService = new EnderecoService()
+        this.addressService = new AddressService()
         this.companyService = new CompanyService()
         this.skillService = new SkillService()
     }
@@ -27,7 +27,7 @@ class JobController {
         vagas.forEach { it ->
             {
                 println(it.toString())
-                print(addressService.encontrarEnderecoPorID(it.addressId).toString())
+                print(addressService.findById(it.addressId).toString())
                 println("\n\tCompetencias: " + skillService.findSkillsByJob(it.id).join(", "))
             }
         }
@@ -42,7 +42,7 @@ class JobController {
         }
 
         Job job = UI.readJobInfo()
-        Endereco address = UI.readAdress()
+        Address address = UI.readAdress()
         String skills = UI.readSkills()
 
         Job created = jobService.create(job, address, skills, cnpj)
@@ -57,7 +57,7 @@ class JobController {
         isValidOption(option, jobs.size())
 
         Job job = UI.readJobInfo()
-        Endereco address = UI.readAdress()
+        Address address = UI.readAdress()
         String skills = UI.readSkills()
 
         job.id = jobs[option - 1].id
@@ -94,15 +94,14 @@ class JobController {
             {
                 println(it.toString())
                 println("\tEmpresa = " + companyService.findById(it.companyId).name)
-                print(addressService.encontrarEnderecoPorID(it.addressId).toString())
+                print(addressService.findById(it.addressId).toString())
                 println("\n\tCompetencias: " + skillService.findSkillsByJob(it.id).join(", "))
             }
         }
     }
 
     private void printJobList(List<Job> jobs) {
-        jobs.eachWithIndex { job, i ->
-            println "[${i + 1}] ${job}\n"
+        jobs.eachWithIndex { job, i -> println "[${i + 1}] ${job}\n"
         }
     }
 

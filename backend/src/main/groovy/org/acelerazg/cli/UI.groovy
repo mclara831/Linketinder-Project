@@ -1,8 +1,8 @@
 package org.acelerazg.cli
 
+import org.acelerazg.models.Address
 import org.acelerazg.models.Candidate
 import org.acelerazg.models.Company
-import org.acelerazg.models.Endereco
 import org.acelerazg.models.Job
 
 import java.time.LocalDate
@@ -39,30 +39,30 @@ class UI {
         print "Escolha uma opcao: "
     }
 
-    static LocalDate lerData() {
+    static LocalDate readDate() {
         Scanner scanner = new Scanner(System.in)
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        boolean continuar = true;
-        LocalDate dataFormatada = null;
-        while (continuar) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        boolean keepGoing = true
+        LocalDate formattedDate = null
+        while (keepGoing) {
             try {
-                String data = scanner.next();
-                dataFormatada = LocalDate.parse(data, dateTimeFormatter);
-                continuar = false;
+                String date = scanner.next()
+                formattedDate = LocalDate.parse(date, dateTimeFormatter)
+                keepGoing = false
             } catch (DateTimeParseException e) {
-                System.out.println("Data está em formato inválido! Digite novamente: ");
+                System.out.println("Data está em formato inválido! Digite novamente: ")
             }
         }
-        return dataFormatada;
+        return formattedDate
     }
 
     static Candidate readCandidateInfo(String cpf = null) {
         Scanner scanner = new Scanner(System.in)
         print "Digite o nome: "
-        String nome = scanner.nextLine()
+        String name = scanner.nextLine()
 
         print "Digite o sobrenome: "
-        String sobrenome = scanner.nextLine()
+        String lastname = scanner.nextLine()
 
         print "Digite o e-mail: "
         String email = scanner.nextLine()
@@ -74,29 +74,29 @@ class UI {
             cpf = requestCpf()
 
         print "Digite a data de nascimento (dd/MM/yyyy): "
-        LocalDate dataNascimento = lerData()
+        LocalDate dateOfBirth = readDate()
 
         print "Digite uma descrição: "
-        String descricao = scanner.nextLine()
+        String description = scanner.nextLine()
 
         print "Digite uma senha: "
         String senha = scanner.nextLine()
 
-        return new Candidate(nome, sobrenome, email, linkedin, cpf, dataNascimento, descricao, senha)
+        return new Candidate(name, lastname, email, linkedin, cpf, dateOfBirth, description, senha)
     }
 
-    static Endereco readAdress() {
+    static Address readAdress() {
         Scanner scanner = new Scanner(System.in)
         print "Digite o país: "
-        String pais = scanner.nextLine()
+        String country = scanner.nextLine()
 
         print "Digite o estado: "
-        String estado = scanner.nextLine()
+        String region = scanner.nextLine()
 
         print "Digite o CEP: "
         String cep = scanner.nextLine()
 
-        return new Endereco(pais, estado, cep)
+        return new Address(country, region, cep)
     }
 
     static String readSkills() {
@@ -163,5 +163,4 @@ class UI {
         String description = scanner.nextLine()
         return new Job(name, description)
     }
-
 }

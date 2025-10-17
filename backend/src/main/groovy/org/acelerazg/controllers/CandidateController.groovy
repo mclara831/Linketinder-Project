@@ -1,21 +1,21 @@
 package org.acelerazg.controllers
 
 import org.acelerazg.cli.UI
+import org.acelerazg.models.Address
 import org.acelerazg.models.Candidate
-import org.acelerazg.models.Endereco
+import org.acelerazg.services.AddressService
 import org.acelerazg.services.CandidateService
 import org.acelerazg.services.SkillService
-import org.acelerazg.services.EnderecoService
 
 class CandidateController {
 
     CandidateService candidateService
-    EnderecoService addressService
+    AddressService addressService
     SkillService skillService
 
     CandidateController() {
         this.candidateService = new CandidateService()
-        this.addressService = new EnderecoService()
+        this.addressService = new AddressService()
         this.skillService = new SkillService()
     }
 
@@ -24,14 +24,14 @@ class CandidateController {
 
         candidatos.each { it ->
             println(it.toString())
-            print(addressService.encontrarEnderecoPorID(it.addressId).toString())
+            print(addressService.findById(it.addressId).toString())
             println("\n\tCompetencias: " + skillService.findSkillsByCandidate(it.id).join(", "))
         }
     }
 
     void create() {
         Candidate candidate = UI.readCandidateInfo()
-        Endereco address = UI.readAdress()
+        Address address = UI.readAdress()
         String skills = UI.readSkills()
 
         if (candidateService.cpfValid(candidate.cpf)) {
@@ -52,7 +52,7 @@ class CandidateController {
         }
 
         Candidate updatedCandidate = UI.readCandidateInfo(cpf)
-        Endereco address = UI.readAdress()
+        Address address = UI.readAdress()
         String skills = UI.readSkills()
 
         updatedCandidate = candidateService.updateByCpf(updatedCandidate, address, skills)

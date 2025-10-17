@@ -1,21 +1,21 @@
 package org.acelerazg.services
 
 import org.acelerazg.models.Company
-import org.acelerazg.models.Endereco
+import org.acelerazg.models.Address
 import org.acelerazg.repositories.CompanyRepository
 import org.acelerazg.utils.Utils
 
 class CompanyService {
 
     CompanyRepository companyRepository
-    EnderecoService addressService
+    AddressService addressService
     SkillService skillService
 
     CompanyService() {
-        this(new CompanyRepository(), new EnderecoService(), new SkillService())
+        this(new CompanyRepository(), new AddressService(), new SkillService())
     }
 
-    CompanyService(CompanyRepository repository, EnderecoService addressService, SkillService skillService) {
+    CompanyService(CompanyRepository repository, AddressService addressService, SkillService skillService) {
         this.companyRepository = repository
         this.addressService = addressService
         this.skillService = skillService
@@ -29,7 +29,7 @@ class CompanyService {
         return companyRepository.findById(empresaId)
     }
 
-    Company create(Company company, Endereco address, String skills) {
+    Company create(Company company, Address address, String skills) {
         if (cnpjValid(company.cnpj)) {
             println "[AVISO]: Não é possível utilizar o cnpj fornecido!"
             return null
@@ -45,7 +45,7 @@ class CompanyService {
         return newCompany
     }
 
-    Company updateByCnpj(Company company, Endereco address, String skills) {
+    Company updateByCnpj(Company company, Address address, String skills) {
         Company existing = companyRepository.findByCnpj(company.cnpj)
         if (!existing) {
             println "[AVISO]: Este CPF não está cadastrado em nossa base de dados!"
@@ -76,7 +76,7 @@ class CompanyService {
         return existing != null
     }
 
-    Company updateData(Endereco address, Company existing, Company updated) {
+    Company updateData(Address address, Company existing, Company updated) {
         existing.setName(updated.name)
         existing.setEmail(updated.email)
         existing.setLinkedin(updated.linkedin)

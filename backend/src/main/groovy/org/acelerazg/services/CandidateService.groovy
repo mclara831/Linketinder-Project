@@ -1,22 +1,22 @@
 package org.acelerazg.services
 
 import org.acelerazg.models.Candidate
-import org.acelerazg.models.Endereco
+import org.acelerazg.models.Address
 import org.acelerazg.repositories.CandidateRepository
 import org.acelerazg.utils.Utils
 
 class CandidateService {
 
     CandidateRepository candidateRepository
-    EnderecoService addressService
+    AddressService addressService
     SkillService skillService
 
     CandidateService() {
-        this(new CandidateRepository(), new EnderecoService(), new SkillService())
+        this(new CandidateRepository(), new AddressService(), new SkillService())
     }
 
     CandidateService(CandidateRepository candidatoRepository,
-                     EnderecoService addressService,
+                     AddressService addressService,
                      SkillService skillService) {
         this.candidateRepository = candidatoRepository
         this.addressService = addressService
@@ -27,7 +27,7 @@ class CandidateService {
         return candidateRepository.findAll()
     }
 
-    Candidate create(Candidate candidate, Endereco address, String competencias) {
+    Candidate create(Candidate candidate, Address address, String competencias) {
         if (cpfValid(candidate.cpf)) {
             println "[AVISO]: Não é possível utilizar o cpf fornecido!"
             return null
@@ -43,7 +43,7 @@ class CandidateService {
         return newCandidate
     }
 
-    Candidate updateByCpf(Candidate candidate, Endereco address, String skills) {
+    Candidate updateByCpf(Candidate candidate, Address address, String skills) {
         Candidate existing = candidateRepository.findByCpf(candidate.cpf)
 
         if (!existing) {
@@ -71,7 +71,7 @@ class CandidateService {
         println "[SUCESSO]: Candidato removido com sucesso!"
     }
 
-    Candidate updateData(Candidate existing, Candidate updated, Endereco address) {
+    Candidate updateData(Candidate existing, Candidate updated, Address address) {
         existing.setName(updated.name)
         existing.setLastname(updated.lastname)
         existing.setEmail(updated.email)

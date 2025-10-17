@@ -1,21 +1,21 @@
 package org.acelerazg.controllers
 
 import org.acelerazg.cli.UI
+import org.acelerazg.models.Address
 import org.acelerazg.models.Company
-import org.acelerazg.models.Endereco
+import org.acelerazg.services.AddressService
 import org.acelerazg.services.CompanyService
 import org.acelerazg.services.SkillService
-import org.acelerazg.services.EnderecoService
 
 class CompanyController {
 
     CompanyService companyService
-    EnderecoService addressService
+    AddressService addressService
     SkillService skillService
 
     CompanyController() {
         this.companyService = new CompanyService()
-        this.addressService = new EnderecoService()
+        this.addressService = new AddressService()
         this.skillService = new SkillService()
     }
 
@@ -24,7 +24,7 @@ class CompanyController {
         empresas.each { it ->
             {
                 println(it.toString())
-                print(addressService.encontrarEnderecoPorID(it.addressId).toString())
+                print(addressService.findById(it.addressId).toString())
                 println("\n\tCompetencias: " + skillService.findSkillsByCompany(it.id).join(", "))
             }
         }
@@ -32,7 +32,7 @@ class CompanyController {
 
     void create() {
         Company company = UI.readCompanyInfo()
-        Endereco address = UI.readAdress()
+        Address address = UI.readAdress()
         String skills = UI.readSkills()
 
         company = companyService.create(company, address, skills)
@@ -48,7 +48,7 @@ class CompanyController {
         }
 
         Company updatedCompany = UI.readCompanyInfo(cnpj)
-        Endereco address = UI.readAdress()
+        Address address = UI.readAdress()
         String skills = UI.readSkills()
 
         Company updated = companyService.updateByCnpj(updatedCompany, address, skills)

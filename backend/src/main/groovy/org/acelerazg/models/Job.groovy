@@ -30,15 +30,6 @@ class Job {
         this.description = description
     }
 
-    Job(String name, String description, String addressId, String companyId) {
-        this.id = id
-        this.name = name
-        this.description = description
-        this.createdAt = createdAt
-        this.addressId = addressId
-        this.companyId = companyId
-    }
-
     @Override
     String toString() {
         return "Vaga: " +
