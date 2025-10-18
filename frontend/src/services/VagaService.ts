@@ -6,9 +6,9 @@ import {
 } from "../utils/Utils";
 import {
   obterEmpresaLogada,
-  obterObjetos,
+  getObjects,
   obterVagaEmEdicao,
-  salvarObjeto,
+  setObject,
   salvarObjetos,
   selecionarVagaParaEdicao,
 } from "./ArmazenamentoService";
@@ -26,7 +26,7 @@ export function carregarVagas() {
     card_list.innerHTML = "";
   }
 
-  var vagas: Vaga[] = obterObjetos<Vaga>("vagas");
+  var vagas: Vaga[] = getObjects<Vaga>("vagas");
 
   vagas.forEach((vaga) => {
     var li: HTMLElement = document.createElement("li");
@@ -102,7 +102,7 @@ function cadastrarVaga(): void {
       competencias
     );
 
-    salvarObjeto<Vaga>("vagas", vaga);
+    setObject<Vaga>("vagas", vaga);
     limparFormularioVaga();
     rendenrizarVagaPorEmpresa();
   };
@@ -112,7 +112,7 @@ function adicionaEventoEditarVagas(): void {
   const editar_btn =
     document.querySelectorAll<HTMLButtonElement>(".editar-vaga");
 
-  const vagas = obterObjetos<Vaga>("vagas");
+  const vagas = getObjects<Vaga>("vagas");
 
   editar_btn.forEach((vaga) => {
     vaga.addEventListener("click", function (event) {
@@ -130,7 +130,7 @@ function adicionaEventoDeletarVagas() {
   const deletar_btn =
     document.querySelectorAll<HTMLButtonElement>(".deletar-vaga");
 
-  const vagas = obterObjetos<Vaga>("vagas");
+  const vagas = getObjects<Vaga>("vagas");
 
   deletar_btn.forEach((btn) => {
     btn.addEventListener("click", function (event) {
@@ -193,7 +193,7 @@ function editarVaga(): void {
   }
 
   btnCadastrar.onclick = () => {
-    const vagas: Vaga[] = obterObjetos("vagas");
+    const vagas: Vaga[] = getObjects("vagas");
 
     let camposValidos: boolean = true;
 
@@ -246,7 +246,7 @@ function editarVaga(): void {
 function deletarVaga(): void {
   const vaga = obterVagaEmEdicao();
 
-  let vagas: Vaga[] = obterObjetos("vagas");
+  let vagas: Vaga[] = getObjects("vagas");
   vagas = vagas.filter((v) => v.id !== vaga.id);
   salvarObjetos<Vaga>("vagas", vagas);
 
@@ -260,7 +260,7 @@ export function rendenrizarVagaPorEmpresa() {
     card_list.innerHTML = "";
   }
 
-  var vagas: Vaga[] = obterObjetos<Vaga>("vagas");
+  var vagas: Vaga[] = getObjects<Vaga>("vagas");
 
   vagas.forEach((vaga) => {
     if (vaga.empresa?.cnpj == empresaAtual?.cnpj) {

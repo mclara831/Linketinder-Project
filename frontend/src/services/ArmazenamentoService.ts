@@ -1,14 +1,14 @@
 import type { Empresa } from "../models/Empresa";
 import type { Vaga } from "../models/Vaga";
 
-export function obterObjetos<T>(chave: string): T[] {
-  return JSON.parse(localStorage.getItem(chave) || "[]") as T[];
+export function getObjects<T>(key: string): T[] {
+  return JSON.parse(localStorage.getItem(key) || "[]") as T[];
 }
 
-export function salvarObjeto<T>(chave: string, obj: T): void {
-  const lista = obterObjetos<T>(chave);
-  lista.push(obj);
-  localStorage.setItem(chave, JSON.stringify(lista));
+export function setObject<T>(key: string, obj: T): void {
+  const objects = getObjects<T>(key);
+  objects.push(obj);
+  localStorage.setItem(key, JSON.stringify(objects));
 }
 
 export function salvarObjetos<T>(chave: string, obj: T[]): void {

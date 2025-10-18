@@ -1,7 +1,7 @@
 import type { Empresa } from "../models/Empresa";
 import {
   definirEmpresaLogada,
-  salvarObjeto,
+  setObject,
 } from "./ArmazenamentoService";
 import {
   lerInfoFomularioEmpresa,
@@ -24,7 +24,7 @@ function adicionarEmpresa() {
       if (empresa == null) {
         return;
       }
-      salvarObjeto<Empresa>("empresas", empresa);
+      setObject<Empresa>("empresas", empresa);
       limparFormularioEmpresa()
     });
 }

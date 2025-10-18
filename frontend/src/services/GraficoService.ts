@@ -1,4 +1,4 @@
-import { carregarCompetencias } from "./CandidatoService";
+import { computeSkillsStats } from "./CandidateService.ts";
 import type { CompetenciaQuantificada } from "../models/Competencia";
 import { Chart } from "chart.js/auto";
 
@@ -7,7 +7,7 @@ export const carregarGraphic = () => {
     ".graphic-container"
   ) as HTMLCanvasElement;
 
-  const competencias: CompetenciaQuantificada[] = carregarCompetencias();
+  const competencias: CompetenciaQuantificada[] = computeSkillsStats();
 
   return new Chart(graphic, {
     type: "bar",
