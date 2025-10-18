@@ -1,14 +1,14 @@
 import {Candidate} from "../models/Candidate.ts";
-import {Empresa} from "../models/Empresa";
+import {Company} from "../models/Company.ts";
 import {obterCompetenciasSelecionadas} from "../utils/Utils";
 import {getObjects} from "./ArmazenamentoService";
 import {showCandidateProfile} from "./CandidateService.ts";
-import {logarEmpresa} from "./EmpresaService";
+import {showCompanyProfile} from "./CompanyService.ts";
 import {
     invalido, validaCEP, validaCNPJ, validaCPF, validaEmail, validaLinkedin, validaTelefone, validaTexto, valido,
 } from "./ValidacaoService";
 
-export function loginEmpresa(): void {
+export function setupCompanyLogin(): void {
     const login_btn = document.querySelector("#login-btn-empresa") as HTMLButtonElement;
     const main_form = document.querySelector(".login-empresa") as HTMLDivElement;
     const main_profile = document.querySelector("#perfil-empresa") as HTMLDivElement;
@@ -16,8 +16,10 @@ export function loginEmpresa(): void {
 
     login_btn?.addEventListener("click", function (e) {
         e.preventDefault();
-        var empresa: Empresa[] = getObjects<Empresa>("empresas");
+        var empresa: Company[] = getObjects<Company>("empresas");
         var encontrado: boolean = false;
+
+        console.log(empresa);
 
         if (!validaCNPJ(cnpj.value)) {
             invalido(cnpj);
@@ -30,7 +32,7 @@ export function loginEmpresa(): void {
                 main_profile.style.display = "initial";
                 main_form.style.display = "none";
                 encontrado = true;
-                logarEmpresa(empresa);
+                showCompanyProfile(empresa);
             }
         });
 
@@ -172,7 +174,7 @@ function validaCampos(nome: HTMLInputElement, email: HTMLInputElement, linkedin:
     return flag;
 }
 
-export function lerInfoFomularioEmpresa(): Empresa | null {
+export function lerInfoFomularioEmpresa(): Company | null {
     const form = document.querySelector("#company-form") as HTMLInputElement;
 
     let nome = form.querySelector('[name="name"]') as HTMLInputElement;
@@ -190,10 +192,10 @@ export function lerInfoFomularioEmpresa(): Empresa | null {
         return null;
     }
 
-    return new Empresa(nome.value, email.value, linkedin.value, cnpj.value, estado.value, cep.value, pais.value, descricao.value, competencias);
+    return new Company(nome.value, email.value, linkedin.value, cnpj.value, estado.value, cep.value, pais.value, descricao.value, competencias);
 }
 
-export function limparFormularioEmpresa() {
+export function clearCompanyForm() {
     const form = document.querySelector("#company-form") as HTMLInputElement;
 
     let name = form.querySelector('[name="name"]') as HTMLInputElement;

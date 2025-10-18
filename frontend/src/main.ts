@@ -5,10 +5,10 @@ import {carregarGraphic} from "./services/GraficoService";
 import "./styles/style.css";
 import {adicionaEventosCardVagas, carregarVagas} from "./services/VagaService";
 import {carregarCompetencias} from "./utils/Utils";
-import {adicionaEventosAManipulacaoEmpresas} from "./services/EmpresaService";
+import {initializeCompanyModule} from "./services/CompanyService.ts";
 
 initializeCandidateModule()
-adicionaEventosAManipulacaoEmpresas();
+initializeCompanyModule();
 carregarVagas();
 carregarCompetencias();
 carregarGraphic();

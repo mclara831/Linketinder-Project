@@ -1,4 +1,4 @@
-import type { Empresa } from "../models/Empresa";
+import type { Company } from "../models/Company.ts";
 import type { Vaga } from "../models/Vaga";
 
 export function getObjects<T>(key: string): T[] {
@@ -11,17 +11,17 @@ export function setObject<T>(key: string, obj: T): void {
   localStorage.setItem(key, JSON.stringify(objects));
 }
 
-export function salvarObjetos<T>(chave: string, obj: T[]): void {
-  localStorage.setItem(chave, JSON.stringify(obj));
+export function setObjects<T>(key: string, obj: T[]): void {
+  localStorage.setItem(key, JSON.stringify(obj));
 }
 
-export function definirEmpresaLogada(empresa: Empresa): void {
+export function setLoggedCompany(empresa: Company): void {
   localStorage.setItem("empresaLogada", JSON.stringify(empresa));
 }
 
-export function obterEmpresaLogada(): Empresa | null {
-  const empresa = localStorage.getItem("empresaLogada");
-  return empresa ? JSON.parse(empresa) as Empresa : null;
+export function getLoggedCompany(): Company | null {
+  const company = localStorage.getItem("empresaLogada");
+  return company ? JSON.parse(company) as Company : null;
 }
 
 export function selecionarVagaParaEdicao(vaga: Vaga): void {
