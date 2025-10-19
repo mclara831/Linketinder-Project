@@ -47,7 +47,7 @@ Esse modelo garante que:
     11. Cadastrar nova vaga
     12. Atualizar dados de vaga
     13. Deletar vaga
-    
+
     ===> Competencias
     14. Listar todas competências
     15. Cadastrar nova competência
@@ -83,6 +83,30 @@ Para elaborar esse modelo foi utilizada a ferramenta: https://dbdiagram.io/home
 
 - O Script SQL se encontra na pasta: `backend/src/main/groovy/resources`
 
+## 🔧 Refatoração do Projeto
+
+Durante o processo de refatoração, o projeto passou por uma série de melhorias estruturais, semânticas e de boas práticas, tanto no frontend quanto no backend, com o objetivo de tornar o código mais organizado, escalável e aderente aos princípios de arquitetura limpa e manutenibilidade.
+
+### 🖥️ Frontend
+
+- **Tradução completa para inglês**: todas variáveis e arquivos foram padronizados para o inglês, garantindo consistência com o backend e maior compatibilidade com padrões internacionais.
+
+- **Separação da manipulação do DOM da camada de serviço**: agora a lógica de interação com a interface está desacoplada da lógica de negócio, seguindo uma arquitetura mais modular e de fácil manutenção.
+
+### ⚙️ Backend
+
+- **Tradução completa para inglês**: todas as classes, métodos, variáveis e mensagens de log foram traduzidas para o inglês, mantendo consistência com o frontend e boas práticas de desenvolvimento.
+
+- **Implementação de testes unitários**: adicionados testes para os principais serviços, garantindo maior confiabilidade e facilitando futuras alterações no código.
+
+- **Separação da camada de UI (entrada e saída de dados)**: a leitura de dados e a exibição de mensagens de tela foram isoladas da lógica de negócio, deixando as classes de serviço e domínio mais limpas.
+
+- **Criação de uma classe genérica para repositório**: foi criada uma classe base para centralizar a execução de operações genéricas (como INSERT, UPDATE e DELETE), reduzindo duplicação de código em entidades como Candidate, Company e Job.
+
+- **Implementação de tratamento de exceções**: agora os erros são tratados de forma mais elegante e informativa, com logs descritivos e mensagens controladas para o usuário.
+
+- **Melhoria no uso de conexões com o banco de dados**: as conexões são corretamente abertas e fechadas em blocos try-finally, evitando vazamento de recursos.
+
 ## 🚀 Como executar
 
 - Clone este repositório 
@@ -110,7 +134,19 @@ git clone  git@github.com:mclara831/Linketinder-Project.git
     ```bash
     cd backend
     ```
+
+3.  Faça o build do projeto
+
+    ```bash
+    gradle build
+    ```
+
 3. Execute o projeto
+
+    ```bash
+    gradle run
+    ```
+    ou
 
     ```bash
     java -jar build/libs/backend-all.jar

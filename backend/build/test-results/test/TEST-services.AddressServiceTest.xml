@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="services.AddressServiceTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-10-19T16:37:47.812Z" hostname="mclara" time="0.064">
-  <properties/>
-  <testcase name="find existing adress" classname="services.AddressServiceTest" time="0.053"/>
-  <testcase name="find existing adress" classname="services.AddressServiceTest" time="0.01"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
