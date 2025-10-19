@@ -1,8 +1,8 @@
 import type {Company} from "../models/Company.ts";
-import {setLoggedCompany, setObject,} from "./ArmazenamentoService";
+import {setLoggedCompany, setObject,} from "./StorageService.ts";
 import {clearCompanyForm, lerInfoFomularioEmpresa, setupCompanyLogin,} from "./FormService";
-import {fillCompanyProfile} from "./CompanyDOMService.ts";
-import {renderJobsByCompany} from "./VagaService.ts";
+import {fillCompanyProfile} from "./DOMService/CompanyDOMService.ts";
+import {renderJobsByCompany} from "./JobService.ts";
 
 export function initializeCompanyModule() {
     setupAddCandidatesBtn();

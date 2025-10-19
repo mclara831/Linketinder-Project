@@ -1,5 +1,5 @@
 // Objeto como Enum
-export const Competencia = {
+export const Skill = {
   Java: "Java",
   Angular: "Angular",
   Docker: "Docker",
@@ -50,16 +50,16 @@ export const Competencia = {
   ShellScript: "Shell Script"
 } as const;
 
-export type Competencia = typeof Competencia[keyof typeof Competencia];
+export type Skill = typeof Skill[keyof typeof Skill];
 
-export function mapStringsToCompetencias(values: string[]): Competencia[] {
-  const competenciasValidas = Object.values(Competencia);
-  return values.filter((val): val is Competencia =>
-    competenciasValidas.includes(val as Competencia)
+export function mapStringsToCompetencias(values: string[]): Skill[] {
+  const competenciasValidas = Object.values(Skill);
+  return values.filter((val): val is Skill =>
+    competenciasValidas.includes(val as Skill)
   );
 }
 
-export interface CompetenciaQuantificada {
-  competencia: Competencia;
-  quantidade: number;
+export interface quantifiedSkill {
+  skill: Skill;
+  quantity: number;
 }

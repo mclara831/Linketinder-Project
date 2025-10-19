@@ -1,5 +1,5 @@
 import { computeSkillsStats } from "./CandidateService.ts";
-import type { CompetenciaQuantificada } from "../models/Competencia";
+import type { quantifiedSkill } from "../models/Skill.ts";
 import { Chart } from "chart.js/auto";
 
 export const carregarGraphic = () => {
@@ -7,16 +7,16 @@ export const carregarGraphic = () => {
     ".graphic-container"
   ) as HTMLCanvasElement;
 
-  const competencias: CompetenciaQuantificada[] = computeSkillsStats();
+  const skills: quantifiedSkill[] = computeSkillsStats();
 
   return new Chart(graphic, {
     type: "bar",
     data: {
-      labels: competencias.map((c) => c.competencia),
+      labels: skills.map((c) => c.skill),
       datasets: [
         {
           label: "Quantidade de Candidatos",
-          data: competencias.map((c) => c.quantidade), 
+          data: skills.map((c) => c.quantity),
           backgroundColor: [
             "#ff6384",
             "#36a2eb",

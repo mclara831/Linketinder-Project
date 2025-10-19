@@ -1,5 +1,5 @@
-import type {Company} from "../models/Company.ts";
-import {loadSkillsFromObject, setText} from "../utils/Utils.ts";
+import type {Company} from "../../models/Company.ts";
+import {loadSkillsFromObject, setText} from "../../utils/Utils.ts";
 
 export function fillCompanyProfile(company: Company): void {
 

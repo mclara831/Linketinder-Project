@@ -1,4 +1,4 @@
-import type {Competencia} from "./Competencia"
+import type {Skill} from "./Skill.ts"
 
 export class Candidate {
     name: string
@@ -10,9 +10,9 @@ export class Candidate {
     region: string
     cep: string
     description: string
-    skills: Competencia[] = new Array<Competencia>
+    skills: Skill[] = new Array<Skill>
 
-    constructor(name: string, email: string, linkedin: string, phone: string, date_of_birth: Date, cpf: string, region: string, cep: string, description: string, skills: Competencia[]) {
+    constructor(name: string, email: string, linkedin: string, phone: string, date_of_birth: Date, cpf: string, region: string, cep: string, description: string, skills: Skill[]) {
         this.name = name
         this.email = email
         this.linkedin = linkedin

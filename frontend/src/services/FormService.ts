@@ -1,7 +1,7 @@
 import {Candidate} from "../models/Candidate.ts";
 import {Company} from "../models/Company.ts";
-import {obterCompetenciasSelecionadas} from "../utils/Utils";
-import {getObjects} from "./ArmazenamentoService";
+import {getSelectedSkills} from "../utils/Utils";
+import {getObjects} from "./StorageService.ts";
 import {showCandidateProfile} from "./CandidateService.ts";
 import {showCompanyProfile} from "./CompanyService.ts";
 import {
@@ -87,7 +87,7 @@ export function lerInfoFomularioCandidato(): Candidate | null {
     let data_nascimento = form.querySelector('[name="data-nascimento"]') as HTMLInputElement;
     let cep = form.querySelector('[name="cep"]') as HTMLInputElement;
     let descricao = form.querySelector('[name="description"]') as HTMLInputElement;
-    let competencias = obterCompetenciasSelecionadas();
+    let competencias = getSelectedSkills();
     let estado = form.querySelector('[name="estado"]') as HTMLInputElement;
 
     var result = validaCampos(nome, email, linkedin, telefone, cpf, null, cep, descricao, estado, data_nascimento, null);
@@ -185,7 +185,7 @@ export function lerInfoFomularioEmpresa(): Company | null {
     let cep = form.querySelector('[name="cep"]') as HTMLInputElement;
     let pais = form.querySelector('[name="pais"]') as HTMLInputElement;
     let descricao = form.querySelector('[name="description"]') as HTMLInputElement;
-    let competencias = obterCompetenciasSelecionadas();
+    let competencias = getSelectedSkills();
 
     var resultado: boolean = validaCampos(nome, email, linkedin, null, null, cnpj, cep, descricao, estado, null, pais);
     if (!resultado) {
@@ -283,12 +283,11 @@ function limparInputLogin(id: string) {
     (document.querySelector(id) as HTMLInputElement).value = "";
 }
 
-export function limparFormularioVaga(): void {
+export function clearJobForm(): void {
     const form = document.querySelector("#job-register") as HTMLFormElement;
     if (!form) return;
 
-    form
-        .querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea")
+    form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea")
         .forEach((el) => {
             if (el.type === "checkbox" || el.type === "radio") {
                 (el as HTMLInputElement).checked = false;

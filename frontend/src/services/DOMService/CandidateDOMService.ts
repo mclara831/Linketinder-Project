@@ -1,5 +1,5 @@
-import type {Candidate} from "../models/Candidate.ts";
-import {loadSkillsFromObject, setText} from "../utils/Utils.ts";
+import type {Candidate} from "../../models/Candidate.ts";
+import {loadSkillsFromObject, setText} from "../../utils/Utils.ts";
 
 export function renderCandidatesList(candidates: Candidate[]): void {
     let card_list = document.querySelector(".candidates");

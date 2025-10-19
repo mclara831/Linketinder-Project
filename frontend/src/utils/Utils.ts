@@ -1,11 +1,11 @@
-import {Competencia} from "../models/Competencia";
+import {Skill} from "../models/Skill.ts";
 
 export function setText(selector: string, text?: string): void {
     const el = document.querySelector(selector);
     if (el) el.textContent = text ?? "";
 }
 
-export function loadSkillsFromObject(elementClass: string, skillsList: Competencia[]) {
+export function loadSkillsFromObject(elementClass: string, skillsList: Skill[]) {
     const skillsElement = document.querySelector(elementClass);
     if (!skillsElement) return
 
@@ -20,15 +20,15 @@ export function loadSkillsFromObject(elementClass: string, skillsList: Competenc
     });
 }
 
-export function obterCompetenciasSelecionadas(): Competencia[] {
+export function getSelectedSkills(): Skill[] {
     const inputs =
         document.querySelectorAll<HTMLInputElement>(".btn-check:checked");
 
-    return Array.from(inputs).map((input) => input.value as Competencia);
+    return Array.from(inputs).map((input) => input.value as Skill);
 }
 
-export function selecionarCompetencias(competencias: Competencia[]): void {
-    Object.values(Competencia).forEach((competencia, index) => {
+export function setSelectedSkills(competencias: Skill[]): void {
+    Object.values(Skill).forEach((competencia, index) => {
 
         if (competencias.includes(competencia)) {
             let input = document.querySelector(`#competencia-${index}`) as HTMLInputElement
@@ -42,7 +42,7 @@ export function carregarCompetencias() {
     const containers = document.querySelectorAll<HTMLDivElement>(".form-check");
 
     containers.forEach((container) => {
-        Object.values(Competencia).forEach((competencia, index) => {
+        Object.values(Skill).forEach((competencia, index) => {
             const input = document.createElement("input");
             input.type = "checkbox";
             input.className = "btn-check";
