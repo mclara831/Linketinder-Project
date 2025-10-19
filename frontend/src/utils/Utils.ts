@@ -27,10 +27,10 @@ export function getSelectedSkills(): Skill[] {
     return Array.from(inputs).map((input) => input.value as Skill);
 }
 
-export function setSelectedSkills(competencias: Skill[]): void {
-    Object.values(Skill).forEach((competencia, index) => {
+export function setSelectedSkills(skills: Skill[]): void {
+    Object.values(Skill).forEach((skill, index) => {
 
-        if (competencias.includes(competencia)) {
+        if (skills.includes(skill)) {
             let input = document.querySelector(`#competencia-${index}`) as HTMLInputElement
             input.checked = true
 
@@ -38,22 +38,22 @@ export function setSelectedSkills(competencias: Skill[]): void {
     });
 }
 
-export function carregarCompetencias() {
+export function loadSkills() {
     const containers = document.querySelectorAll<HTMLDivElement>(".form-check");
 
     containers.forEach((container) => {
-        Object.values(Skill).forEach((competencia, index) => {
+        Object.values(Skill).forEach((skill, index) => {
             const input = document.createElement("input");
             input.type = "checkbox";
             input.className = "btn-check";
             input.id = `competencia-${index}`;
-            input.value = competencia;
+            input.value = skill;
             input.autocomplete = "off";
 
             const label = document.createElement("label");
             label.className = "btn btn-outline-primary m-1";
             label.htmlFor = input.id;
-            label.textContent = competencia;
+            label.textContent = skill;
 
             container.appendChild(input);
             container.appendChild(label);

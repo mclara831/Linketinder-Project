@@ -4,9 +4,11 @@ import {getSelectedSkills, setSelectedSkills,} from "../utils/Utils";
 import {
     getJobInEdition, getLoggedCompany, getObjects, setJobInEdition, setObject, setObjects,
 } from "./StorageService.ts";
-import {clearJobForm} from "./FormService";
-import {invalido, validaTextoMaior, valido} from "./ValidacaoService";
-import {assignValuesToInputs, readJobForm, renderJobsToCandidates, renderJobsToCompany} from "./DOMService/JobDOMService.ts";
+import {clearForm} from "./FormService";
+import {isBiggerTextValid, isInvalid, isValid} from "./ValidationService.ts";
+import {
+    assignValuesToInputs, readJobForm, renderJobsToCandidates, renderJobsToCompany
+} from "./DOMService/JobDOMService.ts";
 
 export function initializeJobModule() {
     setupAddJobBtn();
@@ -32,6 +34,7 @@ export function renderJobs() {
 function setupAddJobBtn(): void {
 
     const registerButton = document.querySelector("#cadastrar-vaga") as HTMLButtonElement;
+    console.log(registerButton);
 
     registerButton.onclick = () => {
         const loggedCompany = getLoggedCompany();
@@ -46,7 +49,7 @@ function setupAddJobBtn(): void {
 
         const job: Job = new Job(inputs[0].value, inputs[1].value, loggedCompany, new Date(inputs[2].value), skills);
         setObject<Job>("vagas", job);
-        clearJobForm();
+        clearForm("#job-register")
         renderJobsByCompany();
     };
 }
@@ -96,7 +99,7 @@ function updateJob(): void {
             submitBtn.textContent = "Cadastrar";
             submitBtn.onclick = setupAddJobBtn;
             backBtn.remove();
-            clearJobForm();
+            clearForm("#job-register")
         });
 
         btnsContainer.appendChild(backBtn);
@@ -124,7 +127,7 @@ function updateJob(): void {
         setObjects<Job>("vagas", jobs);
         resetJobForm(submitBtn, document.querySelector("#btn-voltar")!);
         renderJobsByCompany();
-        clearJobForm();
+        clearForm("#job-register")
     };
 }
 
@@ -132,7 +135,7 @@ function resetJobForm(submitBtn: HTMLButtonElement, backBtn: HTMLButtonElement) 
     submitBtn.textContent = "Cadastrar";
     submitBtn.onclick = setupAddJobBtn;
     backBtn.remove();
-    clearJobForm();
+    clearForm("#job-register")
 }
 
 function setupDeleteEvent() {
@@ -184,23 +187,23 @@ export function renderJobsByCompany(): void {
 }
 
 function validateJobInputs(inputs: HTMLInputElement[]): boolean {
-    let isValid: boolean = true;
+    let valid: boolean = true;
 
     for (let i = 0; i < inputs.length - 1; i++) {
-        if (!validaTextoMaior(inputs[i].value)) {
-            invalido(inputs[i]);
-            isValid = false;
+        if (!isBiggerTextValid(inputs[i].value)) {
+            isInvalid(inputs[i]);
+            valid = false;
         } else {
-            valido(inputs[i]);
+            isValid(inputs[i]);
         }
     }
 
     if (!inputs[2].value) {
-        invalido(inputs[2]);
-        isValid = false;
+        isInvalid(inputs[2]);
+        valid = false;
     } else {
-        valido(inputs[2]);
+        isValid(inputs[2]);
     }
 
-    return isValid;
+    return valid;
 }

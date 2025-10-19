@@ -1,8 +1,9 @@
 import type {Company} from "../models/Company.ts";
-import {setLoggedCompany, setObject,} from "./StorageService.ts";
-import {clearCompanyForm, lerInfoFomularioEmpresa, setupCompanyLogin,} from "./FormService";
+import {getObjects, setLoggedCompany, setObject,} from "./StorageService.ts";
+import {clearForm, clearLoginInput, readCompanyForm} from "./FormService";
 import {fillCompanyProfile} from "./DOMService/CompanyDOMService.ts";
 import {renderJobsByCompany} from "./JobService.ts";
+import {isCnpjValid, isInvalid, isValid} from "./ValidationService.ts";
 
 export function initializeCompanyModule() {
     setupAddCandidatesBtn();
@@ -15,13 +16,13 @@ function setupAddCandidatesBtn() {
         ?.addEventListener("click", function (event) {
             event.preventDefault();
 
-            let company: Company | null = lerInfoFomularioEmpresa();
+            let company: Company | null = readCompanyForm();
             if (company == null) {
                 return
             }
 
             setObject<Company>("empresas", company);
-            clearCompanyForm()
+            clearForm("#company-form")
         });
 }
 
@@ -29,8 +30,39 @@ function clearCompanyFormButton() {
     document.querySelector("#clear-form-company")
         ?.addEventListener("click", function (event) {
             event.preventDefault();
-            clearCompanyForm();
+            clearForm("#company-form")
         });
+}
+
+
+function setupCompanyLogin(): void {
+    const submitBtn = document.querySelector("#login-btn-empresa") as HTMLButtonElement;
+    const loginForm = document.querySelector(".login-empresa") as HTMLDivElement;
+    const companyProfile = document.querySelector("#perfil-empresa") as HTMLDivElement;
+    const cnpj = document.querySelector("#inputCnpj") as HTMLInputElement;
+
+    submitBtn?.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        const companies: Company[] = getObjects<Company>("empresas");
+        let wasCompanyFound: boolean = false;
+
+        isCnpjValid(cnpj.value) ? isInvalid(cnpj) : isValid(cnpj);
+
+        companies.forEach((company) => {
+            if (company.cnpj === cnpj.value) {
+                companyProfile.style.display = "initial";
+                loginForm.style.display = "none";
+                wasCompanyFound = true;
+                showCompanyProfile(company);
+            }
+        });
+
+        if (!wasCompanyFound) {
+            isInvalid(cnpj);
+        }
+        clearLoginInput("#inputCnpj");
+    });
 }
 
 export function showCompanyProfile(company: Company): void {

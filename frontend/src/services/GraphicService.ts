@@ -2,7 +2,7 @@ import { computeSkillsStats } from "./CandidateService.ts";
 import type { quantifiedSkill } from "../models/Skill.ts";
 import { Chart } from "chart.js/auto";
 
-export const carregarGraphic = () => {
+export const renderGraphic = () => {
   const graphic = document.querySelector(
     ".graphic-container"
   ) as HTMLCanvasElement;
