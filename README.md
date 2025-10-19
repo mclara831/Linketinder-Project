@@ -79,7 +79,7 @@ Esse modelo garante que:
 ## Modelo lógico de Banco de Dados
 Para elaborar esse modelo foi utilizada a ferramenta: https://dbdiagram.io/home
 
-![Modelo do banco de dados](Linketinder-Project_Match.png)
+![Modelo do banco de dados](docs/Linketinder-Project_Match.png)
 
 - O Script SQL se encontra na pasta: `backend/src/main/groovy/resources`
 
