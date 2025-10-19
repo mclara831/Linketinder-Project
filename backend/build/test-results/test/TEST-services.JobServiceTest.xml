@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="services.JobServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2025-10-17T21:43:06.988Z" hostname="mclara" time="0.05">
+<testsuite name="services.JobServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2025-10-19T16:37:48.438Z" hostname="mclara" time="0.055">
   <properties/>
-  <testcase name="list all job" classname="services.JobServiceTest" time="0.012"/>
-  <testcase name="insert new job" classname="services.JobServiceTest" time="0.019"/>
-  <testcase name="update a job" classname="services.JobServiceTest" time="0.01"/>
-  <testcase name="delete a skill" classname="services.JobServiceTest" time="0.006"/>
+  <testcase name="list all job" classname="services.JobServiceTest" time="0.009"/>
+  <testcase name="insert new job" classname="services.JobServiceTest" time="0.013"/>
+  <testcase name="update a job" classname="services.JobServiceTest" time="0.022"/>
+  <testcase name="delete a skill" classname="services.JobServiceTest" time="0.008"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

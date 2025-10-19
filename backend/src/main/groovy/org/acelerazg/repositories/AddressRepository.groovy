@@ -1,57 +1,38 @@
 package org.acelerazg.repositories
 
-import groovy.sql.GroovyRowResult
 import org.acelerazg.models.Address
-import org.acelerazg.repositories.db.DatabaseConnection
+import org.acelerazg.repositories.db.BaseRepository
 
-class AddressRepository {
-    DatabaseConnection sql
+class AddressRepository extends BaseRepository<Address> {
 
-    AddressRepository() {
-        sql = new DatabaseConnection()
-    }
+    AddressRepository() {}
 
-    void create(Address address) {
-        String query = "INSERT INTO enderecos(id, pais, estado, cep) VALUES (?,?,?,?)"
-        try {
-            sql.getConnection()
-                    .execute(query,
-                            [address.id, address.country, address.region, address.cep])
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to insert address.")
-        } finally {
-            sql.getConnection().close()
-        }
-
+    String findById(String id) {
+        String query = "SELECT * FROM enderecos where id=?"
+        return findOne(query, [id])
     }
 
     String findByAddress(Address address) {
         String query = "SELECT * FROM enderecos where pais=? and estado=? and cep=?"
-        try {
-            GroovyRowResult rs = sql.getConnection().firstRow(query, [address.country, address.region, address.cep])
-            if (rs != null) {
-                return rs.id
-            }
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to find address.")
-        } finally {
-            sql.getConnection().close()
-        }
-        return null
+        Address result = findOne(query, [ address.country, address.region, address.cep])
+        if (result)
+            return result.id
+        else
+            return null
     }
 
-    String findEnderecoFromId(String id) {
-        String query = "SELECT * FROM enderecos where id=?"
-        try {
-            GroovyRowResult rs = sql.getConnection().firstRow(query, [id])
-            if (rs != null) {
-                return new Address(rs.pais, rs.estado, rs.cep)
-            }
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to find address.")
-        } finally {
-            sql.getConnection().close()
-        }
-        return null
+    void create(Address address) {
+        String query = "INSERT INTO enderecos(id, pais, estado, cep) VALUES (?,?,?,?)"
+        executeUpdate(query, [address.id, address.country, address.region, address.cep])
+    }
+
+    @Override
+    protected String getTableName() {
+        return "enderecos"
+    }
+
+    @Override
+    protected Address mapRowToEntity(Object row) {
+        return new Address(row.pais, row.estado, row.cep)
     }
 }

@@ -17,17 +17,16 @@ class AddressService {
     }
 
     String findById(String id) {
-        return addressRepository.findEnderecoFromId(id)
+        return addressRepository.findById(id).toString()
     }
 
     String find(Address adress) {
         String result = addressRepository.findByAddress(adress)
-        if (!result) {
-            String id = Utils.generateUUID()
-            adress.id = id
-            addressRepository.create(adress)
-            return id
-        }
-        return result
+        if (result) return result
+
+        String id = Utils.generateUUID()
+        adress.id = id
+        addressRepository.create(adress)
+        return id
     }
 }

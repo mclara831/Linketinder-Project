@@ -1,33 +1,27 @@
 package org.acelerazg.repositories
 
-import groovy.sql.GroovyRowResult
 import org.acelerazg.models.Job
-import org.acelerazg.repositories.db.DatabaseConnection
+import org.acelerazg.repositories.db.BaseRepository
 
 import java.time.LocalDate
 
-class JobRepository {
+class JobRepository extends BaseRepository<Job> {
 
-    DatabaseConnection sql
-
-    JobRepository() {
-        sql = new DatabaseConnection()
-    }
+    JobRepository() {}
 
     List<Job> findAll() {
-        List<Job> vagas = new ArrayList<>()
+        String query = "SELECT * FROM vagas"
+        return findAllRows(query)
+    }
 
-        try {
-            sql.getConnection().eachRow("SELECT * FROM vagas") { rs ->
-                LocalDate criadaEm = rs.criada_em?.toLocalDate()
-                vagas.add(new Job(rs.id, rs.nome, rs.descricao, criadaEm, rs.endereco_id, rs.empresa_id))
-            }
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to list all jobs")
-        } finally {
-            sql.getConnection().close()
-        }
-        return vagas
+    Job findById(String id) {
+        String query = "SELECT * FROM vagas WHERE id=?"
+        return findOne(query, [id])
+    }
+
+    List<Job> findJobFromCompany(String empresaId) {
+        String query = "SELECT * FROM vagas WHERE empresa_id=?"
+        return findAllRows(query, [empresaId])
     }
 
     Job create(Job job) {
@@ -36,72 +30,29 @@ class JobRepository {
                         (id, nome, descricao, endereco_id, empresa_id)
                          values (?,?,?,?,?)
                          """
-        Job result = null
-        try {
-            sql.getConnection().executeInsert(query, [job.id, job.name, job.description, job.addressId, job.companyId])
-            result = findById(job.id)
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to insert a new job.")
-        } finally {
-            sql.getConnection().close()
-        }
-        return result
+        executeUpdate(query, [job.id, job.name, job.description, job.addressId, job.companyId])
+        return findById(job.id)
     }
 
     Job update(Job job) {
         String query = "UPDATE vagas SET nome=?, descricao=?, endereco_id=? where id=?"
-        Job result = null
-        try {
-            sql.getConnection().executeInsert(query, [job.name, job.description, job.addressId, job.id])
-            result = findById(job.id)
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to update the job.")
-        } finally {
-            sql.getConnection().close()
-        }
-        return result
+        executeUpdate(query, [job.name, job.description, job.addressId, job.id])
+        return findById(job.id)
     }
 
     void delete(String id) {
-        try {
-            sql.getConnection().execute("DELETE FROM vagas WHERE id=?", [id])
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to delete the job.")
-        } finally {
-            sql.getConnection().close()
-        }
+        String query = "DELETE FROM vagas WHERE id=?"
+        executeDelete(query, [id])
     }
 
-    Job findById(String id) {
-        try {
-            GroovyRowResult rs = sql.getConnection().firstRow("SELECT * FROM vagas WHERE id=?", [id])
-            if (rs) {
-                return mapperRowToJob(rs)
-            }
-        }catch (Exception e) {
-            println("[ERROR]: It wasn't possible to find the job.")
-        } finally {
-            sql.getConnection().close()
-        }
-        return null
+    @Override
+    protected String getTableName() {
+        return "vagas"
     }
 
-    List<Job> findJobFromACompany(String empresaId) {
-        List<Job> vagas = new ArrayList<>()
-        try {
-            sql.getConnection().eachRow("SELECT * FROM vagas WHERE empresa_id=?", [empresaId]) { rs ->
-                vagas.add(mapperRowToJob(rs))
-            }
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to find jobs from company.")
-        } finally {
-            sql.getConnection().close()
-        }
-        return vagas
-    }
-
-    Job mapperRowToJob(Object rs) {
-        LocalDate createdAt = rs.criada_em?.toLocalDate()
-        return new Job(rs.id, rs.nome, rs.descricao, createdAt, rs.endereco_id, rs.empresa_id)
+    @Override
+    protected Job mapRowToEntity(Object row) {
+        LocalDate createdAt = row.criada_em?.toLocalDate()
+        return new Job(row.id, row.nome, row.descricao, createdAt, row.endereco_id, row.empresa_id)
     }
 }

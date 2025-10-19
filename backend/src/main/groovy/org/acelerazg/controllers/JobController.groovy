@@ -110,6 +110,4 @@ class JobController {
             println "[AVISO]: Opção inválida!"
         }
     }
-
-
 }

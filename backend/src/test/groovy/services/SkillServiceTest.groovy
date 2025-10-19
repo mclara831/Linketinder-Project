@@ -46,7 +46,7 @@ class SkillServiceTest extends Specification {
 
         skillRepository.findByName(existing.name) >> existing
         skillRepository.findByName(updated.name) >> null
-        skillRepository.updateCompetenciaById(_ as Skill) >> updated
+        skillRepository.updateById(_ as Skill) >> updated
 
         when:
         Skill result = skillService.update(existing.name, updated.name)
@@ -64,6 +64,6 @@ class SkillServiceTest extends Specification {
         skillService.delete(skill.name)
 
         then:
-        1 * skillRepository.deleteCompetenciaById(skill)
+        1 * skillRepository.deleteById(skill)
     }
 }

@@ -20,7 +20,7 @@ class SkillService {
     }
 
     Skill create(String skill) {
-        skill = formattSkill(skill)
+        skill = formatSkill(skill)
         Skill existing = skillRepository.findByName(skill)
         if (existing) {
             println("[AVISO]: Esta competência " + skill.toUpperCase() + " já existe em nossa base de dados!")
@@ -36,27 +36,27 @@ class SkillService {
     }
 
     boolean existsSkill(String skill) {
-        skill = formattSkill(skill)
+        skill = formatSkill(skill)
         Skill c = skillRepository.findByName(skill)
         return c != null
     }
 
     Skill update(String existingSkill, String updatedSkill) {
-        updatedSkill = formattSkill(updatedSkill)
-        existingSkill = formattSkill(existingSkill)
+        updatedSkill = formatSkill(updatedSkill)
+        existingSkill = formatSkill(existingSkill)
         if (existsSkill(updatedSkill)) {
             println("[AVISO]: Essa competência já existe em nossa base de dados!")
             return null
         }
         Skill found = skillRepository.findByName(existingSkill)
         found.name = updatedSkill
-        return skillRepository.updateCompetenciaById(found)
+        return skillRepository.updateById(found)
     }
 
     void delete(String skill) {
-        skill = formattSkill(skill)
+        skill = formatSkill(skill)
         Skill existing = skillRepository.findByName(skill)
-        skillRepository.deleteCompetenciaById(existing)
+        skillRepository.deleteById(existing)
     }
 
     List<String> findSkillsByCandidate(String candidateId) {
@@ -104,7 +104,7 @@ class SkillService {
     private void addSkills(String skillList, Closure<Void> function) {
         List<String> skills = skillList.split(", ")
         skills.forEach { name ->
-            String formatted = formattSkill(name)
+            String formatted = formatSkill(name)
             Skill skill = skillRepository.findByName(formatted)
 
             if (!skill) {
@@ -115,7 +115,7 @@ class SkillService {
         }
     }
 
-    private String formattSkill(String skill) {
+    private String formatSkill(String skill) {
         skill = skill.trim()
         skill = skill[0].toUpperCase() + skill.substring(1).toLowerCase()
         return skill

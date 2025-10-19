@@ -58,6 +58,6 @@ class JobService {
 
     List<Job> findJobFromACompany(String cnpj) {
         Company company = companyRepository.findByCnpj(cnpj)
-        return jobRepository.findJobFromACompany(company.id)
+        return jobRepository.findJobFromCompany(company.id)
     }
 }

@@ -1,229 +1,116 @@
 package org.acelerazg.repositories
 
-import groovy.sql.GroovyRowResult
 import org.acelerazg.models.Skill
-import org.acelerazg.repositories.db.DatabaseConnection
+import org.acelerazg.repositories.db.BaseRepository
 
-class SkillRepository {
-    DatabaseConnection sql
+class SkillRepository extends BaseRepository<Skill> {
 
-    SkillRepository() {
-        sql = new DatabaseConnection()
-    }
+    SkillRepository() {}
 
     List<Skill> findAll() {
-        List<Skill> skills = new ArrayList<>()
-        try {
-            sql.getConnection().eachRow("SELECT * FROM competencias") { rs ->
-                skills.add(new Skill(rs.id, rs.nome))
-            }
-            return skills
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to list all skills.")
-        } finally {
-            sql.getConnection().close()
-        }
-        return []
+        String query = "SELECT * FROM competencias"
+        return findAllRows(query)
     }
 
-    Skill createByName(String name) {
-        String query = "INSERT INTO competencias(nome) VALUES (?)"
-        Skill result = null
-        try {
-            sql.getConnection().execute(query, [name])
-            result = findByName(name)
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to insert skill ${name}.")
-        } finally {
-            sql.getConnection().close()
-        }
-        return result
-    }
-
-    void createFullSkill(String id, String name) {
-        String query = "INSERT INTO competencias(id, nome) VALUES (?, ?)"
-        try {
-            sql.getConnection().execute(query, [id, name])
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to insert skill ${name}.")
-        } finally {
-            sql.getConnection().close()
-        }
+    Skill findById(String id) {
+        String query = "SELECT * FROM competencias where id=?"
+        findOne(query, [id])
     }
 
     Skill findByName(String name) {
         String query = "SELECT * FROM competencias where nome=?"
-        try {
-            GroovyRowResult rs = sql.getConnection().firstRow(query, [name])
-            if (rs != null) {
-                return mapRowToSkill(rs)
-            }
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to find skill ${name}.")
-        } finally {
-            sql.getConnection().close()
-        }
-        return null
+        findOne(query, [name])
     }
 
-    Skill findCompetenciaById(String id) {
-        String query = "SELECT * FROM competencias where id=?"
-        try {
-            GroovyRowResult rs = sql.getConnection().firstRow(query, [id])
-            if (rs != null) {
-                return mapRowToSkill(rs)
-            }
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to find skill ${id}.")
-        } finally {
-            sql.getConnection().close()
-        }
-        return null
+    Skill createByName(String name) {
+        String query = "INSERT INTO competencias(nome) VALUES (?)"
+        executeUpdate(query, [name])
+        return findByName(name)
     }
 
-    Skill updateCompetenciaById(Skill skill) {
+    void createFullSkill(String id, String name) {
+        String query = "INSERT INTO competencias(id, nome) VALUES (?, ?)"
+        executeUpdate(query, [id, name])
+    }
+
+    Skill updateById(Skill skill) {
         String query = "UPDATE competencias SET nome=? WHERE id=?"
-        Skill result = null
-        try {
-            sql.getConnection().executeInsert(query, [skill.name, skill.id])
-            result = findByName(skill.name)
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to update skill ${skill.name}.")
-        } finally {
-            sql.getConnection().close()
-        }
-        return result
+        executeUpdate(query, [skill.name, skill.id])
+        return findByName(skill.name)
     }
 
-    void deleteCompetenciaById(Skill skill) {
+    void deleteById(Skill skill) {
         String query = "DELETE from competencias WHERE id=?"
+        executeDelete(query, [skill.id])
+    }
+
+    List<String> findSkills(String query, String entityId) {
+        List<String> skills = new ArrayList<>()
         try {
-            sql.getConnection().executeInsert(query, [skill.id])
+            sql.getConnection().eachRow(query, [entityId]) { row ->
+                Skill skill = findById(row.competencia_id)
+                skills.add(skill.name)
+            }
         } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to update skill ${skill.name}.")
+            logError("Failed to execute findAll for ${getTableName()}", e)
         } finally {
             sql.getConnection().close()
         }
+        return skills
     }
 
     List<String> findSkillsByCandidate(String candidateId) {
         String query = "SELECT * FROM candidatos_competencias WHERE candidato_id=?"
-
-        List<String> skills = new ArrayList<>()
-        try {
-            sql.getConnection().eachRow(query, [candidateId]) { rs ->
-                Skill skill = findCompetenciaById(rs.competencia_id)
-                skills.add(skill.name)
-            }
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to skills from skill candidate.")
-        } finally {
-            sql.getConnection().close()
-        }
-        return skills
+        return findSkills(query, candidateId)
     }
 
     void addSkillsToCandidate(String candidateId, String skillId) {
         String query = "INSERT INTO candidatos_competencias(candidato_id, competencia_id) VALUES (?, ?)"
-        try {
-            sql.getConnection().execute(query, [candidateId, skillId])
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to add skill to candidate.")
-        } finally {
-            sql.getConnection().close()
-        }
+        executeUpdate(query, [candidateId, skillId])
     }
 
     void removeSkillsFromCandidate(String candidateId) {
         String query = "DELETE FROM candidatos_competencias WHERE candidato_id=?"
-        try {
-            sql.getConnection().execute(query, [candidateId])
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to remove skills from candidate.")
-        } finally {
-            sql.getConnection().close()
-        }
+        executeDelete(query, [candidateId])
     }
 
     List<String> findSkillsByCompany(String companyId) {
         String query = "SELECT * FROM empresas_competencias WHERE empresa_id=?"
-
-        List<String> skills = new ArrayList<>()
-        try {
-            sql.getConnection().eachRow(query, [companyId]) { rs ->
-                Skill skill = findCompetenciaById(rs.competencia_id)
-                skills.add(skill.name)
-            }
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to find skills from company.")
-        } finally {
-            sql.getConnection().close()
-        }
-        return skills
+        return findSkills(query, companyId)
     }
 
     void addSkillsToCompany(String companyId, String skillId) {
         String query = "INSERT INTO empresas_competencias(empresa_id, competencia_id) VALUES (?, ?)"
-        try {
-            sql.getConnection().execute(query, [companyId, skillId])
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to add skills to company.")
-        } finally {
-            sql.getConnection().close()
-        }
+        executeUpdate(query, [companyId, skillId])
     }
 
     void removeSkillsFromCompany(String companyId) {
         String query = "DELETE FROM empresas_competencias WHERE empresa_id=?"
-        try {
-            sql.getConnection().execute(query, [companyId])
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to remove skills from company.")
-        } finally {
-            sql.getConnection().close()
-        }
+        executeDelete(query, [companyId])
     }
 
     List<String> findSkillsByJob(String jobId) {
-        List<String> skils = new ArrayList<>()
         String query = "SELECT * FROM vagas_competencias WHERE vaga_id=?"
-        try {
-            sql.getConnection().eachRow(query, [jobId]) { rs ->
-                Skill comp = findCompetenciaById(rs.competencia_id)
-                skils.add(comp.name)
-            }
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to find skills from job.")
-        } finally {
-            sql.getConnection().close()
-        }
-        return skils
+        return findSkills(query, jobId)
     }
 
     void addSkillsToJob(String jobId, String skillId) {
         String query = "INSERT INTO vagas_competencias(vaga_id, competencia_id) VALUES (?, ?)"
-        try {
-            sql.getConnection().execute(query, [jobId, skillId])
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to add skills to job.")
-        } finally {
-            sql.getConnection().close()
-        }
+        executeUpdate(query, [jobId, skillId])
     }
 
     void removeSkillsFromJob(String jobId) {
         String query = "DELETE FROM vagas_competencias WHERE vaga_id=?"
-        try {
-            sql.getConnection().execute(query, [jobId])
-        } catch (Exception e) {
-            println("[ERROR]: It wasn't possible to remove skills from company.")
-        } finally {
-            sql.getConnection().close()
-        }
+        executeDelete(query, [jobId])
     }
 
-    private Skill mapRowToSkill(Object rs) {
-        return new Skill(rs.id, rs.nome)
+    @Override
+    protected String getTableName() {
+        return "competencias"
     }
 
+    @Override
+    protected Skill mapRowToEntity(Object row) {
+        return new Skill(row.id, row.nome)
+    }
 }
