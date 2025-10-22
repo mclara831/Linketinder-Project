@@ -1,11 +1,11 @@
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {initializeCandidateModule,} from "./services/CandidateService.ts";
-import {renderGraphic} from "./services/GraphicService.ts";
+import {initializeCandidateModule,} from "./services/candidate/CandidateService.ts";
+import {renderGraphic} from "./provider/implementation/GraphicService.ts";
 import "./styles/style.css";
-import {initializeJobModule, renderJobs} from "./services/JobService.ts";
+import {initializeJobModule, renderJobs} from "./services/job/JobService.ts";
 import {loadSkills} from "./utils/Utils";
-import {initializeCompanyModule} from "./services/CompanyService.ts";
+import {initializeCompanyModule} from "./services/company/CompanyService.ts";
 
 loadSkills();
 renderJobs()

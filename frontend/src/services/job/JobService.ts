@@ -1,14 +1,14 @@
-import type {Skill} from "../models/Skill.ts";
-import {Job} from "../models/Job.ts";
-import {getSelectedSkills, setSelectedSkills,} from "../utils/Utils";
+import type {Skill} from "../../models/Skill.ts";
+import {Job} from "../../models/Job.ts";
+import {getSelectedSkills, setSelectedSkills,} from "../../utils/Utils.ts";
 import {
     getJobInEdition, getLoggedCompany, getObjects, setJobInEdition, setObject, setObjects,
-} from "./StorageService.ts";
-import {clearForm} from "./FormService";
-import {isBiggerTextValid, isInvalid, isValid} from "./ValidationService.ts";
+} from "../StorageService.ts";
+import {clearForm} from "../form/FormCleaner.ts";
+import {isBiggerTextValid, isInvalid, isValid} from "../form/ValidationService.ts";
 import {
     assignValuesToInputs, readJobForm, renderJobsToCandidates, renderJobsToCompany
-} from "./DOMService/JobDOMService.ts";
+} from "./JobDOMService.ts";
 
 export function initializeJobModule() {
     setupAddJobBtn();

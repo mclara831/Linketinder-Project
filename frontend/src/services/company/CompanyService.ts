@@ -1,9 +1,10 @@
-import type {Company} from "../models/Company.ts";
-import {getObjects, setLoggedCompany, setObject,} from "./StorageService.ts";
-import {clearForm, clearLoginInput, readCompanyForm} from "./FormService";
-import {fillCompanyProfile} from "./DOMService/CompanyDOMService.ts";
-import {renderJobsByCompany} from "./JobService.ts";
-import {isCnpjValid, isInvalid, isValid} from "./ValidationService.ts";
+import type {Company} from "../../models/Company.ts";
+import {getObjects, setLoggedCompany, setObject,} from "../StorageService.ts";
+import {clearForm, clearLoginInput} from "../form/FormCleaner.ts";
+import {readCompanyForm} from "../form/FormReader.ts";
+import {fillCompanyProfile} from "./CompanyDOMService.ts";
+import {renderJobsByCompany} from "../job/JobService.ts";
+import {isCnpjValid, isInvalid, isValid} from "../form/ValidationService.ts";
 
 export function initializeCompanyModule() {
     setupAddCandidatesBtn();

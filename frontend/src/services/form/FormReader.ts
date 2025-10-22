@@ -1,9 +1,7 @@
-import {Candidate} from "../models/Candidate.ts";
-import {Company} from "../models/Company.ts";
-import {getSelectedSkills} from "../utils/Utils";
-import {
-    isCepValid, isCnpjValid, isCPFValid, isEmailValid, isInvalid, isLinkedinValid, isPhoneValid, isTextValid, isValid,
-} from "./ValidationService.ts";
+import {Candidate} from "../../models/Candidate.ts";
+import {Company} from "../../models/Company.ts";
+import {validateFields} from "./FormValidator.ts";
+import {getSelectedSkills} from "../../utils/Utils.ts";
 
 export function readCandidateForm(): Candidate | null {
     const form = document.querySelector("#candidate-form") as HTMLInputElement;
@@ -46,56 +44,4 @@ export function readCompanyForm(): Company | null {
     if (!result) return null;
 
     return new Company(name.value, email.value, linkedin.value, cnpj.value, region.value, cep.value, country.value, description.value, selectedSkills);
-}
-
-function validateFields(name: HTMLInputElement, email: HTMLInputElement, linkedin: HTMLInputElement, phone: HTMLInputElement | null, cpf: HTMLInputElement | null, cnpj: HTMLInputElement | null, cep: HTMLInputElement, description: HTMLInputElement, region: HTMLInputElement, dateOfBirth: HTMLInputElement | null, country: HTMLInputElement | null): boolean {
-
-    let isValidForm = true;
-
-    const validate = (condition: boolean, element: HTMLInputElement | null) => {
-        if (!element) return;
-        if (!condition) {
-            isInvalid(element);
-            isValidForm = false;
-        } else {
-            isValid(element);
-        }
-    };
-
-    validate(isTextValid(name.value), name);
-    validate(isEmailValid(email.value), email);
-    validate(isLinkedinValid(linkedin.value), linkedin);
-    validate(isTextValid(description.value), description);
-    validate(isTextValid(region.value), region);
-    validate(isCepValid(cep.value), cep);
-
-    if (phone) validate(isPhoneValid(phone.value), phone);
-    if (cpf) validate(isCPFValid(cpf.value), cpf);
-    if (cnpj) validate(isCnpjValid(cnpj.value), cnpj);
-    if (country) validate(isTextValid(country.value), country);
-
-    if (dateOfBirth) {
-        const age = new Date().getFullYear() - new Date(dateOfBirth.value).getFullYear();
-        validate(dateOfBirth.value !== "" && age >= 18, dateOfBirth);
-    }
-
-    return isValidForm;
-}
-
-export function clearForm(formSelector: string): void {
-    const form = document.querySelector(`${formSelector}`) as HTMLInputElement;
-    if (!form) return;
-
-    form.querySelectorAll("input, textarea").forEach(el => {
-        if (el instanceof HTMLInputElement && (el.type === "checkbox" || el.type === "radio")) {
-            el.checked = false;
-        } else {
-            (el as HTMLInputElement | HTMLTextAreaElement).value = "";
-        }
-        el.classList.remove("is-invalid", "is-valid");
-    });
-}
-
-export function clearLoginInput(id: string) {
-    (document.querySelector(id) as HTMLInputElement).value = "";
 }

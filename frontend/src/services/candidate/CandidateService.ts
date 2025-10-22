@@ -1,9 +1,9 @@
-import {Candidate} from "../models/Candidate.ts";
-import type {quantifiedSkill, Skill,} from "../models/Skill.ts";
-import {getObjects, setObject} from "./StorageService.ts";
-import {clearForm, clearLoginInput, readCandidateForm} from "./FormService";
-import {fillCandidateProfile, renderCandidatesList} from "./DOMService/CandidateDOMService.ts";
-import {isCPFValid, isInvalid, isValid} from "./ValidationService.ts";
+import {Candidate} from "../../models/Candidate.ts";
+import {getObjects, setObject} from "../StorageService.ts";
+import {readCandidateForm} from "../form/FormReader.ts";
+import {clearLoginInput, clearForm} from "../form/FormCleaner.ts";
+import {fillCandidateProfile, renderCandidatesList} from "./CandidateDOMService.ts";
+import {isCPFValid, isInvalid, isValid} from "../form/ValidationService.ts";
 
 export function initializeCandidateModule() {
     renderCandidates()
@@ -34,21 +34,6 @@ function clearCandidateFormButton() {
         event.preventDefault();
         clearForm("#candidate-form");
     });
-}
-
-export function computeSkillsStats(): quantifiedSkill[] {
-    let candidates: Candidate[] = getObjects<Candidate>("candidatos");
-    const count: Record<Skill, number> = {} as Record<Skill, number>;
-
-    candidates.forEach((candidates) => {
-        candidates.skills.forEach((comp) => {
-            count[comp] = (count[comp] || 0) + 1;
-        });
-    });
-
-    return Object.entries(count).map(([skills, quantity]) => ({
-        skill: skills as Skill, quantity: quantity,
-    }));
 }
 
 export function setupCandidateLogin(): void {
