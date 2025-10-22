@@ -5,13 +5,57 @@ import org.acelerazg.controllers.CandidateController
 import org.acelerazg.controllers.SkillController
 import org.acelerazg.controllers.CompanyController
 import org.acelerazg.controllers.JobController
+import org.acelerazg.repositories.AddressRepository
+import org.acelerazg.repositories.CandidateRepository
+import org.acelerazg.repositories.CompanyRepository
+import org.acelerazg.repositories.JobRepository
+import org.acelerazg.repositories.SkillRepository
+import org.acelerazg.repositories.db.DatabaseConnection
+import org.acelerazg.repositories.db.PostgresConnection
+import org.acelerazg.services.address.AddressService
+import org.acelerazg.services.candidate.CandidateService
+import org.acelerazg.services.skill.CandidateSkillService
+import org.acelerazg.services.company.CompanyService
+import org.acelerazg.services.skill.CompanySkillService
+import org.acelerazg.services.job.JobService
+import org.acelerazg.services.skill.JobSkillService
+import org.acelerazg.services.skill.SkillService
+import org.acelerazg.services.address.IAddressService
+import org.acelerazg.services.candidate.ICandidateService
+import org.acelerazg.services.company.ICompanyService
+import org.acelerazg.services.job.IJobService
+import org.acelerazg.services.mappers.CandidateMapper
+import org.acelerazg.services.mappers.CompanyMapper
+import org.acelerazg.services.mappers.JobMapper
 
 static void main(String[] args) {
 
-    CandidateController candidateController = new CandidateController()
-    CompanyController companyController = new CompanyController()
-    JobController jobController = new JobController()
-    SkillController skillController = new SkillController()
+    DatabaseConnection database = new PostgresConnection()
+
+    AddressRepository addressRepository = new AddressRepository(database)
+    CandidateRepository candidateRepository = new CandidateRepository(database)
+    CompanyRepository companyRepository = new CompanyRepository(database)
+    JobRepository jobRepository = new JobRepository(database)
+    SkillRepository skillRepository = new SkillRepository(database)
+
+    CandidateSkillService candidateSkillService = new CandidateSkillService(skillRepository)
+    CompanySkillService companySkillService = new CompanySkillService(skillRepository)
+    JobSkillService jobSkillService = new JobSkillService(skillRepository)
+
+    CandidateMapper candidateMapper = new CandidateMapper()
+    CompanyMapper companyMapper = new CompanyMapper()
+    JobMapper jobMapper = new JobMapper()
+
+    IAddressService addressService = new AddressService(addressRepository)
+    SkillService skillService = new SkillService(skillRepository)
+    ICandidateService candidateService = new CandidateService(candidateRepository, addressService, candidateSkillService, candidateMapper)
+    ICompanyService companyService = new CompanyService(companyRepository, addressService, companySkillService, companyMapper)
+    IJobService jobService = new JobService(jobRepository, addressService, jobSkillService, companyService, jobMapper)
+
+    CandidateController candidateController = new CandidateController(candidateService)
+    CompanyController companyController = new CompanyController(companyService)
+    JobController jobController = new JobController(jobService)
+    SkillController skillController = new SkillController(skillService)
 
     Scanner sc = new Scanner(System.in)
     boolean keepGoing = true

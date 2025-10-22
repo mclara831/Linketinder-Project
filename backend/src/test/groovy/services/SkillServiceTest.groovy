@@ -2,7 +2,7 @@ package services
 
 import org.acelerazg.models.Skill
 import org.acelerazg.repositories.SkillRepository
-import org.acelerazg.services.SkillService
+import org.acelerazg.services.skill.SkillService
 import spock.lang.Specification
 
 class SkillServiceTest extends Specification {

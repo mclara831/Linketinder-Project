@@ -2,10 +2,13 @@ package org.acelerazg.repositories
 
 import org.acelerazg.models.Skill
 import org.acelerazg.repositories.db.BaseRepository
+import org.acelerazg.repositories.db.DatabaseConnection
 
 class SkillRepository extends BaseRepository<Skill> {
 
-    SkillRepository() {}
+    SkillRepository(DatabaseConnection sql) {
+        super(sql)
+    }
 
     List<Skill> findAll() {
         String query = "SELECT * FROM competencias"
@@ -45,7 +48,7 @@ class SkillRepository extends BaseRepository<Skill> {
     }
 
     List<String> findSkills(String query, String entityId) {
-        List<String> skills = new ArrayList<>()
+        List<String> skills = []
         try {
             sql.getConnection().eachRow(query, [entityId]) { row ->
                 Skill skill = findById(row.competencia_id)

@@ -2,12 +2,15 @@ package org.acelerazg.repositories
 
 import org.acelerazg.models.Job
 import org.acelerazg.repositories.db.BaseRepository
+import org.acelerazg.repositories.db.DatabaseConnection
 
 import java.time.LocalDate
 
 class JobRepository extends BaseRepository<Job> {
 
-    JobRepository() {}
+    JobRepository(DatabaseConnection sql) {
+        super(sql)
+    }
 
     List<Job> findAll() {
         String query = "SELECT * FROM vagas"

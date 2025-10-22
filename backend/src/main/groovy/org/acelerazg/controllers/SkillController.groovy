@@ -2,14 +2,14 @@ package org.acelerazg.controllers
 
 import org.acelerazg.cli.UI
 import org.acelerazg.models.Skill
-import org.acelerazg.services.SkillService
+import org.acelerazg.services.skill.SkillService
 
 class SkillController {
 
     SkillService skillService
 
-    SkillController() {
-        this.skillService = new SkillService()
+    SkillController(SkillService skillService) {
+        this.skillService = skillService
     }
 
     void findAll() {

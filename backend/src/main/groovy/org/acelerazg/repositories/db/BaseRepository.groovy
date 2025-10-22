@@ -2,10 +2,14 @@ package org.acelerazg.repositories.db
 
 abstract class BaseRepository<T> {
 
-    protected DatabaseConnection sql = new DatabaseConnection()
+    protected DatabaseConnection sql
 
     protected abstract String getTableName()
     protected abstract T mapRowToEntity(def row)
+
+    BaseRepository(DatabaseConnection sql) {
+        this.sql = sql
+    }
 
     protected void executeUpdate(String query, List params) {
         def connection = sql.getConnection()

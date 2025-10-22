@@ -21,6 +21,6 @@ class Address {
 
     @Override
     String toString() {
-        return "\tEndereco: " + cep + ", " + region + ", " + country
+        return cep + ", " + region + ", " + country
     }
 }

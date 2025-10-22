@@ -1,32 +1,30 @@
-package org.acelerazg.services
+package org.acelerazg.services.address
 
 import org.acelerazg.models.Address
 import org.acelerazg.repositories.AddressRepository
 import org.acelerazg.utils.Utils
 
-class AddressService {
+class AddressService implements IAddressService{
 
     AddressRepository addressRepository
-
-    AddressService() {
-        this(new AddressRepository())
-    }
 
     AddressService(AddressRepository addressRepository) {
         this.addressRepository = addressRepository
     }
 
+    @Override
     String findById(String id) {
         return addressRepository.findById(id).toString()
     }
 
-    String find(Address adress) {
-        String result = addressRepository.findByAddress(adress)
+    @Override
+    String find(Address address) {
+        String result = addressRepository.findByAddress(address)
         if (result) return result
 
         String id = Utils.generateUUID()
-        adress.id = id
-        addressRepository.create(adress)
+        address.id = id
+        addressRepository.create(address)
         return id
     }
 }

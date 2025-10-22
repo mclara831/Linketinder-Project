@@ -3,31 +3,20 @@ package org.acelerazg.controllers
 import org.acelerazg.cli.UI
 import org.acelerazg.models.Address
 import org.acelerazg.models.Company
-import org.acelerazg.services.AddressService
-import org.acelerazg.services.CompanyService
-import org.acelerazg.services.SkillService
+import org.acelerazg.models.DTO.CompanyResponseDTO
+import org.acelerazg.services.company.CompanyService
 
 class CompanyController {
 
     CompanyService companyService
-    AddressService addressService
-    SkillService skillService
 
-    CompanyController() {
-        this.companyService = new CompanyService()
-        this.addressService = new AddressService()
-        this.skillService = new SkillService()
+    CompanyController(CompanyService companyService) {
+        this.companyService = companyService
     }
 
     void findAll() {
-        List<Company> empresas = companyService.findAll()
-        empresas.each { it ->
-            {
-                println(it.toString())
-                print(addressService.findById(it.addressId).toString())
-                println("\n\tCompetencias: " + skillService.findSkillsByCompany(it.id).join(", "))
-            }
-        }
+        List<CompanyResponseDTO> empresas = companyService.findAll()
+        empresas.each { it -> println(it.toString()) }
     }
 
     void create() {
@@ -36,13 +25,13 @@ class CompanyController {
         String skills = UI.readSkills()
 
         company = companyService.create(company, address, skills)
-        println(company.toString())
+        if (company)println(company.toString())
     }
 
     void update() {
         String cnpj = UI.requestCnpj()
 
-        if (!companyService.cnpjValid(cnpj)) {
+        if (companyService.findByCnpj(cnpj) == null) {
             println "[AVISO]: Este CNPJ não está cadastrado em nossa base de dados!"
             return
         }
@@ -52,7 +41,7 @@ class CompanyController {
         String skills = UI.readSkills()
 
         Company updated = companyService.updateByCnpj(updatedCompany, address, skills)
-        println(updated.toString())
+        if (updated) println(updated.toString())
     }
 
     void delete() {

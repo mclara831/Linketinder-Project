@@ -3,29 +3,22 @@ package org.acelerazg.controllers
 import org.acelerazg.cli.UI
 import org.acelerazg.models.Address
 import org.acelerazg.models.Candidate
-import org.acelerazg.services.AddressService
-import org.acelerazg.services.CandidateService
-import org.acelerazg.services.SkillService
+import org.acelerazg.models.DTO.CandidateResponseDTO
+import org.acelerazg.services.candidate.CandidateService
 
 class CandidateController {
 
     CandidateService candidateService
-    AddressService addressService
-    SkillService skillService
 
-    CandidateController() {
-        this.candidateService = new CandidateService()
-        this.addressService = new AddressService()
-        this.skillService = new SkillService()
+    CandidateController(CandidateService candidateService) {
+        this.candidateService = candidateService
     }
 
     void findAll() {
-        List<Candidate> candidatos = candidateService.findAll()
+        List<CandidateResponseDTO> candidates = candidateService.findAll()
 
-        candidatos.each { it ->
-            println(it.toString())
-            print(addressService.findById(it.addressId).toString())
-            println("\n\tCompetencias: " + skillService.findSkillsByCandidate(it.id).join(", "))
+        candidates.each { candidate ->
+            println(candidate.toString())
         }
     }
 
@@ -34,13 +27,9 @@ class CandidateController {
         Address address = UI.readAdress()
         String skills = UI.readSkills()
 
-        if (candidateService.cpfValid(candidate.cpf)) {
-            println "[AVISO]: Este CPF já está cadastrado!"
-            return
-        }
-
         candidate = candidateService.create(candidate, address, skills)
-        println(candidate.toString())
+        if (candidate)
+            println(candidate.toString())
     }
 
     void update() {
@@ -56,7 +45,7 @@ class CandidateController {
         String skills = UI.readSkills()
 
         updatedCandidate = candidateService.updateByCpf(updatedCandidate, address, skills)
-        println(updatedCandidate.toString())
+        if(updatedCandidate) println(updatedCandidate.toString())
     }
 
     void delete() {

@@ -1,27 +1,30 @@
 package services
 
-
-import org.acelerazg.models.Company
 import org.acelerazg.models.Address
+import org.acelerazg.models.Company
 import org.acelerazg.repositories.CompanyRepository
-import org.acelerazg.services.CompanyService
-import org.acelerazg.services.SkillService
-import org.acelerazg.services.AddressService
+import org.acelerazg.services.company.CompanyService
+import org.acelerazg.services.skill.CompanySkillService
+import org.acelerazg.services.address.IAddressService
+import org.acelerazg.services.mappers.CompanyMapper
 import spock.lang.Specification
 
 class CompanyServiceTest extends Specification {
 
     def companyRepository = Mock(CompanyRepository)
-    def addressService = Mock(AddressService)
-    def skillService = Mock(SkillService)
-    def companyService = new CompanyService(companyRepository, addressService, skillService)
+    def addressService = Mock(IAddressService)
+    def companySkillService = Mock(CompanySkillService)
+    def companyMapper = new CompanyMapper()
+    def companyService = new CompanyService(companyRepository, addressService, companySkillService, companyMapper)
 
     def "return list of all companies"() {
         given:
         def companies = [
                 new Company("Pastel Soft", "pastel@gmail.com", "linkedin.com/in/pastel",
-                        "Teste", "teste", "0000000/00000")
+                        "67aaece0-ee39-4e8f-a2a5-5491cdf9860c", "Teste", "teste", "0000000/00000")
         ]
+
+
         companyRepository.findAll() >> companies
 
         when:
@@ -43,7 +46,6 @@ class CompanyServiceTest extends Specification {
         companyRepository.findByCnpj(_ as String) >> null
         addressService.find(_ as Address) >> "mock-endereco-id"
         companyRepository.create(_ as Company) >> { Company c -> c }
-        skillService.addSkillsToCompany(_, _) >> {}
 
         when:
         Company result = companyService.create(company, address, skills)
@@ -69,8 +71,6 @@ class CompanyServiceTest extends Specification {
         companyRepository.findByCnpj(_ as String) >> companies[0]
         addressService.find(_ as Address) >> "mock-endereco-id"
         companyService.updateData(_ as Address, _ as Company, _ as Company) >> updatedCompany
-        skillService.removeSkillsFromCompany(_ as String) >> {}
-        skillService.addSkillsToCompany(_, _) >> {}
         companyRepository.updateById(_ as Company) >> { Company c -> c }
 
         when:

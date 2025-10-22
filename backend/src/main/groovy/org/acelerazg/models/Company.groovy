@@ -10,6 +10,11 @@ class Company extends Person {
         this.cnpj = cnpj
     }
 
+    Company(String name, String email, String linkedin, String addressId, String description, String password, String cnpj) {
+        super(name, email, linkedin, addressId, description, password)
+        this.cnpj = cnpj
+    }
+
     Company(String id, String name, String email, String linkedin, String addressId, String description, String password, String cnpj) {
         super(id, name, email, linkedin, addressId, description, password)
         this.cnpj = cnpj

@@ -2,7 +2,7 @@ package services
 
 import org.acelerazg.models.Address
 import org.acelerazg.repositories.AddressRepository
-import org.acelerazg.services.AddressService
+import org.acelerazg.services.address.AddressService
 import spock.lang.Specification
 
 class AddressServiceTest extends Specification {

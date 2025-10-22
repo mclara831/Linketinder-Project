@@ -3,9 +3,11 @@ package services
 import org.acelerazg.models.Candidate
 import org.acelerazg.models.Address
 import org.acelerazg.repositories.CandidateRepository
-import org.acelerazg.services.CandidateService
-import org.acelerazg.services.SkillService
-import org.acelerazg.services.AddressService
+import org.acelerazg.services.candidate.CandidateService
+import org.acelerazg.services.skill.CandidateSkillService
+import org.acelerazg.services.skill.SkillService
+import org.acelerazg.services.address.IAddressService
+import org.acelerazg.services.mappers.CandidateMapper
 import spock.lang.Specification
 
 import java.time.LocalDate
@@ -13,16 +15,18 @@ import java.time.LocalDate
 class CandidateServiceTest extends Specification {
 
     def candidateRepository = Mock(CandidateRepository)
-    def addressService = Mock(AddressService)
+    def candidateSkillService = Mock(CandidateSkillService)
+    def addressService = Mock(IAddressService)
     def skillService = Mock(SkillService)
-    def candidateService = new CandidateService(candidateRepository, addressService, skillService)
+    def candidateMapper = new CandidateMapper()
+    def candidateService = new CandidateService(candidateRepository, addressService, candidateSkillService, candidateMapper)
 
     def "return list of all candidates"() {
         given:
         def candidates = [
                 new Candidate("Maria", "Silva", "maria@example.com",
                         "linkedin.com/in/maria", "000.000.000-00", LocalDate.now(),
-                        "Test example", "test"),
+                        "67aaece0-ee39-4e8f-a2a5-5491cdf9860c", "Test example", "test")
         ]
         candidateRepository.findAll() >> candidates
 

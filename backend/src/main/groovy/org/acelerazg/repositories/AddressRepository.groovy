@@ -2,10 +2,13 @@ package org.acelerazg.repositories
 
 import org.acelerazg.models.Address
 import org.acelerazg.repositories.db.BaseRepository
+import org.acelerazg.repositories.db.DatabaseConnection
 
 class AddressRepository extends BaseRepository<Address> {
 
-    AddressRepository() {}
+    AddressRepository(DatabaseConnection sql) {
+        super(sql)
+    }
 
     String findById(String id) {
         String query = "SELECT * FROM enderecos where id=?"

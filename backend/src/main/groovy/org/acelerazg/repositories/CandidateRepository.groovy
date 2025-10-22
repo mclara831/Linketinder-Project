@@ -2,12 +2,15 @@ package org.acelerazg.repositories
 
 import org.acelerazg.models.Candidate
 import org.acelerazg.repositories.db.BaseRepository
+import org.acelerazg.repositories.db.DatabaseConnection
 
 import java.time.LocalDate
 
 class CandidateRepository extends BaseRepository<Candidate> {
 
-    CandidateRepository() {}
+    CandidateRepository(DatabaseConnection sql) {
+        super(sql)
+    }
 
     List<Candidate> findAll() {
         String query = "SELECT * FROM candidatos"

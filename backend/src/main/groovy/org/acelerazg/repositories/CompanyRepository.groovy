@@ -2,10 +2,13 @@ package org.acelerazg.repositories
 
 import org.acelerazg.models.Company
 import org.acelerazg.repositories.db.BaseRepository
+import org.acelerazg.repositories.db.DatabaseConnection
 
 class CompanyRepository extends BaseRepository<Company> {
 
-    CompanyRepository() {}
+    CompanyRepository(DatabaseConnection sql) {
+        super(sql)
+    }
 
     List<Company> findAll() {
         String query = "SELECT * FROM empresas"
