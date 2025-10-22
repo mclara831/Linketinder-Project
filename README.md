@@ -93,6 +93,14 @@ Durante o processo de refatoração, o projeto passou por uma série de melhoria
 
 - **Separação da manipulação do DOM da camada de serviço**: agora a lógica de interação com a interface está desacoplada da lógica de negócio, seguindo uma arquitetura mais modular e de fácil manutenção.
 
+**Aplicação dos Princípios SOLID**
+
+- Foi implementada uma interface para o provedor de gráficos, permitindo a substituição ou extensão do mecanismo de renderização sem alterar o código principal (OCP e DIP).
+
+- O antigo FormService foi refatorado em três módulos independentes — FormReader, FormValidator e FormCleaner — garantindo coesão e aplicando o SRP.
+
+- A função de cálculo das competências dos candidatos foi extraída do CandidateService e movida para um novo módulo CandidateMetrics, favorecendo a extensibilidade e a organização modular.
+
 ### ⚙️ Backend
 
 - **Tradução completa para inglês**: todas as classes, métodos, variáveis e mensagens de log foram traduzidas para o inglês, mantendo consistência com o frontend e boas práticas de desenvolvimento.
@@ -106,6 +114,16 @@ Durante o processo de refatoração, o projeto passou por uma série de melhoria
 - **Implementação de tratamento de exceções**: agora os erros são tratados de forma mais elegante e informativa, com logs descritivos e mensagens controladas para o usuário.
 
 - **Melhoria no uso de conexões com o banco de dados**: as conexões são corretamente abertas e fechadas em blocos try-finally, evitando vazamento de recursos.
+
+**Aplicação dos Princípios SOLID**
+
+- Todas as classes de controller, service e repository utilizam injeção de dependência, promovendo baixo acoplamento e facilitando testes unitários.
+
+- Cada camada de service possui uma interface de apoio, garantindo a aplicação do Princípio da Inversão de Dependência (DIP) e facilitando futuras extensões.
+
+- A lógica de competências foi separada em serviços especializados — CandidateSkillService, CompanySkillService e JobSkillService — atendendo ao Princípio da Responsabilidade Única (SRP) e ao Princípio Aberto/Fechado (OCP).
+
+- Foram criados DTOs de resposta específicos para a listagem completa das entidades, assegurando segregação de responsabilidades e melhor controle sobre os dados expostos.
 
 ## 🚀 Como executar
 
