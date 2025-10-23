@@ -23,7 +23,7 @@ export function calculateAffinityLevel(skills: Skill[]): number | null {
     if (!loggedCandidate) return 0
 
     let numberOfEquivalences : number = 0
-
+    if(loggedCandidate.skills.length === 0) return 0
     loggedCandidate.skills.forEach(skill => {
         const found = skills.find((sk) => sk.toLocaleLowerCase() === skill.toLocaleLowerCase())
         if (found) numberOfEquivalences++
