@@ -7,13 +7,14 @@ export function calculateAffinityLevel(skills: Skill[]): number | null {
     if (!loggedCompany) return 0
 
     let numberOfEquivalences : number = 0
-
-    loggedCompany.skills.forEach(skill => {
-        const found = skills.find((sk) => sk === skill)
+    const companySkills: Skill[] = loggedCompany.skills
+    if (companySkills.length === 0) return 0;
+    companySkills.forEach(skill => {
+        const found = skills.find((sk) => sk.toLocaleLowerCase() === skill.toLocaleLowerCase())
         if (found) numberOfEquivalences++
     })
 
-    const numberOfSkills: number = loggedCompany.skills.length
+    const numberOfSkills: number = companySkills.length
     const percentual =  (numberOfEquivalences / numberOfSkills * 100).toFixed(2)
     return parseFloat(percentual)
 }

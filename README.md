@@ -7,6 +7,14 @@ Este repositório será utilizado para o desenvolvimento do Linketinder Project 
 O Linketinder é uma plataforma de recrutamento que une as funcionalidades do LinkedIn à mecânica de correspondência do Tinder.
 A aplicação permite que empresas e candidatos interajam de forma anônima, revelando suas informações completas apenas quando ocorre um match, incentivando uma seleção baseada em competências e interesses compatíveis.
 
+### Índice de Afinidade
+
+Para implementar a funcionalidade de cálculo de afinidade, tanto para o candidato quanto para a empresa, as informações de cada usuário são armazenadas no localStorage no momento do login.
+
+Ao renderizar os candidatos para a empresa, esses dados são recuperados e o índice de afinidade é calculado com base nas competências (skills) da empresa. O mesmo processo ocorre na exibição das vagas para o candidato, porém, nesse caso, o cálculo é feito considerando as skills da empresa responsável pela vaga.
+
+Esse mecanismo permite identificar e exibir o grau de compatibilidade entre candidatos e vagas de forma dinâmica e personalizada.
+
 ### 🔍 Lógica de Match
 
 A lógica de match foi desenvolvida para garantir um processo justo e anônimo entre candidatos e empresas. O fluxo funciona da seguinte forma:
