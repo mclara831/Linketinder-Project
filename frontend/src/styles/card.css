@@ -1,0 +1,41 @@
+
+.card-list-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto 15px;
+    width: 100%;
+}
+
+.card-list {
+    width: 100%;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+.card {
+    width: 19rem;
+    height: 25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-body {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.progress {
+    height: 20px;
+}
+.progress-bar {
+    background-color: #2d1086;
+    font-weight: 500;
+    font-size: 13px;
+}

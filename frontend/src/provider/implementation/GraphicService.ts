@@ -14,17 +14,18 @@ class ChartJsRenderer implements IGraphicRenderer{
             label: "Quantidade de Candidatos",
             data: data.map((c) => c.quantity),
             backgroundColor: [
-              "#ff6384",
-              "#36a2eb",
-              "#ffcd56",
-              "#4bc0c0",
-              "#9966ff",
-              "#ff9f40",
-              "#66cc99",
-              "#ff6666",
-              "#3399ff",
-              "#cc66ff",
+              '#003f7d', // azul profundo
+              '#004b99', // azul royal escuro
+              '#005f73', // azul-petróleo
+              '#00798c', // ciano escuro
+              '#4a148c', // roxo escuro
+              '#5a189a', // roxo-azulado
+              '#006d3b', // verde escuro
+              '#228b22', // verde-musgo
+              '#8b0000', // vinho
+              '#cc5500'  // laranja queimado
             ],
+            borderColor: '#ffffff33',
             borderWidth: 1,
           },
         ],

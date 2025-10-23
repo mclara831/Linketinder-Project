@@ -1,18 +1,17 @@
 import {Candidate} from "../../models/Candidate.ts";
-import {getObjects, setObject} from "../StorageService.ts";
+import {getObjects, setLoggedEntity, setObject} from "../StorageService.ts";
 import {readCandidateForm} from "../form/FormReader.ts";
 import {clearLoginInput, clearForm} from "../form/FormCleaner.ts";
 import {fillCandidateProfile, renderCandidatesList} from "./CandidateDOMService.ts";
 import {isCPFValid, isInvalid, isValid} from "../form/ValidationService.ts";
 
 export function initializeCandidateModule() {
-    renderCandidates()
     setupAddCandidatesBtn()
     clearCandidateFormButton()
     setupCandidateLogin()
 }
 
-function renderCandidates(): void {
+export function renderCandidates(): void {
     let candidates = getObjects<Candidate>("candidatos");
     renderCandidatesList(candidates)
 }
@@ -68,6 +67,7 @@ export function setupCandidateLogin(): void {
 }
 
 export function showCandidateProfile(candidate: Candidate): void {
+    setLoggedEntity<Candidate>("candidatoLogado", candidate)
     fillCandidateProfile(candidate)
 }
 

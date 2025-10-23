@@ -49,13 +49,13 @@
 }
 
 .btn-primary {
-  background-color: #224148;
-  opacity: 0.95;
-  border-color: #224148;
+  background-color: #051650;
+  opacity: 0.90;
+  border-color: #051650;
   transition: 0.3s;
 }
 
 .btn-primary:hover {
   opacity: 1;
-  background-color: #224148;
+  background-color: #051650;
 }

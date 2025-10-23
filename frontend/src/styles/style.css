@@ -1,6 +1,7 @@
 @import url(register.css);
 @import url(profile.css);
 @import url(company.css);
+@import url(card.css);
 
 * {
   margin: 0;
@@ -26,10 +27,24 @@ main {
 .container-fluid {
   display: flex;
   justify-content: space-between;
+  width: 85%;
 }
 
-.container-fluid a {
+.container-fluid a{
   font-weight: bold;
+}
+
+.navbar {
+  background: linear-gradient(to bottom, #00072d, #051650);
+}
+
+.navbar-nav,
+.container-fluid a{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
 }
 
 #banner-container {
@@ -69,9 +84,12 @@ main {
 }
 
 footer {
-  height: 60px;
+  background-color: #021245;
+  padding-top: 10px;
+  height: 40px;
   color: #fff;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 10px;

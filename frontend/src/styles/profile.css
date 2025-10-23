@@ -10,30 +10,29 @@
   width: 30%;
 }
 
-.pseudo-login  .mb-3 label {
+.pseudo-login .mb-3 label {
   margin-top: 10px;
   width: 100%;
   font-size: 18px;
   font-weight: 400;
 }
 
-.pseudo-login  .mb-3 .form-control {
+.pseudo-login .mb-3 .form-control {
   margin-top: 5px;
   width: 100%;
 }
 
 .pseudo-login .mb-3 button {
-  margin-top: 10px;
   width: 100%;
   margin: 10px auto 0;
-  background-color: #224148;
-  opacity: 0.85;
-  border-color: #224148;
+  background-color: #051650;
+  opacity: 0.9;
+  border-color: #051650;
 }
 
 .pseudo-login .mb-3 button:hover {
   opacity: 1;
-  background-color: #224148;
+  background-color: #051650;
 }
 
 
@@ -96,20 +95,3 @@
   width: 80%;
 }
 
-.card-list-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  margin: 0 auto 25px;
-  width: 100%;
-}
-
-.card-list {
-  width: 100%;
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 25px;
-}

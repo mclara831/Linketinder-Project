@@ -1,4 +1,3 @@
-import type {Company} from "../models/Company.ts";
 import type {Job} from "../models/Job.ts";
 
 export function getObjects<T>(key: string): T[] {
@@ -15,13 +14,13 @@ export function setObjects<T>(key: string, obj: T[]): void {
     localStorage.setItem(key, JSON.stringify(obj));
 }
 
-export function setLoggedCompany(empresa: Company): void {
-    localStorage.setItem("empresaLogada", JSON.stringify(empresa));
+export function setLoggedEntity<T>(key: string, obj: T): void {
+    localStorage.setItem(key, JSON.stringify(obj));
 }
 
-export function getLoggedCompany(): Company | null {
-    const company = localStorage.getItem("empresaLogada");
-    return company ? JSON.parse(company) as Company : null;
+export function getLoggedEntity<T>(key: string): T | null {
+    const entity = localStorage.getItem(key);
+    return entity ? JSON.parse(entity) as T : null;
 }
 
 export function setJobInEdition(vaga: Job): void {

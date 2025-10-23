@@ -2,13 +2,14 @@ import type {Skill} from "../../models/Skill.ts";
 import {Job} from "../../models/Job.ts";
 import {getSelectedSkills, setSelectedSkills,} from "../../utils/Utils.ts";
 import {
-    getJobInEdition, getLoggedCompany, getObjects, setJobInEdition, setObject, setObjects,
+    getJobInEdition, getLoggedEntity, getObjects, setJobInEdition, setObject, setObjects,
 } from "../StorageService.ts";
 import {clearForm} from "../form/FormCleaner.ts";
 import {isBiggerTextValid, isInvalid, isValid} from "../form/ValidationService.ts";
 import {
     assignValuesToInputs, readJobForm, renderJobsToCandidates, renderJobsToCompany
 } from "./JobDOMService.ts";
+import {Company} from "../../models/Company.ts";
 
 export function initializeJobModule() {
     setupAddJobBtn();
@@ -37,7 +38,7 @@ function setupAddJobBtn(): void {
     console.log(registerButton);
 
     registerButton.onclick = () => {
-        const loggedCompany = getLoggedCompany();
+        const loggedCompany = getLoggedEntity<Company>("empresaLogada");
 
         let inputs = readJobForm()
         if (inputs == null) {
@@ -167,8 +168,8 @@ function deleteJob(): void {
 }
 
 export function renderJobsByCompany(): void {
-    const loggedCompany = getLoggedCompany();
-    var card_list = document.querySelector(".jobs-company") as HTMLDivElement;
+    const loggedCompany = getLoggedEntity<Company>("empresaLogada")
+    let card_list = document.querySelector(".jobs-company") as HTMLDivElement;
     if (card_list) {
         card_list.innerHTML = "";
     }
