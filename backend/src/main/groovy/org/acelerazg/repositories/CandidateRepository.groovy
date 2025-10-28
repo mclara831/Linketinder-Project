@@ -2,7 +2,7 @@ package org.acelerazg.repositories
 
 import org.acelerazg.models.Candidate
 import org.acelerazg.repositories.db.BaseRepository
-import org.acelerazg.repositories.db.DatabaseConnection
+import org.acelerazg.repositories.db.connection.DatabaseConnection
 
 import java.time.LocalDate
 

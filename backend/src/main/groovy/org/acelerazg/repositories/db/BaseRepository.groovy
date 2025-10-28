@@ -1,5 +1,7 @@
 package org.acelerazg.repositories.db
 
+import org.acelerazg.repositories.db.connection.DatabaseConnection
+
 abstract class BaseRepository<T> {
 
     protected DatabaseConnection sql

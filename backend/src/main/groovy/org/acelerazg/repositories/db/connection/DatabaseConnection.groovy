@@ -1,4 +1,4 @@
-package org.acelerazg.repositories.db
+package org.acelerazg.repositories.db.connection
 
 import groovy.sql.Sql
 

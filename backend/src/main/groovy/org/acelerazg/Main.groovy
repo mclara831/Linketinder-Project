@@ -10,8 +10,10 @@ import org.acelerazg.repositories.CandidateRepository
 import org.acelerazg.repositories.CompanyRepository
 import org.acelerazg.repositories.JobRepository
 import org.acelerazg.repositories.SkillRepository
-import org.acelerazg.repositories.db.DatabaseConnection
-import org.acelerazg.repositories.db.PostgresConnection
+import org.acelerazg.repositories.db.connection.DatabaseConnection
+import org.acelerazg.repositories.db.connection.PostgresConnection
+import org.acelerazg.repositories.db.factory.PostgresFactory
+import org.acelerazg.repositories.db.factory.RepositoryFactory
 import org.acelerazg.services.address.AddressService
 import org.acelerazg.services.candidate.CandidateService
 import org.acelerazg.services.skill.CandidateSkillService
@@ -30,13 +32,15 @@ import org.acelerazg.services.mappers.JobMapper
 
 static void main(String[] args) {
 
-    DatabaseConnection database = new PostgresConnection()
+    DatabaseConnection database = PostgresConnection.getInstance()
 
-    AddressRepository addressRepository = new AddressRepository(database)
-    CandidateRepository candidateRepository = new CandidateRepository(database)
-    CompanyRepository companyRepository = new CompanyRepository(database)
-    JobRepository jobRepository = new JobRepository(database)
-    SkillRepository skillRepository = new SkillRepository(database)
+    RepositoryFactory factory = new PostgresFactory(database)
+
+    AddressRepository addressRepository = factory.createAddressRepository()
+    CandidateRepository candidateRepository = factory.createCandidateRepository()
+    CompanyRepository companyRepository = factory.createCompanyRepository()
+    JobRepository jobRepository = factory.createJobRepository()
+    SkillRepository skillRepository = factory.createSkillRepository()
 
     CandidateSkillService candidateSkillService = new CandidateSkillService(skillRepository)
     CompanySkillService companySkillService = new CompanySkillService(skillRepository)
@@ -60,7 +64,6 @@ static void main(String[] args) {
     Scanner sc = new Scanner(System.in)
     boolean keepGoing = true
     int option
-
 
     while (keepGoing) {
         UI.menu()

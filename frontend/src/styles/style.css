@@ -84,7 +84,7 @@ main {
 }
 
 footer {
-  background-color: #021245;
+  background: linear-gradient(to bottom , #051650, #00072d);
   padding-top: 10px;
   height: 40px;
   color: #fff;

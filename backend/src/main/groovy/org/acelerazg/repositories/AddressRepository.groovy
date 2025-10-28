@@ -2,7 +2,7 @@ package org.acelerazg.repositories
 
 import org.acelerazg.models.Address
 import org.acelerazg.repositories.db.BaseRepository
-import org.acelerazg.repositories.db.DatabaseConnection
+import org.acelerazg.repositories.db.connection.DatabaseConnection
 
 class AddressRepository extends BaseRepository<Address> {
 
