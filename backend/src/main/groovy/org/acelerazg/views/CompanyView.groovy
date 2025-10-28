@@ -1,4 +1,4 @@
-package org.acelerazg.controllers
+package org.acelerazg.views
 
 import org.acelerazg.cli.UI
 import org.acelerazg.models.Address
@@ -6,11 +6,11 @@ import org.acelerazg.models.Company
 import org.acelerazg.models.DTO.CompanyResponseDTO
 import org.acelerazg.services.company.CompanyService
 
-class CompanyController {
+class CompanyView {
 
     CompanyService companyService
 
-    CompanyController(CompanyService companyService) {
+    CompanyView(CompanyService companyService) {
         this.companyService = companyService
     }
 

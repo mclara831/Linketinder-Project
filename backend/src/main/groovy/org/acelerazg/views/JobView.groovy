@@ -1,4 +1,4 @@
-package org.acelerazg.controllers
+package org.acelerazg.views
 
 import org.acelerazg.cli.UI
 import org.acelerazg.models.Address
@@ -6,11 +6,11 @@ import org.acelerazg.models.DTO.JobResponseDTO
 import org.acelerazg.models.Job
 import org.acelerazg.services.job.JobService
 
-class JobController {
+class JobView {
 
     JobService jobService
 
-    JobController(JobService jobService) {
+    JobView(JobService jobService) {
         this.jobService = jobService
     }
 

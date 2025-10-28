@@ -1,14 +1,14 @@
-package org.acelerazg.controllers
+package org.acelerazg.views
 
 import org.acelerazg.cli.UI
 import org.acelerazg.models.Skill
 import org.acelerazg.services.skill.SkillService
 
-class SkillController {
+class SkillView {
 
     SkillService skillService
 
-    SkillController(SkillService skillService) {
+    SkillView(SkillService skillService) {
         this.skillService = skillService
     }
 

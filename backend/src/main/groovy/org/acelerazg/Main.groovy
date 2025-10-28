@@ -1,10 +1,10 @@
 package org.acelerazg
 
 import org.acelerazg.cli.UI
-import org.acelerazg.controllers.CandidateController
-import org.acelerazg.controllers.SkillController
-import org.acelerazg.controllers.CompanyController
-import org.acelerazg.controllers.JobController
+import org.acelerazg.views.CandidateView
+import org.acelerazg.views.SkillView
+import org.acelerazg.views.CompanyView
+import org.acelerazg.views.JobView
 import org.acelerazg.repositories.AddressRepository
 import org.acelerazg.repositories.CandidateRepository
 import org.acelerazg.repositories.CompanyRepository
@@ -56,10 +56,10 @@ static void main(String[] args) {
     ICompanyService companyService = new CompanyService(companyRepository, addressService, companySkillService, companyMapper)
     IJobService jobService = new JobService(jobRepository, addressService, jobSkillService, companyService, jobMapper)
 
-    CandidateController candidateController = new CandidateController(candidateService)
-    CompanyController companyController = new CompanyController(companyService)
-    JobController jobController = new JobController(jobService)
-    SkillController skillController = new SkillController(skillService)
+    CandidateView candidateController = new CandidateView(candidateService)
+    CompanyView companyController = new CompanyView(companyService)
+    JobView jobController = new JobView(jobService)
+    SkillView skillController = new SkillView(skillService)
 
     Scanner sc = new Scanner(System.in)
     boolean keepGoing = true

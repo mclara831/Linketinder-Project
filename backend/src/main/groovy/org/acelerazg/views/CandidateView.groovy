@@ -1,4 +1,4 @@
-package org.acelerazg.controllers
+package org.acelerazg.views
 
 import org.acelerazg.cli.UI
 import org.acelerazg.models.Address
@@ -6,11 +6,11 @@ import org.acelerazg.models.Candidate
 import org.acelerazg.models.DTO.CandidateResponseDTO
 import org.acelerazg.services.candidate.CandidateService
 
-class CandidateController {
+class CandidateView {
 
     CandidateService candidateService
 
-    CandidateController(CandidateService candidateService) {
+    CandidateView(CandidateService candidateService) {
         this.candidateService = candidateService
     }
 
