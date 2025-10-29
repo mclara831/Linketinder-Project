@@ -109,6 +109,10 @@ Durante o processo de refatoração, o projeto passou por uma série de melhoria
 
 - A função de cálculo das competências dos candidatos foi extraída do CandidateService e movida para um novo módulo CandidateMetrics, favorecendo a extensibilidade e a organização modular.
 
+**Aplicação dos Padrões de Projeto**
+
+- Observer: Implementado para sincronizar e atualizar dinamicamente os componentes da interface sempre que há alterações nos dados (como criação, edição ou exclusão de vagas).
+
 ### ⚙️ Backend
 
 - **Tradução completa para inglês**: todas as classes, métodos, variáveis e mensagens de log foram traduzidas para o inglês, mantendo consistência com o frontend e boas práticas de desenvolvimento.
@@ -132,6 +136,13 @@ Durante o processo de refatoração, o projeto passou por uma série de melhoria
 - A lógica de competências foi separada em serviços especializados — CandidateSkillService, CompanySkillService e JobSkillService — atendendo ao Princípio da Responsabilidade Única (SRP) e ao Princípio Aberto/Fechado (OCP).
 
 - Foram criados DTOs de resposta específicos para a listagem completa das entidades, assegurando segregação de responsabilidades e melhor controle sobre os dados expostos.
+
+**Aplicação dos Padrões de Projeto** 
+
+- Singleton: Utilizado para garantir uma única instância da conexão com o banco de dados durante toda a execução da aplicação, garantindo controle centralizado do acesso ao banco.
+
+- Abstract Factory: Aplicado para criar objetos de repositórios e serviços de forma desacoplada, permitindo que a camada de negócio não dependa diretamente das implementações concretas.
+Com isso, é possível trocar ou estender dependências (como o tipo de banco de dados ou serviço) sem modificar o restante do código.
 
 ## 🚀 Como executar
 
