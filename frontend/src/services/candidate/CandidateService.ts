@@ -4,11 +4,16 @@ import {readCandidateForm} from "../form/FormReader.ts";
 import {clearLoginInput, clearForm} from "../form/FormCleaner.ts";
 import {fillCandidateProfile, renderCandidatesList} from "./CandidateDOMService.ts";
 import {isCPFValid, isInvalid, isValid} from "../form/ValidationService.ts";
+import {notify, subscribe} from "../EventSubject.ts";
 
 export function initializeCandidateModule() {
     setupAddCandidatesBtn()
     clearCandidateFormButton()
     setupCandidateLogin()
+
+    subscribe("candidates:updated", function (): void  {
+        renderCandidates()
+    })
 }
 
 export function renderCandidates(): void {
@@ -24,7 +29,8 @@ function setupAddCandidatesBtn(): void {
 
         setObject<Candidate>("candidatos", candidate);
         clearForm("#candidate-form");
-        renderCandidates();
+
+        notify("candidates:updated")
     });
 }
 

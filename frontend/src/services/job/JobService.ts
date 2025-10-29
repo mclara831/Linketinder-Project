@@ -10,10 +10,15 @@ import {
     assignValuesToInputs, readJobForm, renderJobsToCandidates, renderJobsToCompany
 } from "./JobDOMService.ts";
 import {Company} from "../../models/Company.ts";
+import {notify, subscribe} from "../EventSubject.ts";
 
 export function initializeJobModule() {
     setupAddJobBtn();
     renderJobsByCompany();
+    subscribe("jobs:updated", function (): void  {
+        renderJobs()
+        renderJobsByCompany()
+    })
 }
 
 export function renderJobs() {
@@ -51,7 +56,8 @@ function setupAddJobBtn(): void {
         const job: Job = new Job(inputs[0].value, inputs[1].value, loggedCompany, new Date(inputs[2].value), skills);
         setObject<Job>("vagas", job);
         clearForm("#job-register")
-        renderJobsByCompany();
+
+        notify("jobs:updated")
     };
 }
 
@@ -127,8 +133,9 @@ function updateJob(): void {
         jobs[jobIndex] = updatedJob;
         setObjects<Job>("vagas", jobs);
         resetJobForm(submitBtn, document.querySelector("#btn-voltar")!);
-        renderJobsByCompany();
         clearForm("#job-register")
+
+        notify("jobs:updated")
     };
 }
 
@@ -164,7 +171,7 @@ function deleteJob(): void {
     jobs = jobs.filter((j) => j.id !== job.id);
     setObjects<Job>("vagas", jobs);
 
-    renderJobsByCompany();
+    notify("jobs:updated")
 }
 
 export function renderJobsByCompany(): void {
