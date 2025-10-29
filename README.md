@@ -141,8 +141,7 @@ Durante o processo de refatoração, o projeto passou por uma série de melhoria
 
 - Singleton: Utilizado para garantir uma única instância da conexão com o banco de dados durante toda a execução da aplicação, garantindo controle centralizado do acesso ao banco.
 
-- Abstract Factory: Aplicado para criar objetos de repositórios e serviços de forma desacoplada, permitindo que a camada de negócio não dependa diretamente das implementações concretas.
-Com isso, é possível trocar ou estender dependências (como o tipo de banco de dados ou serviço) sem modificar o restante do código.
+- Abstract Factory: Aplicado para criar objetos de repositórios de forma desacoplada. Com isso, é possível trocar ou estender dependências (como o tipo de banco de dados) sem modificar o restante do código.
 
 ## 🚀 Como executar
 
