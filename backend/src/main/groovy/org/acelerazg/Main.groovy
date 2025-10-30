@@ -30,6 +30,9 @@ import org.acelerazg.services.mappers.CandidateMapper
 import org.acelerazg.services.mappers.CompanyMapper
 import org.acelerazg.services.mappers.JobMapper
 
+/**
+ * @autor Maria Clara Barbosa Fernandes
+ */
 static void main(String[] args) {
 
     DatabaseConnection database = PostgresConnection.getInstance()

@@ -143,6 +143,10 @@ Durante o processo de refatoração, o projeto passou por uma série de melhoria
 
 - Abstract Factory: Aplicado para criar objetos de repositórios de forma desacoplada. Com isso, é possível trocar ou estender dependências (como o tipo de banco de dados) sem modificar o restante do código.
 
+**Arquiterura MVC**
+
+- Para aplicar a Arquitetura MVCS não foi necessário realizar refatorações, pois durante a construção e refatorações anteriores, o projeto já vinha sendo construido com essa arquitetura.
+
 ## 🚀 Como executar
 
 - Clone este repositório 
