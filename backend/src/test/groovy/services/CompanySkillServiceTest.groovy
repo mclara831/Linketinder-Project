@@ -10,7 +10,7 @@ class CompanySkillServiceTest extends Specification {
     def skillRepository = Mock(SkillRepository)
     def companySkillService = new CompanySkillService(skillRepository)
 
-    def "add skills to candidate"() {
+    def "add skills to company"() {
         given:
         def companyId = "123"
         def skillsString = "Java, Groovy"
@@ -32,7 +32,7 @@ class CompanySkillServiceTest extends Specification {
         1 * skillRepository.createFullSkill(_, "Groovy")
     }
 
-    def "remove skills from candidate"() {
+    def "remove skills from company"() {
         given:
         def companyId = "456"
 

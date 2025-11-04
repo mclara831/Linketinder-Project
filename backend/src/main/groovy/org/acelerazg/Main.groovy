@@ -12,7 +12,6 @@ import org.acelerazg.repositories.JobRepository
 import org.acelerazg.repositories.SkillRepository
 import org.acelerazg.repositories.db.connection.DatabaseConnection
 import org.acelerazg.repositories.db.connection.PostgresConnection
-import org.acelerazg.repositories.db.factory.PostgresFactory
 import org.acelerazg.repositories.db.factory.RepositoryFactory
 import org.acelerazg.services.address.AddressService
 import org.acelerazg.services.candidate.CandidateService
@@ -37,7 +36,7 @@ static void main(String[] args) {
 
     DatabaseConnection database = PostgresConnection.getInstance()
 
-    RepositoryFactory factory = new PostgresFactory(database)
+    RepositoryFactory factory = new RepositoryFactory(database)
 
     AddressRepository addressRepository = factory.createAddressRepository()
     CandidateRepository candidateRepository = factory.createCandidateRepository()

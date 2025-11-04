@@ -3,7 +3,7 @@ import type { quantifiedSkill } from "../../models/Skill.ts";
 import { Chart } from "chart.js/auto";
 import type {IGraphicRenderer} from "../IGraphicRenderer.ts";
 
-class ChartJsRenderer implements IGraphicRenderer{
+export class ChartJsRenderer implements IGraphicRenderer{
   render(container: HTMLCanvasElement, data: quantifiedSkill[]): void {
     new Chart(container, {
       type: "bar",
@@ -46,7 +46,7 @@ class ChartJsRenderer implements IGraphicRenderer{
   };
 }
 
-export const renderGraphic = (renderer: IGraphicRenderer = new ChartJsRenderer()) => {
+export const renderGraphic = (renderer: IGraphicRenderer) => {
   const graphic = document.querySelector(".graphic-container") as HTMLCanvasElement;
   const skills = computeSkillsStats();
 

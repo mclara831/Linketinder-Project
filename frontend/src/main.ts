@@ -1,7 +1,7 @@
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {initializeCandidateModule,} from "./services/candidate/CandidateService.ts";
-import {renderGraphic} from "./provider/implementation/GraphicService.ts";
+import {initializeCandidateModule} from "./services/candidate/CandidateService.ts";
+import {ChartJsRenderer, renderGraphic} from "./provider/implementation/GraphicService.ts";
 import "./styles/style.css";
 import {initializeJobModule, renderJobs} from "./services/job/JobService.ts";
 import {loadSkills} from "./utils/Utils";
@@ -11,7 +11,7 @@ loadSkills();
 renderJobs()
 initializeCandidateModule()
 initializeCompanyModule();
-renderGraphic();
+renderGraphic(new ChartJsRenderer());
 initializeCompanyModule();
 initializeJobModule();
 

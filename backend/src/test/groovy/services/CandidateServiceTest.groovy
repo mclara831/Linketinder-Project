@@ -49,7 +49,7 @@ class CandidateServiceTest extends Specification {
         candidateRepository.findByCpf(_ as String) >> null
         addressService.find(_ as Address) >> "mock-endereco-id"
         candidateRepository.create(_ as Candidate) >> { Candidate c -> c }
-        skillService.addSkillsToCandidate(_, _) >> {}
+        candidateSkillService.addSkillsToEntity(_, _) >> {}
 
         when:
         Candidate result = candidateService.create(candidate, address, skills)
@@ -77,8 +77,8 @@ class CandidateServiceTest extends Specification {
         candidateRepository.findByCpf(_ as String) >> candidates[0]
         addressService.find(_ as Address) >> "mock-endereco-id"
         candidateService.updateData(_ as Candidate, _ as Candidate, _ as Address) >> updatedCandidate
-        skillService.removeSkillsFromCandidate(_, _) >> {}
-        skillService.addSkillsToCandidate(_, _) >> {}
+        candidateSkillService.removeSkillsFromEntity(_) >> {}
+        candidateSkillService.addSkillsToEntity(_, _) >> {}
         candidateRepository.updateById(_ as Candidate) >> { Candidate c -> c }
 
         when:
