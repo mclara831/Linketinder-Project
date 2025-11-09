@@ -5,4 +5,5 @@ import org.acelerazg.models.Address
 interface IAddressService {
     String findById(String id)
     String find(Address address)
+    Address formatAddress(String address)
 }

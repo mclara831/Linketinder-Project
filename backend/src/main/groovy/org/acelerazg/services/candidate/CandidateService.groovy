@@ -2,7 +2,8 @@ package org.acelerazg.services.candidate
 
 import org.acelerazg.models.Address
 import org.acelerazg.models.Candidate
-import org.acelerazg.models.DTO.CandidateResponseDTO
+import org.acelerazg.models.DTO.CandidateConversionResult
+import org.acelerazg.models.DTO.CandidateDTO
 import org.acelerazg.repositories.CandidateRepository
 import org.acelerazg.services.address.IAddressService
 import org.acelerazg.services.mappers.CandidateMapper
@@ -27,50 +28,62 @@ class CandidateService implements ICandidateService {
     }
 
     @Override
-    List<CandidateResponseDTO> findAll() {
+    List<CandidateDTO> findAll() {
         List<Candidate> candidates = candidateRepository.findAll()
         return candidates.collect { findInfoFromCandidate(it) }
     }
 
     @Override
-    CandidateResponseDTO findInfoFromCandidate(Candidate candidate) {
+    CandidateDTO findInfoFromCandidate(Candidate candidate) {
         String address = addressService.findById(candidate.addressId).toString()
-        String skills =  candidateSkillService.findSkills(candidate.id) ?: []
+        String skills = candidateSkillService.findSkills(candidate.id) ?: []
         if (skills) skills.join(", ")
         return candidateMapper.mapToDto(candidate, address, skills)
     }
 
     @Override
-    Candidate create(Candidate candidate, Address address, String skills) {
-        if (cpfValid(candidate.cpf)) {
+    CandidateDTO create(CandidateDTO candidateDTO) {
+
+        if (cpfValid(candidateDTO.cpf)) {
             println "[AVISO]: Não é possível utilizar o cpf fornecido!"
-            return null
+            throw new Exception("[AVISO]: Não é possível utilizar o cpf fornecido!")
         }
 
-        String addressId = addressService.find(address)
+        CandidateConversionResult result = parseToEntity(candidateDTO)
+        Candidate candidate = result.candidate
+        String skills = result.skills
+
+        String addressId = addressService.find(result.address)
         candidate.addressId = addressId
         candidate.id = Utils.generateUUID()
 
         Candidate newCandidate = candidateRepository.create(candidate)
-          candidateSkillService.addSkillsToEntity(newCandidate.id, skills)
+        candidateSkillService.addSkillsToEntity(newCandidate.id, skills)
 
-        return newCandidate
+        return findInfoFromCandidate(newCandidate)
     }
 
     @Override
-    Candidate updateByCpf(Candidate candidate, Address address, String skills) {
-        Candidate existing = candidateRepository.findByCpf(candidate.cpf)
+    CandidateDTO updateByCpf(String cpf, CandidateDTO dto) {
+        Candidate existing = candidateRepository.findByCpf(cpf)
 
         if (!existing) {
             println "[AVISO]: Este CPF não está cadastrado em nossa base de dados!"
-            return null
+            throw new Exception("[AVISO]: Não é possível utilizar o cpf fornecido!")
         }
+        dto.cpf = cpf
+
+        CandidateConversionResult result = parseToEntity(dto)
+        Candidate candidate = result.candidate
+        Address address = result.address
+        String skills = result.skills
         existing = updateData(existing, candidate, address)
 
-          candidateSkillService.removeSkillsFromEntity(existing.id)
-          candidateSkillService.addSkillsToEntity(existing.id, skills)
+        candidateSkillService.removeSkillsFromEntity(existing.id)
+        candidateSkillService.addSkillsToEntity(existing.id, skills)
 
-        return candidateRepository.updateById(existing)
+        Candidate updated = candidateRepository.updateById(existing)
+        return findInfoFromCandidate(updated)
     }
 
     @Override
@@ -91,10 +104,10 @@ class CandidateService implements ICandidateService {
         Candidate c = candidateRepository.findByCpf(cpf)
         if (!c) {
             println "[AVISO]: Este CPF não está cadastrado em nossa base de dados!"
-            return
+            throw new Exception("[AVISO]: Este CPF não está cadastrado em nossa base de dados!")
         }
 
-          candidateSkillService.removeSkillsFromEntity(c.id)
+        candidateSkillService.removeSkillsFromEntity(c.id)
         candidateRepository.deleteByCpf(cpf)
 
         println "[SUCESSO]: Candidato removido com sucesso!"
@@ -104,5 +117,18 @@ class CandidateService implements ICandidateService {
     boolean cpfValid(String cpf) {
         Candidate c = candidateRepository.findByCpf(cpf)
         return c != null
+    }
+
+    Candidate findByCpf(String cpf) {
+        Candidate c = candidateRepository.findByCpf(cpf)
+        return c
+    }
+
+    CandidateConversionResult parseToEntity(CandidateDTO dto) {
+        if (dto == null) return null
+        Address address = addressService.formatAddress(dto.address)
+        Candidate candidate = new Candidate(dto.name, dto.lastname, dto.email, dto.linkedin, dto.cpf, dto.dateOfBirth, dto.description, dto.password)
+
+        return new CandidateConversionResult(candidate, address, dto.skills)
     }
 }

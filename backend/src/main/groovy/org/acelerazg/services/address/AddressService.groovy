@@ -27,4 +27,11 @@ class AddressService implements IAddressService{
         addressRepository.create(address)
         return id
     }
+
+    @Override
+    Address formatAddress(String address) {
+        List<String> ad = address.split(", ")
+        return new Address(ad.get(0), ad.get(1), ad.get(2))
+    }
+
 }

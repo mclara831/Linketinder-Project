@@ -1,8 +1,11 @@
 package org.acelerazg.models.DTO
 
+import org.acelerazg.models.Address
+import org.acelerazg.models.Candidate
+
 import java.time.LocalDate
 
-class CandidateResponseDTO {
+class CandidateDTO {
     String name
     String lastname
     String cpf
@@ -14,7 +17,20 @@ class CandidateResponseDTO {
     String skills
     String password
 
-    CandidateResponseDTO() {}
+    CandidateDTO() {}
+
+    CandidateDTO(Candidate candidate, Address address, String skills) {
+        this.name = candidate.name
+        this.lastname = candidate.lastname
+        this.cpf = candidate.cpf
+        this.email = candidate.email
+        this.linkedin = candidate.linkedin
+        this.description = candidate.description
+        this.dateOfBirth = candidate.dateOfBirth
+        this.password = candidate.password
+        this.address = address.toString()
+        this.skills = skills
+    }
 
     @Override
     String toString() {

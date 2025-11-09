@@ -3,7 +3,7 @@ package org.acelerazg.views
 import org.acelerazg.cli.UI
 import org.acelerazg.models.Address
 import org.acelerazg.models.Candidate
-import org.acelerazg.models.DTO.CandidateResponseDTO
+import org.acelerazg.models.DTO.CandidateDTO
 import org.acelerazg.services.candidate.CandidateService
 
 class CandidateView {
@@ -15,7 +15,7 @@ class CandidateView {
     }
 
     void findAll() {
-        List<CandidateResponseDTO> candidates = candidateService.findAll()
+        List<CandidateDTO> candidates = candidateService.findAll()
 
         candidates.each { candidate ->
             println(candidate.toString())
@@ -27,9 +27,10 @@ class CandidateView {
         Address address = UI.readAdress()
         String skills = UI.readSkills()
 
-        candidate = candidateService.create(candidate, address, skills)
-        if (candidate)
-            println(candidate.toString())
+        CandidateDTO dto = new CandidateDTO(candidate, address, skills)
+
+        dto = candidateService.create(dto)
+        if (dto) println(dto.toString())
     }
 
     void update() {
@@ -44,8 +45,10 @@ class CandidateView {
         Address address = UI.readAdress()
         String skills = UI.readSkills()
 
-        updatedCandidate = candidateService.updateByCpf(updatedCandidate, address, skills)
-        if(updatedCandidate) println(updatedCandidate.toString())
+        CandidateDTO dto = new CandidateDTO(updatedCandidate, address, skills)
+
+        CandidateDTO response = candidateService.updateByCpf(cpf, dto)
+        if (response) println(response.toString())
     }
 
     void delete() {
