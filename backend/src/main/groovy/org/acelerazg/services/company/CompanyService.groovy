@@ -2,7 +2,8 @@ package org.acelerazg.services.company
 
 import org.acelerazg.models.Address
 import org.acelerazg.models.Company
-import org.acelerazg.models.DTO.CompanyResponseDTO
+import org.acelerazg.models.DTO.CompanyConversionResult
+import org.acelerazg.models.DTO.CompanyDTO
 import org.acelerazg.repositories.CompanyRepository
 import org.acelerazg.services.address.IAddressService
 import org.acelerazg.services.mappers.CompanyMapper
@@ -35,13 +36,13 @@ class CompanyService implements ICompanyService {
     }
 
     @Override
-    List<CompanyResponseDTO> findAll() {
+    List<CompanyDTO> findAll() {
         List<Company> companies = companyRepository.findAll()
-        return companies.collect{ findInfoFromCompany(it)}
+        return companies.collect { findInfoFromCompany(it) }
     }
 
     @Override
-    CompanyResponseDTO findInfoFromCompany(Company company) {
+    CompanyDTO findInfoFromCompany(Company company) {
         String address = addressService.findById(company.addressId).toString()
         String skills = companySkillService.findSkills(company.id) ?: []
         if (skills) skills.join(", ")
@@ -49,43 +50,51 @@ class CompanyService implements ICompanyService {
     }
 
     @Override
-    Company create(Company company, Address address, String skills) {
-        if (findByCnpj(company.cnpj)) {
-            println "[AVISO]: Não é possível utilizar o cnpj fornecido!"
-            return null
+    CompanyDTO create(CompanyDTO dto) {
+        if (findByCnpj(dto.cnpj)) {
+            throw new Exception("Não é possível utilizar o cnpj fornecido!")
         }
 
-        String addressId = addressService.find(address)
+        CompanyConversionResult result = parseToEntity(dto)
+        Company company = result.company
+        String skills = result.skills
+
+        String addressId = addressService.find(result.address)
         company.addressId = addressId
         company.id = Utils.generateUUID()
 
         Company newCompany = companyRepository.create(company)
         companySkillService.addSkillsToEntity(company.id, skills)
 
-        return newCompany
+        return findInfoFromCompany(newCompany)
     }
 
     @Override
-    Company updateByCnpj(Company company, Address address, String skills) {
-        Company existing = companyRepository.findByCnpj(company.cnpj)
+    CompanyDTO updateByCnpj(String cnpj, CompanyDTO dto) {
+        Company existing = companyRepository.findByCnpj(cnpj)
         if (!existing) {
-            println "[AVISO]: Este CPF não está cadastrado em nossa base de dados!"
-            return null
+            throw new Exception("[AVISO]: Este CPF não está cadastrado em nossa base de dados!")
         }
+
+        CompanyConversionResult result = parseToEntity(dto)
+        Company company = result.company
+        String skills = result.skills
+        Address address = result.address
+
         updateData(address, existing, company)
 
         companySkillService.removeSkillsFromEntity(existing.id)
         companySkillService.addSkillsToEntity(existing.id, skills)
 
-        return companyRepository.updateById(existing)
+        Company updated = companyRepository.updateById(existing)
+        return findInfoFromCompany(updated)
     }
 
     @Override
     void deleteByCnpj(String cnpj) {
         Company c = companyRepository.findByCnpj(cnpj)
         if (c == null) {
-            println "[AVISO]: Este CNPJ não está cadastrado em nossa base de dados!"
-            return
+            throw new Exception("[AVISO]: Este CPF não está cadastrado em nossa base de dados!")
         }
         companySkillService.removeSkillsFromEntity(c.id)
         companyRepository.deleteByCnpj(cnpj)
@@ -102,5 +111,13 @@ class CompanyService implements ICompanyService {
         existing.setAddressId(addressService.find(address))
 
         return existing
+    }
+
+    CompanyConversionResult parseToEntity(CompanyDTO dto) {
+        if (dto == null) return null
+        Address address = addressService.formatAddress(dto.address)
+        Company company = new Company(dto.name, dto.email, dto.linkedin, dto.description, dto.password, dto.cnpj)
+
+        return new CompanyConversionResult(company, address, dto.skills)
     }
 }

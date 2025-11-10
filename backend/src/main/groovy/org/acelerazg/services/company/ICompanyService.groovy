@@ -2,15 +2,15 @@ package org.acelerazg.services.company
 
 import org.acelerazg.models.Address
 import org.acelerazg.models.Company
-import org.acelerazg.models.DTO.CompanyResponseDTO
+import org.acelerazg.models.DTO.CompanyDTO
 
 interface ICompanyService {
     Company findById(String empresaId)
     Company findByCnpj(String cnpj)
-    List<CompanyResponseDTO> findAll()
-    CompanyResponseDTO findInfoFromCompany(Company company)
-    Company create(Company company, Address address, String skills)
-    Company updateByCnpj(Company company, Address address, String skills)
+    List<CompanyDTO> findAll()
+    CompanyDTO findInfoFromCompany(Company company)
+    CompanyDTO create(CompanyDTO dto)
+    CompanyDTO updateByCnpj(String cnpj, CompanyDTO dto)
     void deleteByCnpj(String cnpj)
     Company updateData(Address address, Company existing, Company updated)
 }

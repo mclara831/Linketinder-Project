@@ -2,6 +2,7 @@ package services
 
 import org.acelerazg.models.Address
 import org.acelerazg.models.Company
+import org.acelerazg.models.DTO.CompanyDTO
 import org.acelerazg.repositories.CompanyRepository
 import org.acelerazg.services.company.CompanyService
 import org.acelerazg.services.skill.CompanySkillService
@@ -17,25 +18,24 @@ class CompanyServiceTest extends Specification {
     def companyMapper = new CompanyMapper()
     def companyService = new CompanyService(companyRepository, addressService, companySkillService, companyMapper)
 
-    def "return list of all companies"() {
+    void "return list of all companies"() {
         given:
-        def companies = [
+        Company[] companies = [
                 new Company("Pastel Soft", "pastel@gmail.com", "linkedin.com/in/pastel",
                         "67aaece0-ee39-4e8f-a2a5-5491cdf9860c", "Teste", "teste", "0000000/00000")
         ]
 
-
         companyRepository.findAll() >> companies
 
         when:
-        def result = companyService.findAll()
+        List<CompanyDTO> result = companyService.findAll()
 
         then:
         result.size() == 1
         result[0].name == "Pastel Soft"
     }
 
-    def "insert new company"() {
+    void "insert new company"() {
         given:
         Company company = new Company("Pastel Soft", "pastel@gmail.com", "linkedin.com/in/pastel",
                 "Teste", "teste", "0000000/00000")
@@ -46,40 +46,40 @@ class CompanyServiceTest extends Specification {
         companyRepository.findByCnpj(_ as String) >> null
         addressService.find(_ as Address) >> "mock-endereco-id"
         companyRepository.create(_ as Company) >> { Company c -> c }
+        CompanyDTO dto = new CompanyDTO(company, address, skills)
 
         when:
-        Company result = companyService.create(company, address, skills)
+        CompanyDTO result = companyService.create(dto)
 
         then:
-        result == company
-        result.addressId == "mock-endereco-id"
+        company.name == result.name
+        company.cnpj == result.cnpj
     }
 
-    def "update company"() {
+    void "update company"() {
         given:
-        def companies = [
-                new Company("Pastel Soft", "pastel@gmail.com", "linkedin.com/in/pastel",
+        Company oldCompany = new Company("Pastel Soft", "pastel@gmail.com", "linkedin.com/in/pastel",
                         "Teste", "teste", "0000000/00000")
-        ]
+
 
         Company updatedCompany = new Company("Sanduba Soft", "sanduba@gmail.com", "linkedin.com/in/sanduba",
                 "Teste", "teste", "0000000/00000")
         Address address = new Address("Brasil", "Sao Paulo", "12.345-67")
         String skills = "Java, Angular"
 
-        companyRepository.findAll() >> companies
-        companyRepository.findByCnpj(_ as String) >> companies[0]
+        String cnpj = "0000000/00000"
+        CompanyDTO dto = new CompanyDTO(updatedCompany, address, skills)
+
+
+        companyRepository.findByCnpj(_ as String) >> oldCompany
         addressService.find(_ as Address) >> "mock-endereco-id"
-        companyService.updateData(_ as Address, _ as Company, _ as Company) >> updatedCompany
-        companyRepository.updateById(_ as Company) >> { Company c -> c }
+        companyRepository.updateById(_ as Company) >> { Company c -> updatedCompany }
 
         when:
-        companyService.updateByCnpj(updatedCompany, address, skills)
-        def result = companyService.findAll()
+        CompanyDTO result = companyService.updateByCnpj(cnpj, dto)
 
         then:
-        result.size() == 1
-        result[0].cnpj == updatedCompany.cnpj
+        result.name == updatedCompany.name
     }
 
     def "delete candidate"() {

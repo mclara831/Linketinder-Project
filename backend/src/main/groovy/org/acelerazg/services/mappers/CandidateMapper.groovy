@@ -19,20 +19,4 @@ class CandidateMapper {
         candidateResponseDTO.skills = skills
         return candidateResponseDTO
     }
-
-    LinkedHashMap<String, String> mapDTOToJSON(CandidateDTO dto) {
-        return [
-                name       : dto.name,
-                lastname   : dto.lastname,
-                cpf        : dto.cpf,
-                email      : dto.email,
-                linkedin   : dto.linkedin,
-                description: dto.description,
-                dateOfBirth: dto.dateOfBirth.toString(),
-                password   : dto.password,
-                address    : dto.address,
-                skills     : dto.skills,
-        ]
-    }
-
 }

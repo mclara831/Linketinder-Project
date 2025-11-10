@@ -84,15 +84,12 @@ class CandidateController extends HttpServlet {
             } else {
 
                 List<CandidateDTO> candidates = candidateService.findAll()
-                List<LinkedHashMap<String, String>> json = candidates.collect { c ->
-                    candidateMapper.mapDTOToJSON(c)
-                }
 
-                mapper.writeValue(resp.getWriter(), json)
+                mapper.writeValue(resp.getWriter(), candidates)
             }
 
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to find all candidates!\n[ERROR]: ${e.getMessage()}")
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to find candidates!\n[ERROR]: ${e.getMessage()}")
         }
     }
 
@@ -113,12 +110,11 @@ class CandidateController extends HttpServlet {
             CandidateDTO newCandidate = mapper.readValue(body.toString(), CandidateDTO.class)
             CandidateDTO response = candidateService.create(newCandidate)
 
-            LinkedHashMap<String, String> json = candidateMapper.mapDTOToJSON(response)
             resp.setStatus(HttpServletResponse.SC_CREATED)
-            mapper.writeValue( resp.getWriter(), json)
+            mapper.writeValue( resp.getWriter(), response)
 
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to create the candidate!\n[ERROR]: ${e.getMessage()}")
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to create candidate!\n[ERROR]: ${e.getMessage()}")
         }
     }
 
@@ -142,11 +138,11 @@ class CandidateController extends HttpServlet {
             CandidateDTO newCandidate = mapper.readValue(body.toString(), CandidateDTO.class)
 
             CandidateDTO candidateDTO = candidateService.updateByCpf(cpf, newCandidate)
-            LinkedHashMap<String, String> json = candidateMapper.mapDTOToJSON(candidateDTO)
+
             resp.setStatus(HttpServletResponse.SC_OK)
-            mapper.writeValue( resp.getWriter(), json)
+            mapper.writeValue( resp.getWriter(), candidateDTO)
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to find all candidates!\n[ERROR]: ${e.getMessage()}")
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to update candidate!\n[ERROR]: ${e.getMessage()}")
         }
     }
 
@@ -161,7 +157,7 @@ class CandidateController extends HttpServlet {
             candidateService.deleteByCpf(cpf)
             resp.setStatus(HttpServletResponse.SC_OK)
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to find all candidates!\n[ERROR]: ${e.getMessage()}")
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to delete candidate!\n[ERROR]: ${e.getMessage()}")
         }
     }
 }

@@ -1,6 +1,9 @@
 package org.acelerazg.models.DTO
 
-class CompanyResponseDTO {
+import org.acelerazg.models.Address
+import org.acelerazg.models.Company
+
+class CompanyDTO {
     String name
     String cnpj
     String email
@@ -10,7 +13,18 @@ class CompanyResponseDTO {
     String skills
     String password
 
-    CompanyResponseDTO() {}
+    CompanyDTO() {}
+
+    CompanyDTO(Company company, Address address, String skills) {
+        this.name = company.name
+        this.cnpj = company.cnpj
+        this.email = company.email
+        this.linkedin = company.linkedin
+        this.description = company.description
+        this.password = company.password
+        this.address = address
+        this.skills = skills
+    }
 
     @Override
     String toString() {
