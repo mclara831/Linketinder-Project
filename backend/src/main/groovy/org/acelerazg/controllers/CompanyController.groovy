@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-@WebServlet("/companies")
+@WebServlet("/companies/*")
 class CompanyController extends HttpServlet {
 
     private CompanyService companyService
@@ -68,21 +68,14 @@ class CompanyController extends HttpServlet {
 
             if (cnpj) {
                 Company company = companyService.findByCnpj(cnpj)
-
-                if (company != null) {
-                    resp.setStatus(HttpServletResponse.SC_OK)
-                    objectMapper.writeValue(resp.writer, company)
-                } else {
-                    resp.setStatus(HttpServletResponse.SC_NOT_FOUND)
-                }
+                objectMapper.writeValue(resp.writer, company)
             } else {
-
                 List<CompanyResponseDTO> companies = companyService.findAll()
                 objectMapper.writeValue(resp.getWriter(), companies)
             }
 
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to find companies!\n[ERROR]: ${e.getMessage()}")
+            sendError(resp, HttpServletResponse.SC_NOT_FOUND, "NOT FOUND", e)
         }
     }
 
@@ -108,7 +101,7 @@ class CompanyController extends HttpServlet {
             objectMapper.writeValue(resp.getWriter(), response)
 
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to create candidate!\n[ERROR]: ${e.getMessage()}")
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to create company!", e)
         }
     }
 
@@ -135,7 +128,7 @@ class CompanyController extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_OK)
             objectMapper.writeValue(resp.getWriter(), companyDTO)
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to update company!\n[ERROR]: ${e.getMessage()}")
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to update company!", e)
         }
     }
 
@@ -151,7 +144,15 @@ class CompanyController extends HttpServlet {
             companyService.deleteByCnpj(cnpj)
             resp.setStatus(HttpServletResponse.SC_OK)
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to delete the company!\n[ERROR]: ${e.getMessage()}")
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to delete company!", e)
         }
+    }
+
+    private void sendError(HttpServletResponse resp, int statusCode, String message, Exception e) throws IOException {
+        resp.setStatus(statusCode)
+        objectMapper.writeValue(resp.getWriter(), Map.of(
+                "error", message,
+                "details", e.getMessage()
+        ))
     }
 }

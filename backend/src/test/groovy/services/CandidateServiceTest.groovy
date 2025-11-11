@@ -4,7 +4,6 @@ import org.acelerazg.models.Address
 import org.acelerazg.models.Candidate
 import org.acelerazg.models.DTO.candidate.CandidateRequestDTO
 import org.acelerazg.models.DTO.candidate.CandidateResponseDTO
-import org.acelerazg.models.Skill
 import org.acelerazg.repositories.CandidateRepository
 import org.acelerazg.services.address.IAddressService
 import org.acelerazg.services.candidate.CandidateService

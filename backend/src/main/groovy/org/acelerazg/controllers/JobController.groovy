@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-@WebServlet("/jobs")
+@WebServlet("/jobs/*")
 class JobController extends HttpServlet {
 
     private JobService jobService
@@ -78,8 +78,6 @@ class JobController extends HttpServlet {
                 if (job != null) {
                     resp.setStatus(HttpServletResponse.SC_OK)
                     objectMapper.writeValue(resp.writer, job)
-                } else {
-                    resp.setStatus(HttpServletResponse.SC_NOT_FOUND)
                 }
             } else {
 
@@ -88,7 +86,7 @@ class JobController extends HttpServlet {
             }
 
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to find jobs!\n[ERROR]: ${e.getMessage()}")
+            sendError(resp, HttpServletResponse.SC_NOT_FOUND, "It wasn't possible to find jobs!", e)
         }
     }
 
@@ -114,7 +112,7 @@ class JobController extends HttpServlet {
             objectMapper.writeValue(resp.getWriter(), response)
 
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to create candidate!\n[ERROR]: ${e.getMessage()}")
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to create job!", e)
         }
     }
 
@@ -126,7 +124,7 @@ class JobController extends HttpServlet {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT)
 
         try {
-            String id = req.getParameter("id")
+            String id = req.getPathInfo()
 
             StringBuilder body = new StringBuilder()
             String line
@@ -136,12 +134,12 @@ class JobController extends HttpServlet {
             }
 
             JobRequestDTO newJob = objectMapper.readValue(body.toString(), JobRequestDTO.class)
-            JobResponseDTO jobDTO = jobService.update(id, newJob)
+            JobResponseDTO jobDTO = jobService.update(id.substring(1), newJob)
 
             resp.setStatus(HttpServletResponse.SC_OK)
             objectMapper.writeValue(resp.getWriter(), jobDTO)
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to update job!\n[ERROR]: ${e.getMessage()}")
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to update job!", e)
         }
     }
 
@@ -152,12 +150,20 @@ class JobController extends HttpServlet {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT)
 
         try {
-            String id = req.getParameter("id")
+            String id = req.getPathInfo()
 
-            jobService.deleteById(id)
+            jobService.deleteById(id.substring(1))
             resp.setStatus(HttpServletResponse.SC_OK)
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to delete the job!\n[ERROR]: ${e.getMessage()}")
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to delete job!", e)
         }
+    }
+
+    private void sendError(HttpServletResponse resp, int statusCode, String message, Exception e) throws IOException {
+        resp.setStatus(statusCode)
+        objectMapper.writeValue(resp.getWriter(), Map.of(
+                "error", message,
+                "details", e.getMessage()
+        ))
     }
 }

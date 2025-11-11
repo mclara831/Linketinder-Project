@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-@WebServlet("/skills")
+@WebServlet("/skills/*")
 class SkillController extends HttpServlet {
 
     private SkillService skillService
@@ -38,17 +38,17 @@ class SkillController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        resp.setContentType("application/json")
-        resp.setCharacterEncoding("UTF-8")
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT)
-
         try {
+            resp.setContentType("application/json")
+            resp.setCharacterEncoding("UTF-8")
+            objectMapper.enable(SerializationFeature.INDENT_OUTPUT)
+
+
             List<Skill> skills = skillService.findAll()
             objectMapper.writeValue(resp.getWriter(), skills)
 
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to find skills!\n[ERROR]: ${e.getMessage()}")
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to find skills!", e)
         }
     }
 
@@ -74,19 +74,18 @@ class SkillController extends HttpServlet {
             objectMapper.writeValue(resp.getWriter(), response)
 
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to create candidate!\n[ERROR]: ${e.getMessage()}")
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to create skill!", e)
         }
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        resp.setContentType("application/json")
-        resp.setCharacterEncoding("UTF-8")
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT)
-
         try {
-            String name = req.getParameter("skill")
+            resp.setContentType("application/json")
+            resp.setCharacterEncoding("UTF-8")
+            objectMapper.enable(SerializationFeature.INDENT_OUTPUT)
+
+            String name = req.getPathInfo()
 
             StringBuilder body = new StringBuilder()
             String line
@@ -96,28 +95,37 @@ class SkillController extends HttpServlet {
             }
 
             SkillRequestDTO newSkill = objectMapper.readValue(body.toString(), SkillRequestDTO.class)
-            Skill skillDTO = skillService.update(name, newSkill)
+            Skill skillDTO = skillService.update(name.substring(1), newSkill)
 
             resp.setStatus(HttpServletResponse.SC_OK)
             objectMapper.writeValue(resp.getWriter(), skillDTO)
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to update skill!\n[ERROR]: ${e.getMessage()}")
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to update skill!", e)
         }
+
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("application/json")
-        resp.setCharacterEncoding("UTF-8")
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT)
-
         try {
-            String name = req.getParameter("name")
+            resp.setContentType("application/json")
+            resp.setCharacterEncoding("UTF-8")
+            objectMapper.enable(SerializationFeature.INDENT_OUTPUT)
 
-            skillService.delete(name)
+            String name = req.getPathInfo()
+
+            skillService.delete(name.substring(1))
             resp.setStatus(HttpServletResponse.SC_OK)
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to delete the skill!\n[ERROR]: ${e.getMessage()}")
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to delete skill!", e)
         }
+    }
+
+    private void sendError(HttpServletResponse resp, int statusCode, String message, Exception e) throws IOException {
+        resp.setStatus(statusCode)
+        objectMapper.writeValue(resp.getWriter(), Map.of(
+                "error", message,
+                "details", e.getMessage()
+        ))
     }
 }

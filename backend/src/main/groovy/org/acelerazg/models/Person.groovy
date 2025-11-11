@@ -10,6 +10,8 @@ abstract class Person {
     String description
     String password
 
+    Person(){}
+
     Person(String name, String email, String linkedin, String description, String password) {
         this.name = name
         this.email = email

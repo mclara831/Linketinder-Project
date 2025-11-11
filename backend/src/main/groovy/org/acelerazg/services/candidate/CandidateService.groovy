@@ -46,7 +46,7 @@ class CandidateService implements ICandidateService {
     CandidateResponseDTO create(CandidateRequestDTO candidateDTO) {
 
         if (cpfValid(candidateDTO.cpf)) {
-            throw new Exception("[AVISO]: Não é possível utilizar o cpf fornecido!")
+            throw new Exception("This cpf is not allowed to be used!")
         }
 
         CandidateConversionResult result = parseToEntity(candidateDTO)
@@ -68,8 +68,7 @@ class CandidateService implements ICandidateService {
         Candidate existing = candidateRepository.findByCpf(cpf)
 
         if (!existing) {
-            println "[AVISO]: Este CPF não está cadastrado em nossa base de dados!"
-            throw new Exception("[AVISO]: Não é possível utilizar o cpf fornecido!")
+            throw new Exception("This cpf is not allowed to be used!")
         }
         dto.cpf = cpf
 
@@ -103,14 +102,11 @@ class CandidateService implements ICandidateService {
     void deleteByCpf(String cpf) {
         Candidate c = candidateRepository.findByCpf(cpf)
         if (!c) {
-            println "[AVISO]: Este CPF não está cadastrado em nossa base de dados!"
-            throw new Exception("[AVISO]: Este CPF não está cadastrado em nossa base de dados!")
+            throw new Exception("This cpf is not registered in the database!")
         }
 
         candidateSkillService.removeSkillsFromEntity(c.id)
         candidateRepository.deleteByCpf(cpf)
-
-        println "[SUCESSO]: Candidato removido com sucesso!"
     }
 
     @Override
@@ -121,6 +117,7 @@ class CandidateService implements ICandidateService {
 
     Candidate findByCpf(String cpf) {
         Candidate c = candidateRepository.findByCpf(cpf)
+        if (c == null) throw new Exception("Candidate not found!")
         return c
     }
 

@@ -34,6 +34,8 @@ class CompanyService implements ICompanyService {
     @Override
     Company findByCnpj(String cnpj) {
         Company existing = companyRepository.findByCnpj(cnpj)
+
+        if (existing == null) throw new Exception("This CNPJ is not registered in the database!")
         return existing
     }
 
@@ -52,9 +54,12 @@ class CompanyService implements ICompanyService {
 
     @Override
     CompanyResponseDTO create(CompanyRequestDTO dto) {
-        if (findByCnpj(dto.cnpj)) {
-            throw new Exception("Não é possível utilizar o cnpj fornecido!")
+
+        try {
+            findByCnpj(dto.cnpj)
         }
+        catch (Exception e) {}
+
 
         CompanyConversionResult result = parseToEntity(dto)
         Company company = result.company
@@ -72,9 +77,13 @@ class CompanyService implements ICompanyService {
 
     @Override
     CompanyResponseDTO updateByCnpj(String cnpj, CompanyRequestDTO dto) {
-        Company existing = companyRepository.findByCnpj(cnpj)
-        if (!existing) {
-            throw new Exception("[AVISO]: Este CPF não está cadastrado em nossa base de dados!")
+        Company existing = new Company()
+        try {
+            existing = findByCnpj(dto.cnpj)
+        }
+        catch (Exception e) {
+            println(e.getMessage())
+            return null
         }
 
         CompanyConversionResult result = parseToEntity(dto)
@@ -93,9 +102,13 @@ class CompanyService implements ICompanyService {
 
     @Override
     void deleteByCnpj(String cnpj) {
-        Company c = companyRepository.findByCnpj(cnpj)
-        if (c == null) {
-            throw new Exception("[AVISO]: Este CPF não está cadastrado em nossa base de dados!")
+        Company c = new Company()
+        try {
+            c = findByCnpj(cnpj)
+        }
+        catch (Exception e) {
+            println(e.getMessage())
+            return
         }
         companySkillService.removeSkillsFromEntity(c.id)
         companyRepository.deleteByCnpj(cnpj)

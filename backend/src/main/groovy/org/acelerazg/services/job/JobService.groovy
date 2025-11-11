@@ -51,9 +51,14 @@ class JobService implements IJobService {
 
     @Override
     JobResponseDTO create(JobRequestDTO dto) {
-        Company company = companyService.findByCnpj(dto.cnpj)
-        if (company == null) {
-            throw new Exception("[AVISO]: Este CNPJ não está cadastrado em nossa base de dados!")
+        Company company = new Company()
+
+        try {
+            company = companyService.findByCnpj(dto.cnpj)
+        }
+        catch (Exception e) {
+            println(e.getMessage())
+            return null
         }
 
         JobConversionResult result = parseToObject(dto)
@@ -93,8 +98,12 @@ class JobService implements IJobService {
 
     @Override
     List<JobResponseDTO> findJobFromACompany(String cnpj) {
-        if (!companyService.findByCnpj(cnpj)) {
-            throw new Exception("[AVISO]: Este CNPJ não está cadastrado em nossa base de dados!")
+        try {
+            companyService.findByCnpj(cnpj)
+        }
+        catch (Exception e) {
+            println(e.getMessage())
+            return null
         }
         Company company = companyService.findByCnpj(cnpj)
         List<Job> jobs =  jobRepository.findJobFromCompany(company.id)

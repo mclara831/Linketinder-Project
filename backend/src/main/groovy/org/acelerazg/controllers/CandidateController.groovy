@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-@WebServlet("/candidates")
+@WebServlet("/candidates/*")
 class CandidateController extends HttpServlet {
 
     private CandidateService candidateService
@@ -70,27 +70,20 @@ class CandidateController extends HttpServlet {
         mapper.enable(SerializationFeature.INDENT_OUTPUT)
 
         try {
-            String cpf = req.getParameter("cpf")
+            String cpf = req.getPathInfo()
 
             if (cpf) {
-                Candidate candidate = candidateService.findByCpf(cpf)
+                Candidate candidate = candidateService.findByCpf(cpf.substring(1))
+                resp.setStatus(HttpServletResponse.SC_OK)
+                mapper.writeValue(resp.getWriter(), candidate)
 
-                if (candidate != null) {
-                    resp.setStatus(HttpServletResponse.SC_OK)
-                    mapper.writeValue(resp.writer, candidate)
-                } else {
-                    resp.setStatus(HttpServletResponse.SC_NOT_FOUND)
-                    resp.writer.write("{\"message\": \"Candidate not found!\"}")
-                }
             } else {
-
                 List<CandidateResponseDTO> candidates = candidateService.findAll()
-
                 mapper.writeValue(resp.getWriter(), candidates)
             }
 
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to find candidates!\n[ERROR]: ${e.getMessage()}")
+            sendError(resp, HttpServletResponse.SC_NOT_FOUND, "NOT FOUND", e)
         }
     }
 
@@ -112,10 +105,10 @@ class CandidateController extends HttpServlet {
             CandidateResponseDTO response = candidateService.create(newCandidate)
 
             resp.setStatus(HttpServletResponse.SC_CREATED)
-            mapper.writeValue( resp.getWriter(), response)
+            mapper.writeValue(resp.getWriter(), response)
 
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to create candidate!\n[ERROR]: ${e.getMessage()}")
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to create candidate", e)
         }
     }
 
@@ -127,7 +120,7 @@ class CandidateController extends HttpServlet {
         mapper.enable(SerializationFeature.INDENT_OUTPUT)
 
         try {
-            String cpf = req.getParameter("cpf")
+            String cpf = req.getPathInfo().substring(1)
 
             StringBuilder body = new StringBuilder()
             String line
@@ -140,7 +133,7 @@ class CandidateController extends HttpServlet {
             CandidateResponseDTO candidateDTO = candidateService.updateByCpf(cpf, newCandidate)
 
             resp.setStatus(HttpServletResponse.SC_OK)
-            mapper.writeValue( resp.getWriter(), candidateDTO)
+            mapper.writeValue(resp.getWriter(), candidateDTO)
         } catch (Exception e) {
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to update candidate!\n[ERROR]: ${e.getMessage()}")
         }
@@ -153,11 +146,19 @@ class CandidateController extends HttpServlet {
         mapper.enable(SerializationFeature.INDENT_OUTPUT)
 
         try {
-            String cpf = req.getParameter("cpf")
+            String cpf = req.getPathInfo().substring(1)
             candidateService.deleteByCpf(cpf)
             resp.setStatus(HttpServletResponse.SC_OK)
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to delete candidate!\n[ERROR]: ${e.getMessage()}")
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to delete candidate", e)
         }
+    }
+
+    private void sendError(HttpServletResponse resp, int statusCode, String message, Exception e) throws IOException {
+        resp.setStatus(statusCode)
+        mapper.writeValue(resp.getWriter(), Map.of(
+                "error", message,
+                "details", e.getMessage()
+        ))
     }
 }
