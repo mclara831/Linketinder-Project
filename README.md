@@ -207,7 +207,7 @@ git clone  git@github.com:mclara831/Linketinder-Project.git
 
     UPDATE /jobs/{id}  - atualiza uma vaga cadastrada pelo id.
 
-    DELETE /vagjobsas/{id} - exclui uma vaga pelo id.
+    DELETE /jobs/{id} - exclui uma vaga pelo id.
     ```
 
 - Competências:
