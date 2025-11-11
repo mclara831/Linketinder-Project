@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import org.acelerazg.models.Candidate
-import org.acelerazg.models.DTO.CandidateDTO
+import org.acelerazg.models.DTO.candidate.CandidateDTO
 import org.acelerazg.repositories.AddressRepository
 import org.acelerazg.repositories.CandidateRepository
 import org.acelerazg.repositories.SkillRepository

@@ -2,7 +2,7 @@ package services
 
 import org.acelerazg.models.Address
 import org.acelerazg.models.Company
-import org.acelerazg.models.DTO.CompanyDTO
+import org.acelerazg.models.DTO.company.CompanyDTO
 import org.acelerazg.repositories.CompanyRepository
 import org.acelerazg.services.company.CompanyService
 import org.acelerazg.services.skill.CompanySkillService

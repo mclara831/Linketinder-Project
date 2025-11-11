@@ -1,4 +1,4 @@
-package org.acelerazg.models.DTO
+package org.acelerazg.models.DTO.candidate
 
 import org.acelerazg.models.Address
 import org.acelerazg.models.Candidate

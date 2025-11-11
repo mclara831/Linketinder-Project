@@ -2,7 +2,8 @@ package org.acelerazg.views
 
 import org.acelerazg.cli.UI
 import org.acelerazg.models.Address
-import org.acelerazg.models.DTO.JobResponseDTO
+import org.acelerazg.models.DTO.job.JobDTO
+import org.acelerazg.models.DTO.job.JobResponseDTO
 import org.acelerazg.models.Job
 import org.acelerazg.services.job.JobService
 
@@ -16,35 +17,46 @@ class JobView {
 
     void findAll() {
         List<JobResponseDTO> jobs = jobService.findAll()
-        jobs.forEach { it ->  println(it.toString())}
+        jobs.forEach { it -> println(it.toString()) }
     }
 
     void create() {
-        String cnpj = UI.requestCnpj()
+        try {
+            String cnpj = UI.requestCnpj()
 
-        Job job = UI.readJobInfo()
-        Address address = UI.readAdress()
-        String skills = UI.readSkills()
+            Job job = UI.readJobInfo()
+            Address address = UI.readAdress()
+            String skills = UI.readSkills()
 
-        Job created = jobService.create(job, address, skills, cnpj)
-        if(created) println("[CREATED]: ${created.toString()}")
+            JobResponseDTO created = jobService.create(new JobDTO(job, address, skills, cnpj))
+            if (created) println("[CREATED]: ${created.toString()}")
+
+        } catch (Exception e) {
+            println(e.getMessage())
+        }
     }
 
     void update() {
-        List<Job> jobs = jobService.findAllWithId()
-        printJobList(jobs)
+        try {
+            List<Job> jobs = jobService.findAllWithId()
+            printJobList(jobs)
 
-        int option = UI.readInt()
-        isValidOption(option, jobs.size())
+            int option = UI.readInt()
+            isValidOption(option, jobs.size())
 
-        Job job = UI.readJobInfo()
-        Address address = UI.readAdress()
-        String skills = UI.readSkills()
+            Job job = UI.readJobInfo()
+            Address address = UI.readAdress()
+            String skills = UI.readSkills()
 
-        job.id = jobs[option - 1].id
+            String id = jobs[option - 1].id
 
-        Job result = jobService.update(job, address, skills)
-        if(result) println("[UPDATED]: ${result.toString()}")
+            JobDTO dto = new JobDTO(job, address, skills)
+
+            JobResponseDTO result = jobService.update(id, dto)
+            if (result) println("[UPDATED]: ${result.toString()}")
+        } catch (Exception e) {
+            println(e.getMessage())
+        }
     }
 
     void delete() {
@@ -67,7 +79,7 @@ class JobView {
             return
         }
 
-        jobs.forEach { it ->  println(it.toString()) }
+        jobs.forEach { it -> println(it.toString()) }
     }
 
     private void printJobList(List<Job> jobs) {

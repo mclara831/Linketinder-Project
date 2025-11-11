@@ -1,7 +1,7 @@
 package org.acelerazg.services.mappers
 
 import org.acelerazg.models.Company
-import org.acelerazg.models.DTO.CompanyDTO
+import org.acelerazg.models.DTO.company.CompanyDTO
 
 class CompanyMapper {
     CompanyDTO mapToDto(Company company, String address, String skills) {

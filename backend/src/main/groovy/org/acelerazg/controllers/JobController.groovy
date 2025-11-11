@@ -3,10 +3,11 @@ package org.acelerazg.controllers
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import org.acelerazg.models.Company
-import org.acelerazg.models.DTO.company.CompanyDTO
+import org.acelerazg.models.DTO.job.JobResponseDTO
+import org.acelerazg.models.DTO.job.JobDTO
 import org.acelerazg.repositories.AddressRepository
 import org.acelerazg.repositories.CompanyRepository
+import org.acelerazg.repositories.JobRepository
 import org.acelerazg.repositories.SkillRepository
 import org.acelerazg.repositories.db.connection.DatabaseConnection
 import org.acelerazg.repositories.db.connection.PostgresConnection
@@ -14,8 +15,11 @@ import org.acelerazg.repositories.db.factory.RepositoryFactory
 import org.acelerazg.services.address.AddressService
 import org.acelerazg.services.address.IAddressService
 import org.acelerazg.services.company.CompanyService
+import org.acelerazg.services.job.JobService
 import org.acelerazg.services.mappers.CompanyMapper
+import org.acelerazg.services.mappers.JobMapper
 import org.acelerazg.services.skill.CompanySkillService
+import org.acelerazg.services.skill.JobSkillService
 
 import javax.servlet.ServletException
 import javax.servlet.annotation.WebServlet
@@ -23,11 +27,11 @@ import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-@WebServlet("/companies")
-class CompanyController extends HttpServlet {
+@WebServlet("/jobs")
+class JobController extends HttpServlet {
 
-    private CompanyService companyService
-    private CompanyMapper companyMapper
+    private JobService jobService
+    private JobMapper jobMapper
     private ObjectMapper objectMapper
 
     @Override
@@ -37,18 +41,21 @@ class CompanyController extends HttpServlet {
         RepositoryFactory factory = new RepositoryFactory(database)
 
         AddressRepository addressRepository = factory.createAddressRepository()
-        CompanyRepository companyRepository = factory.createCompanyRepository()
+        JobRepository jobRepository = factory.createJobRepository()
         SkillRepository skillRepository = factory.createSkillRepository()
 
-        CompanySkillService companySkillService = new CompanySkillService(skillRepository)
+        JobSkillService jobSkillService = new JobSkillService(skillRepository)
         IAddressService addressService = new AddressService(addressRepository)
-        companyMapper = new CompanyMapper()
+        CompanyService companyService = new CompanyService(new CompanyRepository(database),
+                                                            addressService, new CompanySkillService(skillRepository), new CompanyMapper())
+        jobMapper = new JobMapper()
 
-        companyService = new CompanyService(
-                companyRepository,
+        jobService = new JobService(
+                jobRepository,
                 addressService,
-                companySkillService,
-                companyMapper
+                jobSkillService,
+                companyService,
+                jobMapper
         )
 
         objectMapper = new ObjectMapper()
@@ -66,22 +73,22 @@ class CompanyController extends HttpServlet {
             String cnpj = req.getParameter("cnpj")
 
             if (cnpj) {
-                Company company = companyService.findByCnpj(cnpj)
+                List<JobResponseDTO> job = jobService.findJobFromACompany(cnpj)
 
-                if (company != null) {
+                if (job != null) {
                     resp.setStatus(HttpServletResponse.SC_OK)
-                    objectMapper.writeValue(resp.writer, company)
+                    objectMapper.writeValue(resp.writer, job)
                 } else {
                     resp.setStatus(HttpServletResponse.SC_NOT_FOUND)
                 }
             } else {
 
-                List<CompanyDTO> companies = companyService.findAll()
-                objectMapper.writeValue(resp.getWriter(), companies)
+                List<JobResponseDTO> jobs = jobService.findAll()
+                objectMapper.writeValue(resp.getWriter(), jobs)
             }
 
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to find companies!\n[ERROR]: ${e.getMessage()}")
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to find jobs!\n[ERROR]: ${e.getMessage()}")
         }
     }
 
@@ -100,8 +107,8 @@ class CompanyController extends HttpServlet {
                 body.append(line)
             }
 
-            CompanyDTO newCompany = objectMapper.readValue(body.toString(), CompanyDTO.class)
-            CompanyDTO response = companyService.create(newCompany)
+            JobDTO newJob = objectMapper.readValue(body.toString(), JobDTO.class)
+            JobResponseDTO response = jobService.create(newJob)
 
             resp.setStatus(HttpServletResponse.SC_CREATED)
             objectMapper.writeValue(resp.getWriter(), response)
@@ -119,7 +126,7 @@ class CompanyController extends HttpServlet {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT)
 
         try {
-            String cnpj = req.getParameter("cnpj")
+            String id = req.getParameter("id")
 
             StringBuilder body = new StringBuilder()
             String line
@@ -128,14 +135,13 @@ class CompanyController extends HttpServlet {
                 body.append(line)
             }
 
-            CompanyDTO newCompany = objectMapper.readValue(body.toString(), CompanyDTO.class)
-
-            CompanyDTO companyDTO = companyService.updateByCnpj(cnpj, newCompany)
+            JobDTO newJob = objectMapper.readValue(body.toString(), JobDTO.class)
+            JobResponseDTO jobDTO = jobService.update(id, newJob)
 
             resp.setStatus(HttpServletResponse.SC_OK)
-            objectMapper.writeValue(resp.getWriter(), companyDTO)
+            objectMapper.writeValue(resp.getWriter(), jobDTO)
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to update company!\n[ERROR]: ${e.getMessage()}")
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to update job!\n[ERROR]: ${e.getMessage()}")
         }
     }
 
@@ -146,12 +152,12 @@ class CompanyController extends HttpServlet {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT)
 
         try {
-            String cnpj = req.getParameter("cnpj")
+            String id = req.getParameter("id")
 
-            companyService.deleteByCnpj(cnpj)
+            jobService.deleteById(id)
             resp.setStatus(HttpServletResponse.SC_OK)
         } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to delete the company!\n[ERROR]: ${e.getMessage()}")
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It wasn't possible to delete the job!\n[ERROR]: ${e.getMessage()}")
         }
     }
 }

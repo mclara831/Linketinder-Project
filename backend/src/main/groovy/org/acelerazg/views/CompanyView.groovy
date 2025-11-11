@@ -3,7 +3,7 @@ package org.acelerazg.views
 import org.acelerazg.cli.UI
 import org.acelerazg.models.Address
 import org.acelerazg.models.Company
-import org.acelerazg.models.DTO.CompanyDTO
+import org.acelerazg.models.DTO.company.CompanyDTO
 import org.acelerazg.services.company.CompanyService
 
 class CompanyView {

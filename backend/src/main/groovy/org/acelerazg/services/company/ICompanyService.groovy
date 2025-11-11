@@ -2,7 +2,7 @@ package org.acelerazg.services.company
 
 import org.acelerazg.models.Address
 import org.acelerazg.models.Company
-import org.acelerazg.models.DTO.CompanyDTO
+import org.acelerazg.models.DTO.company.CompanyDTO
 
 interface ICompanyService {
     Company findById(String empresaId)

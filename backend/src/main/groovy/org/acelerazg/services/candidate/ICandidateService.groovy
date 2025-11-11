@@ -2,7 +2,7 @@ package org.acelerazg.services.candidate
 
 import org.acelerazg.models.Address
 import org.acelerazg.models.Candidate
-import org.acelerazg.models.DTO.CandidateDTO
+import org.acelerazg.models.DTO.candidate.CandidateDTO
 
 interface ICandidateService {
     List<CandidateDTO> findAll()

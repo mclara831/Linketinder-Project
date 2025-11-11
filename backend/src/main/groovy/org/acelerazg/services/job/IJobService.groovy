@@ -1,7 +1,8 @@
 package org.acelerazg.services.job
 
-import org.acelerazg.models.Address
-import org.acelerazg.models.DTO.JobResponseDTO
+
+import org.acelerazg.models.DTO.job.JobDTO
+import org.acelerazg.models.DTO.job.JobResponseDTO
 import org.acelerazg.models.Job
 
 interface IJobService {
@@ -9,8 +10,8 @@ interface IJobService {
     List<JobResponseDTO> findAll()
     List<Job> findAllWithId()
     JobResponseDTO findInfoFromJob(Job job)
-    Job create(Job job, Address address, String skills, String cnpj)
-    Job update(Job job, Address address, String skills)
+    JobResponseDTO create(JobDTO dto)
+    JobResponseDTO update(String id, JobDTO dto)
     void deleteById(String id)
     List<JobResponseDTO> findJobFromACompany(String cnpj)
 }

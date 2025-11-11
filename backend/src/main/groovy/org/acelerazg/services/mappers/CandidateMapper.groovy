@@ -2,7 +2,7 @@ package org.acelerazg.services.mappers
 
 
 import org.acelerazg.models.Candidate
-import org.acelerazg.models.DTO.CandidateDTO
+import org.acelerazg.models.DTO.candidate.CandidateDTO
 
 class CandidateMapper {
     CandidateDTO mapToDto(Candidate candidate, String address, String skills) {

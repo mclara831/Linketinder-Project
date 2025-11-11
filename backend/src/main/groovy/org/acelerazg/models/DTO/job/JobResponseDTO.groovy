@@ -1,10 +1,11 @@
-package org.acelerazg.models.DTO
+package org.acelerazg.models.DTO.job
 
 import org.acelerazg.models.Company
 
 import java.time.LocalDate
 
 class JobResponseDTO {
+    String id
     String name
     String description
     String address

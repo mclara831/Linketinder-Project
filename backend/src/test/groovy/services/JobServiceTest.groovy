@@ -2,6 +2,8 @@ package services
 
 import org.acelerazg.models.Address
 import org.acelerazg.models.Company
+import org.acelerazg.models.DTO.job.JobDTO
+import org.acelerazg.models.DTO.job.JobResponseDTO
 import org.acelerazg.models.Job
 import org.acelerazg.repositories.JobRepository
 import org.acelerazg.services.job.JobService
@@ -13,23 +15,23 @@ import spock.lang.Specification
 
 class JobServiceTest extends Specification {
 
-    def jobRepository = Mock(JobRepository)
-    def addressService = Mock(IAddressService)
-    def jobSkillService = Mock(JobSkillService)
-    def companyService = Mock(ICompanyService)
-    def jobMapper = new JobMapper()
-    def jobService = new JobService(jobRepository, addressService, jobSkillService, companyService, jobMapper)
+    JobRepository jobRepository = Mock(JobRepository)
+    IAddressService addressService = Mock(IAddressService)
+    JobSkillService jobSkillService = Mock(JobSkillService)
+    ICompanyService companyService = Mock(ICompanyService)
+    JobMapper jobMapper = new JobMapper()
+    JobService jobService = new JobService(jobRepository, addressService, jobSkillService, companyService, jobMapper)
 
-    def "list all job"() {
+    void "list all job"() {
         given:
-        def jobs = [
+        Job[] jobs = [
                 new Job("Desenvolvedor Frontend", "Testes de unidade"),
                 new Job("Desenvolvedor Backend", "Testes de unidade")
         ]
         jobRepository.findAll() >> jobs
 
         when:
-        def result = jobService.findAll()
+        List<JobResponseDTO> result = jobService.findAll()
 
         then:
         result.size() == 2
@@ -45,12 +47,14 @@ class JobServiceTest extends Specification {
         Company companyMock = new Company("mock-company-id", "mock-name", "mock-email", "mock-company-linkedin", null,
                 "mock-company-description", "mock-company-password", cnpj)
 
+        JobDTO dto = new JobDTO(job, address, skills,cnpj)
+
         companyService.findByCnpj(_ as String) >> companyMock
         addressService.find(_ as Address) >> "mock-endereco-id"
         jobRepository.create(_ as Job) >> job
 
         when:
-        Job result = jobService.create(job, address, skills, cnpj)
+        JobResponseDTO result = jobService.create(dto)
 
         then:
         result.name == job.name
@@ -58,15 +62,18 @@ class JobServiceTest extends Specification {
 
     def "update a job"() {
         given:
+        String id = "mock-job-id-existing"
         Job updated = new Job("mock-job-id-existing", "Desenvolvedor Frontend", "Testes de unidade")
         Address address = new Address("Brasil", "Sao Paulo", "12.345-67")
         String skills = "Java, Angular"
+
+        JobDTO dto = new JobDTO(updated, address, skills)
 
         addressService.find(_ as Address) >> "mock-endereco-id"
         jobRepository.update(_ as Job) >> updated
 
         when:
-        Job result = jobService.update(updated, address, skills)
+        JobResponseDTO result = jobService.update(id, dto)
 
         then:
         result.name == updated.name

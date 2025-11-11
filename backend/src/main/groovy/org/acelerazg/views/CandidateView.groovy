@@ -3,7 +3,7 @@ package org.acelerazg.views
 import org.acelerazg.cli.UI
 import org.acelerazg.models.Address
 import org.acelerazg.models.Candidate
-import org.acelerazg.models.DTO.CandidateDTO
+import org.acelerazg.models.DTO.candidate.CandidateDTO
 import org.acelerazg.services.candidate.CandidateService
 
 class CandidateView {

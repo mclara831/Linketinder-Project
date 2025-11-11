@@ -2,7 +2,9 @@ package org.acelerazg.services.job
 
 import org.acelerazg.models.Company
 import org.acelerazg.models.Address
-import org.acelerazg.models.DTO.JobResponseDTO
+import org.acelerazg.models.DTO.job.JobConversionResult
+import org.acelerazg.models.DTO.job.JobDTO
+import org.acelerazg.models.DTO.job.JobResponseDTO
 import org.acelerazg.models.Job
 import org.acelerazg.repositories.JobRepository
 import org.acelerazg.services.address.IAddressService
@@ -48,31 +50,39 @@ class JobService implements IJobService {
     }
 
     @Override
-    Job create(Job job, Address address, String skills, String cnpj) {
-        Company company = companyService.findByCnpj(cnpj)
+    JobResponseDTO create(JobDTO dto) {
+        Company company = companyService.findByCnpj(dto.cnpj)
         if (company == null) {
-            println "[AVISO]: Este CNPJ não está cadastrado em nossa base de dados!"
-            return null
+            throw new Exception("[AVISO]: Este CNPJ não está cadastrado em nossa base de dados!")
         }
 
+        JobConversionResult result = parseToObject(dto)
+        Job job = result.job
+
         job.id = Utils.generateUUID()
-        job.addressId = addressService.find(address)
+        job.addressId = addressService.find(result.address)
         job.companyId = company.id
 
         Job created = jobRepository.create(job)
-        jobSkillService.addSkillsToEntity(job.id, skills)
-        return created
+        jobSkillService.addSkillsToEntity(job.id, result.skills)
+        return findInfoFromJob(created)
     }
 
     @Override
-    Job update(Job job, Address address, String skills) {
-        String addressId = addressService.find(address)
+    JobResponseDTO update(String id, JobDTO dto) {
+
+        JobConversionResult result = parseToObject(dto)
+        Job job = result.job
+
+        String addressId = addressService.find(result.address)
+        job.id = id
         job.addressId = addressId
 
         jobSkillService.removeSkillsFromEntity(job.id)
-        jobSkillService.addSkillsToEntity(job.id, skills)
+        jobSkillService.addSkillsToEntity(job.id, dto.skills)
 
-        return jobRepository.update(job)
+        Job updated = jobRepository.update(job)
+        return findInfoFromJob(updated)
     }
 
     @Override
@@ -84,11 +94,16 @@ class JobService implements IJobService {
     @Override
     List<JobResponseDTO> findJobFromACompany(String cnpj) {
         if (!companyService.findByCnpj(cnpj)) {
-            println "[AVISO]: Este CNPJ não está cadastrado em nossa base de dados!"
-            return
+            throw new Exception("[AVISO]: Este CNPJ não está cadastrado em nossa base de dados!")
         }
         Company company = companyService.findByCnpj(cnpj)
         List<Job> jobs =  jobRepository.findJobFromCompany(company.id)
         return jobs.collect{findInfoFromJob(it)}
+    }
+
+    JobConversionResult parseToObject(JobDTO dto) {
+        Job job = new Job(dto.name, dto.description)
+        Address address = addressService.formatAddress(dto.address)
+        return new JobConversionResult(job, address, dto.skills)
     }
 }
