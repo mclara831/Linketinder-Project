@@ -21,8 +21,7 @@ class SkillService implements ISkillService {
         skill = formatSkill(skill)
         Skill existing = skillRepository.findByName(skill)
         if (existing) {
-            println("[AVISO]: Esta competência " + skill.toUpperCase() + " já existe em nossa base de dados!")
-            return null
+            throw new Exception("[AVISO]: Esta competência " + skill.toUpperCase() + " já existe em nossa base de dados!")
         }
         Skill created = skillRepository.createByName(skill)
         return created
@@ -43,8 +42,7 @@ class SkillService implements ISkillService {
         String updatedSkill = formatSkill(dto.skills)
         existingSkill = formatSkill(existingSkill)
         if (existsSkill(updatedSkill)) {
-            println("[AVISO]: Essa competência já existe em nossa base de dados!")
-            return null
+            throw new Exception("[AVISO]: Essa competência já existe em nossa base de dados!")
         }
         Skill found = skillRepository.findByName(existingSkill)
         found.name = updatedSkill

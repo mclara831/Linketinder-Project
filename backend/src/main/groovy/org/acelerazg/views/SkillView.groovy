@@ -19,10 +19,14 @@ class SkillView {
     }
 
     void create() {
-        String skill = UI.readLine("Digite o nome da nova competência: ")
+        try {
+            String skill = UI.readLine("Digite o nome da nova competência: ")
 
-        Skill created = skillService.create(new SkillRequestDTO(skill))
-        println("[CREATED]: skill ${created}")
+            Skill created = skillService.create(new SkillRequestDTO(skill))
+            println("[CREATED]: skill ${created}")
+        } catch (Exception e) {
+            println(e.getMessage())
+        }
     }
 
     void registerAList() {
@@ -31,16 +35,20 @@ class SkillView {
     }
 
     void update() {
-        String existingSkill = UI.readLine("Digite o nome da competência que deseja atualizar: ")
+        try {
+            String existingSkill = UI.readLine("Digite o nome da competência que deseja atualizar: ")
 
-        if (!skillService.existsSkill(existingSkill)) {
-            println("[AVISO]: Esta competência não existe em nossa base de dados!")
-            return
+            if (!skillService.existsSkill(existingSkill)) {
+                println("[AVISO]: Esta competência não existe em nossa base de dados!")
+                return
+            }
+
+            String updatedSkill = UI.readLine("Digite o novo nome da competência: ")
+            updatedSkill = skillService.update(existingSkill, new SkillRequestDTO(updatedSkill))
+            println("[UPDATED]: skill ${updatedSkill}")
+        } catch (Exception e) {
+            println(e.getMessage())
         }
-
-        String updatedSkill = UI.readLine("Digite o novo nome da competência: ")
-        updatedSkill = skillService.update(existingSkill, new SkillRequestDTO(updatedSkill))
-        println("[UPDATED]: skill ${updatedSkill}")
     }
 
     void delete() {
