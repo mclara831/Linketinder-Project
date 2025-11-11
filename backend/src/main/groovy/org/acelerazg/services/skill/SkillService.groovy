@@ -1,5 +1,6 @@
 package org.acelerazg.services.skill
 
+import org.acelerazg.models.DTO.skill.SkillRequestDTO
 import org.acelerazg.models.Skill
 import org.acelerazg.repositories.SkillRepository
 
@@ -15,7 +16,8 @@ class SkillService implements ISkillService {
         return skillRepository.findAll()
     }
 
-    Skill create(String skill) {
+    Skill create(SkillRequestDTO dto) {
+        String skill = dto.skills
         skill = formatSkill(skill)
         Skill existing = skillRepository.findByName(skill)
         if (existing) {
@@ -37,8 +39,8 @@ class SkillService implements ISkillService {
         return c != null
     }
 
-    Skill update(String existingSkill, String updatedSkill) {
-        updatedSkill = formatSkill(updatedSkill)
+    Skill update(String existingSkill, SkillRequestDTO dto) {
+        String updatedSkill = formatSkill(dto.skills)
         existingSkill = formatSkill(existingSkill)
         if (existsSkill(updatedSkill)) {
             println("[AVISO]: Essa competência já existe em nossa base de dados!")

@@ -1,6 +1,7 @@
 package org.acelerazg.views
 
 import org.acelerazg.cli.UI
+import org.acelerazg.models.DTO.skill.SkillRequestDTO
 import org.acelerazg.models.Skill
 import org.acelerazg.services.skill.SkillService
 
@@ -20,7 +21,7 @@ class SkillView {
     void create() {
         String skill = UI.readLine("Digite o nome da nova competência: ")
 
-        Skill created = skillService.create(skill)
+        Skill created = skillService.create(new SkillRequestDTO(skill))
         println("[CREATED]: skill ${created}")
     }
 
@@ -38,7 +39,7 @@ class SkillView {
         }
 
         String updatedSkill = UI.readLine("Digite o novo nome da competência: ")
-        updatedSkill = skillService.update(existingSkill, updatedSkill)
+        updatedSkill = skillService.update(existingSkill, new SkillRequestDTO(updatedSkill))
         println("[UPDATED]: skill ${updatedSkill}")
     }
 
