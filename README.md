@@ -151,11 +151,77 @@ Durante o processo de refatoração, o projeto passou por uma série de melhoria
 
 - Clone este repositório 
 
-``` 
+``` bash
 git clone  git@github.com:mclara831/Linketinder-Project.git
 ```
 
 -  Abra na sua IDE de preferência
+
+## REST/RESTFUL API
+
+- Baixe o Apache Tomcat 9: [Clique aqui](https://tomcat.apache.org/download-90.cgi)
+- No build.gradle, adicione as dependências para Servlets e Jackson:
+    ```groovy
+    dependencies {
+        implementation 'javax.servlet:javax.servlet-api:4.0.1'
+        implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.0'
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.0'
+    }
+    ```
+
+ ### Endpoints criados:
+
+- Candidatos:
+    ```bash
+    GET /candidates - retorna todos os candidatos registrados.
+
+    GET /candidates/{cpf} - retorna o candidato pelo cpf.
+
+    POST /candidates - cadastra um novo candidato.
+
+    UPDATE /candidates - atualiza um candidato cadastrado.
+
+    DELETE /cpf - exclui um candidato pelo cpf.
+```
+
+- Empresas:
+    GET /companies - retorna todas as empresas registradas.
+
+    GET /companies?cnpj={} - retorna a empresa pelo cnpj.
+
+    POST /companies - cadastra uma nova empresa.
+
+    UPDATE /companies?cnpj={}  - atualiza uma empresa cadastrada.
+
+    DELETE /companies?cnpj={} - exclui uma empresa pelo cnpj.
+```
+
+
+- Vagas:
+    ```bash
+    GET /jobs - retorna todas as vagas registradas.
+
+    GET /jobs?cnpj={} - retorna as vagas pelo cnpj de uma empresa.
+
+    POST /jobs - cadastra uma nova vaga.
+
+    UPDATE /jobs/{id}  - atualiza uma vaga cadastrada pelo id.
+
+    DELETE /vagjobsas/{id} - exclui uma vaga pelo id.
+    ```
+
+- Competências:
+    ```bash
+    GET /skills - retorna todos as competências registradas.
+
+    POST /skills - cadastra uma nova competência.
+
+    UPDATE /skills/{nome}  - atualiza uma competências cadastrada pelo nome.
+
+    DELETE /skills/{nome} - exclui uma competências pelo name.
+    ```
+
+
 
 ### Backend:
 
