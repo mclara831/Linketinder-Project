@@ -1,5 +1,6 @@
 package org.acelerazg.services.skill
 
+import org.acelerazg.models.Skill
 import org.acelerazg.repositories.SkillRepository
 
 class JobSkillService extends BaseSkillService {
@@ -9,7 +10,7 @@ class JobSkillService extends BaseSkillService {
     }
 
     @Override
-    List<String> findSkills(String jobId) {
+    List<Skill> findSkills(String jobId) {
         return skillRepository.findSkillsByJob(jobId)
     }
 

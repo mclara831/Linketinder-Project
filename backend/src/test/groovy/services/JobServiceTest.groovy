@@ -2,9 +2,10 @@ package services
 
 import org.acelerazg.models.Address
 import org.acelerazg.models.Company
-import org.acelerazg.models.DTO.job.JobDTO
+import org.acelerazg.models.DTO.job.JobRequestDTO
 import org.acelerazg.models.DTO.job.JobResponseDTO
 import org.acelerazg.models.Job
+import org.acelerazg.models.Skill
 import org.acelerazg.repositories.JobRepository
 import org.acelerazg.services.job.JobService
 import org.acelerazg.services.skill.JobSkillService
@@ -38,7 +39,7 @@ class JobServiceTest extends Specification {
         result[0].name == "Desenvolvedor Frontend"
     }
 
-    def "insert new job"() {
+    void "insert new job"() {
         given:
         Job job = new Job("Desenvolvedor Backend", "Testes de unidade")
         Address address = new Address("Brasil", "Sao Paulo", "12.345-67")
@@ -47,7 +48,7 @@ class JobServiceTest extends Specification {
         Company companyMock = new Company("mock-company-id", "mock-name", "mock-email", "mock-company-linkedin", null,
                 "mock-company-description", "mock-company-password", cnpj)
 
-        JobDTO dto = new JobDTO(job, address, skills,cnpj)
+        JobRequestDTO dto = new JobRequestDTO(job, address, skills,cnpj)
 
         companyService.findByCnpj(_ as String) >> companyMock
         addressService.find(_ as Address) >> "mock-endereco-id"
@@ -60,14 +61,14 @@ class JobServiceTest extends Specification {
         result.name == job.name
     }
 
-    def "update a job"() {
+    void "update a job"() {
         given:
         String id = "mock-job-id-existing"
         Job updated = new Job("mock-job-id-existing", "Desenvolvedor Frontend", "Testes de unidade")
         Address address = new Address("Brasil", "Sao Paulo", "12.345-67")
         String skills = "Java, Angular"
 
-        JobDTO dto = new JobDTO(updated, address, skills)
+        JobRequestDTO dto = new JobRequestDTO(updated, address, skills)
 
         addressService.find(_ as Address) >> "mock-endereco-id"
         jobRepository.update(_ as Job) >> updated
@@ -79,7 +80,7 @@ class JobServiceTest extends Specification {
         result.name == updated.name
     }
 
-    def "delete a skill"() {
+    void "delete a skill"() {
         given:
         String jobId = "mock-job-id-existing"
 

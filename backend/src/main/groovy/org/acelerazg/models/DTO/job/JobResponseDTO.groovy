@@ -1,6 +1,7 @@
 package org.acelerazg.models.DTO.job
 
 import org.acelerazg.models.Company
+import org.acelerazg.models.Skill
 
 import java.time.LocalDate
 
@@ -11,7 +12,7 @@ class JobResponseDTO {
     String address
     LocalDate publicationDate
     Company company
-    String skills
+    List<Skill> skills
 
     JobResponseDTO() {}
 

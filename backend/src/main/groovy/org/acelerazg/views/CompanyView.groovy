@@ -3,7 +3,8 @@ package org.acelerazg.views
 import org.acelerazg.cli.UI
 import org.acelerazg.models.Address
 import org.acelerazg.models.Company
-import org.acelerazg.models.DTO.company.CompanyDTO
+import org.acelerazg.models.DTO.company.CompanyRequestDTO
+import org.acelerazg.models.DTO.company.CompanyResponseDTO
 import org.acelerazg.services.company.CompanyService
 
 class CompanyView {
@@ -15,7 +16,7 @@ class CompanyView {
     }
 
     void findAll() {
-        List<CompanyDTO> empresas = companyService.findAll()
+        List<CompanyResponseDTO> empresas = companyService.findAll()
         empresas.each { it -> println(it.toString()) }
     }
 
@@ -25,10 +26,10 @@ class CompanyView {
             Address address = UI.readAdress()
             String skills = UI.readSkills()
 
-            CompanyDTO dto = new CompanyDTO(company, address, skills)
+            CompanyRequestDTO dto = new CompanyRequestDTO(company, address, skills)
 
-            dto = companyService.create(dto)
-            if (dto) println(dto.toString())
+            CompanyResponseDTO response = companyService.create(dto)
+            if (response) println(response.toString())
         } catch (Exception e) {
             println(e.getMessage())
         }
@@ -47,9 +48,9 @@ class CompanyView {
             Address address = UI.readAdress()
             String skills = UI.readSkills()
 
-            CompanyDTO dto = new CompanyDTO(updatedCompany, address, skills)
-            dto = companyService.updateByCnpj(cnpj, dto)
-            if (dto) println(dto.toString())
+            CompanyRequestDTO dto = new CompanyRequestDTO(updatedCompany, address, skills)
+            CompanyResponseDTO response = companyService.updateByCnpj(cnpj, dto)
+            if (response) println(response.toString())
         } catch (Exception e) {
             println(e.getMessage())
         }

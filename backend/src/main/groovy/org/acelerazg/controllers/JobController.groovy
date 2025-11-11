@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import org.acelerazg.models.DTO.job.JobResponseDTO
-import org.acelerazg.models.DTO.job.JobDTO
+import org.acelerazg.models.DTO.job.JobRequestDTO
 import org.acelerazg.repositories.AddressRepository
 import org.acelerazg.repositories.CompanyRepository
 import org.acelerazg.repositories.JobRepository
@@ -107,7 +107,7 @@ class JobController extends HttpServlet {
                 body.append(line)
             }
 
-            JobDTO newJob = objectMapper.readValue(body.toString(), JobDTO.class)
+            JobRequestDTO newJob = objectMapper.readValue(body.toString(), JobRequestDTO.class)
             JobResponseDTO response = jobService.create(newJob)
 
             resp.setStatus(HttpServletResponse.SC_CREATED)
@@ -135,7 +135,7 @@ class JobController extends HttpServlet {
                 body.append(line)
             }
 
-            JobDTO newJob = objectMapper.readValue(body.toString(), JobDTO.class)
+            JobRequestDTO newJob = objectMapper.readValue(body.toString(), JobRequestDTO.class)
             JobResponseDTO jobDTO = jobService.update(id, newJob)
 
             resp.setStatus(HttpServletResponse.SC_OK)

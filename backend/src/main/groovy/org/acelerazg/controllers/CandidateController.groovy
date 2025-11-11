@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import org.acelerazg.models.Candidate
-import org.acelerazg.models.DTO.candidate.CandidateDTO
+import org.acelerazg.models.DTO.candidate.CandidateRequestDTO
+import org.acelerazg.models.DTO.candidate.CandidateResponseDTO
 import org.acelerazg.repositories.AddressRepository
 import org.acelerazg.repositories.CandidateRepository
 import org.acelerazg.repositories.SkillRepository
@@ -83,7 +84,7 @@ class CandidateController extends HttpServlet {
                 }
             } else {
 
-                List<CandidateDTO> candidates = candidateService.findAll()
+                List<CandidateResponseDTO> candidates = candidateService.findAll()
 
                 mapper.writeValue(resp.getWriter(), candidates)
             }
@@ -107,8 +108,8 @@ class CandidateController extends HttpServlet {
                 body.append(line)
             }
 
-            CandidateDTO newCandidate = mapper.readValue(body.toString(), CandidateDTO.class)
-            CandidateDTO response = candidateService.create(newCandidate)
+            CandidateRequestDTO newCandidate = mapper.readValue(body.toString(), CandidateRequestDTO.class)
+            CandidateResponseDTO response = candidateService.create(newCandidate)
 
             resp.setStatus(HttpServletResponse.SC_CREATED)
             mapper.writeValue( resp.getWriter(), response)
@@ -135,9 +136,8 @@ class CandidateController extends HttpServlet {
                 body.append(line)
             }
 
-            CandidateDTO newCandidate = mapper.readValue(body.toString(), CandidateDTO.class)
-
-            CandidateDTO candidateDTO = candidateService.updateByCpf(cpf, newCandidate)
+            CandidateRequestDTO newCandidate = mapper.readValue(body.toString(), CandidateRequestDTO.class)
+            CandidateResponseDTO candidateDTO = candidateService.updateByCpf(cpf, newCandidate)
 
             resp.setStatus(HttpServletResponse.SC_OK)
             mapper.writeValue( resp.getWriter(), candidateDTO)

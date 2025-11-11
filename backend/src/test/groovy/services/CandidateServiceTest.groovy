@@ -2,7 +2,9 @@ package services
 
 import org.acelerazg.models.Address
 import org.acelerazg.models.Candidate
-import org.acelerazg.models.DTO.candidate.CandidateDTO
+import org.acelerazg.models.DTO.candidate.CandidateRequestDTO
+import org.acelerazg.models.DTO.candidate.CandidateResponseDTO
+import org.acelerazg.models.Skill
 import org.acelerazg.repositories.CandidateRepository
 import org.acelerazg.services.address.IAddressService
 import org.acelerazg.services.candidate.CandidateService
@@ -30,7 +32,7 @@ class CandidateServiceTest extends Specification {
         candidateRepository.findAll() >> candidates
 
         when:
-        List<CandidateDTO> result = candidateService.findAll()
+        List<CandidateResponseDTO> result = candidateService.findAll()
 
         then:
         result.size() == 1
@@ -44,7 +46,7 @@ class CandidateServiceTest extends Specification {
                 "Test example", "test")
         Address address = new Address("Brasil", "Sao Paulo", "12.345-67")
         String skills = "Java, Angular"
-        CandidateDTO expectedResult = new CandidateDTO(candidate, address, skills)
+        CandidateRequestDTO expectedResult = new CandidateRequestDTO(candidate, address, skills)
 
         candidateRepository.findByCpf(_ as String) >> null
         addressService.find(_ as Address) >> "mock-endereco-id"
@@ -52,7 +54,7 @@ class CandidateServiceTest extends Specification {
         candidateSkillService.addSkillsToEntity(_ as String, _ as String) >> {}
 
         when:
-        CandidateDTO result = candidateService.create(expectedResult)
+        CandidateResponseDTO result = candidateService.create(expectedResult)
 
         then:
         result.cpf == expectedResult.cpf
@@ -72,7 +74,7 @@ class CandidateServiceTest extends Specification {
         Address address = new Address("Brasil", "Sao Paulo", "12.345-67")
         String skills = "Java, Angular"
 
-        CandidateDTO expectedResult = new CandidateDTO(updatedCandidate, address, skills)
+        CandidateRequestDTO expectedResult = new CandidateRequestDTO(updatedCandidate, address, skills)
 
         candidateRepository.findByCpf(_ as String) >> oldCandidate
         addressService.find(_ as Address) >> "mock-endereco-id"
@@ -81,7 +83,7 @@ class CandidateServiceTest extends Specification {
         candidateRepository.updateById(_ as Candidate) >> { Candidate c -> updatedCandidate }
 
         when:
-        CandidateDTO result = candidateService.updateByCpf(cpf, expectedResult)
+        CandidateResponseDTO result = candidateService.updateByCpf(cpf, expectedResult)
 
         then:
         result.name == "Joao"
@@ -97,7 +99,7 @@ class CandidateServiceTest extends Specification {
 
         when:
         candidateService.deleteByCpf(candidates[0].cpf)
-        List<CandidateDTO> result = candidateService.findAll()
+        List<CandidateResponseDTO> result = candidateService.findAll()
 
         then:
         result.size() == 0

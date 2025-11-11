@@ -3,7 +3,7 @@ package org.acelerazg.models.DTO.company
 import org.acelerazg.models.Address
 import org.acelerazg.models.Company
 
-class CompanyDTO {
+class CompanyRequestDTO {
     String name
     String cnpj
     String email
@@ -13,9 +13,9 @@ class CompanyDTO {
     String skills
     String password
 
-    CompanyDTO() {}
+    CompanyRequestDTO() {}
 
-    CompanyDTO(Company company, Address address, String skills) {
+    CompanyRequestDTO(Company company, Address address, String skills) {
         this.name = company.name
         this.cnpj = company.cnpj
         this.email = company.email

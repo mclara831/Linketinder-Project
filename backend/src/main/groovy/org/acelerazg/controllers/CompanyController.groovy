@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import org.acelerazg.models.Company
-import org.acelerazg.models.DTO.company.CompanyDTO
+import org.acelerazg.models.DTO.company.CompanyRequestDTO
+import org.acelerazg.models.DTO.company.CompanyResponseDTO
 import org.acelerazg.repositories.AddressRepository
 import org.acelerazg.repositories.CompanyRepository
 import org.acelerazg.repositories.SkillRepository
@@ -76,7 +77,7 @@ class CompanyController extends HttpServlet {
                 }
             } else {
 
-                List<CompanyDTO> companies = companyService.findAll()
+                List<CompanyResponseDTO> companies = companyService.findAll()
                 objectMapper.writeValue(resp.getWriter(), companies)
             }
 
@@ -100,8 +101,8 @@ class CompanyController extends HttpServlet {
                 body.append(line)
             }
 
-            CompanyDTO newCompany = objectMapper.readValue(body.toString(), CompanyDTO.class)
-            CompanyDTO response = companyService.create(newCompany)
+            CompanyRequestDTO newCompany = objectMapper.readValue(body.toString(), CompanyRequestDTO.class)
+            CompanyResponseDTO response = companyService.create(newCompany)
 
             resp.setStatus(HttpServletResponse.SC_CREATED)
             objectMapper.writeValue(resp.getWriter(), response)
@@ -128,9 +129,8 @@ class CompanyController extends HttpServlet {
                 body.append(line)
             }
 
-            CompanyDTO newCompany = objectMapper.readValue(body.toString(), CompanyDTO.class)
-
-            CompanyDTO companyDTO = companyService.updateByCnpj(cnpj, newCompany)
+            CompanyRequestDTO newCompany = objectMapper.readValue(body.toString(), CompanyRequestDTO.class)
+            CompanyResponseDTO companyDTO = companyService.updateByCnpj(cnpj, newCompany)
 
             resp.setStatus(HttpServletResponse.SC_OK)
             objectMapper.writeValue(resp.getWriter(), companyDTO)

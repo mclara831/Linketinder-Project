@@ -2,7 +2,9 @@ package services
 
 import org.acelerazg.models.Address
 import org.acelerazg.models.Company
-import org.acelerazg.models.DTO.company.CompanyDTO
+import org.acelerazg.models.DTO.company.CompanyRequestDTO
+import org.acelerazg.models.DTO.company.CompanyResponseDTO
+import org.acelerazg.models.Skill
 import org.acelerazg.repositories.CompanyRepository
 import org.acelerazg.services.company.CompanyService
 import org.acelerazg.services.skill.CompanySkillService
@@ -12,11 +14,11 @@ import spock.lang.Specification
 
 class CompanyServiceTest extends Specification {
 
-    def companyRepository = Mock(CompanyRepository)
-    def addressService = Mock(IAddressService)
-    def companySkillService = Mock(CompanySkillService)
-    def companyMapper = new CompanyMapper()
-    def companyService = new CompanyService(companyRepository, addressService, companySkillService, companyMapper)
+    CompanyRepository companyRepository = Mock(CompanyRepository)
+    IAddressService addressService = Mock(IAddressService)
+    CompanySkillService companySkillService = Mock(CompanySkillService)
+    CompanyMapper companyMapper = new CompanyMapper()
+    CompanyService companyService = new CompanyService(companyRepository, addressService, companySkillService, companyMapper)
 
     void "return list of all companies"() {
         given:
@@ -28,7 +30,7 @@ class CompanyServiceTest extends Specification {
         companyRepository.findAll() >> companies
 
         when:
-        List<CompanyDTO> result = companyService.findAll()
+        List<CompanyResponseDTO> result = companyService.findAll()
 
         then:
         result.size() == 1
@@ -46,10 +48,10 @@ class CompanyServiceTest extends Specification {
         companyRepository.findByCnpj(_ as String) >> null
         addressService.find(_ as Address) >> "mock-endereco-id"
         companyRepository.create(_ as Company) >> { Company c -> c }
-        CompanyDTO dto = new CompanyDTO(company, address, skills)
+        CompanyRequestDTO dto = new CompanyRequestDTO(company, address, skills)
 
         when:
-        CompanyDTO result = companyService.create(dto)
+        CompanyResponseDTO result = companyService.create(dto)
 
         then:
         company.name == result.name
@@ -68,7 +70,7 @@ class CompanyServiceTest extends Specification {
         String skills = "Java, Angular"
 
         String cnpj = "0000000/00000"
-        CompanyDTO dto = new CompanyDTO(updatedCompany, address, skills)
+        CompanyRequestDTO dto = new CompanyRequestDTO(updatedCompany, address, skills)
 
 
         companyRepository.findByCnpj(_ as String) >> oldCompany
@@ -76,15 +78,15 @@ class CompanyServiceTest extends Specification {
         companyRepository.updateById(_ as Company) >> { Company c -> updatedCompany }
 
         when:
-        CompanyDTO result = companyService.updateByCnpj(cnpj, dto)
+        CompanyResponseDTO result = companyService.updateByCnpj(cnpj, dto)
 
         then:
         result.name == updatedCompany.name
     }
 
-    def "delete candidate"() {
+    void "delete candidate"() {
         given:
-        def companies = [
+        Company[] companies = [
                 new Company("Pastel Soft", "pastel@gmail.com", "linkedin.com/in/pastel",
                         "Teste", "teste", "0000000/00000")
         ]
@@ -93,7 +95,7 @@ class CompanyServiceTest extends Specification {
 
         when:
         companyService.deleteByCnpj(companies[0].cnpj)
-        def result = companyService.findAll()
+        List<CompanyResponseDTO> result = companyService.findAll()
 
         then:
         result.size() == 0

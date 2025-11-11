@@ -2,17 +2,18 @@ package org.acelerazg.models.DTO.job
 
 import org.acelerazg.models.Address
 import org.acelerazg.models.Job
+import org.acelerazg.models.Skill
 
-class JobDTO {
+class JobRequestDTO {
     String cnpj
     String name
     String description
     String address
     String skills
 
-    JobDTO() {}
+    JobRequestDTO() {}
 
-    JobDTO( Job job, Address address, String skills, String cnpj) {
+    JobRequestDTO(Job job, Address address, String skills, String cnpj) {
         this.name = job.name
         this.cnpj = cnpj
         this.description = job.description
@@ -20,7 +21,7 @@ class JobDTO {
         this.skills = skills
     }
 
-    JobDTO( Job job, Address address, String skills) {
+    JobRequestDTO(Job job, Address address, String skills) {
         this.name = job.name
         this.description = job.description
         this.address = address

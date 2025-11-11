@@ -2,7 +2,7 @@ package org.acelerazg.views
 
 import org.acelerazg.cli.UI
 import org.acelerazg.models.Address
-import org.acelerazg.models.DTO.job.JobDTO
+import org.acelerazg.models.DTO.job.JobRequestDTO
 import org.acelerazg.models.DTO.job.JobResponseDTO
 import org.acelerazg.models.Job
 import org.acelerazg.services.job.JobService
@@ -28,7 +28,7 @@ class JobView {
             Address address = UI.readAdress()
             String skills = UI.readSkills()
 
-            JobResponseDTO created = jobService.create(new JobDTO(job, address, skills, cnpj))
+            JobResponseDTO created = jobService.create(new JobRequestDTO(job, address, skills, cnpj))
             if (created) println("[CREATED]: ${created.toString()}")
 
         } catch (Exception e) {
@@ -50,7 +50,7 @@ class JobView {
 
             String id = jobs[option - 1].id
 
-            JobDTO dto = new JobDTO(job, address, skills)
+            JobRequestDTO dto = new JobRequestDTO(job, address, skills)
 
             JobResponseDTO result = jobService.update(id, dto)
             if (result) println("[UPDATED]: ${result.toString()}")

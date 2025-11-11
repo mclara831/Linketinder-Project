@@ -3,9 +3,10 @@ package org.acelerazg.services.job
 import org.acelerazg.models.Company
 import org.acelerazg.models.Address
 import org.acelerazg.models.DTO.job.JobConversionResult
-import org.acelerazg.models.DTO.job.JobDTO
+import org.acelerazg.models.DTO.job.JobRequestDTO
 import org.acelerazg.models.DTO.job.JobResponseDTO
 import org.acelerazg.models.Job
+import org.acelerazg.models.Skill
 import org.acelerazg.repositories.JobRepository
 import org.acelerazg.services.address.IAddressService
 import org.acelerazg.services.company.ICompanyService
@@ -43,14 +44,13 @@ class JobService implements IJobService {
     @Override
     JobResponseDTO findInfoFromJob(Job job) {
         String address = addressService.findById(job.addressId).toString()
-        String skills = jobSkillService.findSkills(job.id) ?: []
-        if (skills) skills.join(", ")
+        List<Skill> skills = jobSkillService.findSkills(job.id) ?: []
         Company company = companyService.findById(job.companyId)
         return jobMapper.mapToDto(job, company, address, skills)
     }
 
     @Override
-    JobResponseDTO create(JobDTO dto) {
+    JobResponseDTO create(JobRequestDTO dto) {
         Company company = companyService.findByCnpj(dto.cnpj)
         if (company == null) {
             throw new Exception("[AVISO]: Este CNPJ não está cadastrado em nossa base de dados!")
@@ -69,7 +69,7 @@ class JobService implements IJobService {
     }
 
     @Override
-    JobResponseDTO update(String id, JobDTO dto) {
+    JobResponseDTO update(String id, JobRequestDTO dto) {
 
         JobConversionResult result = parseToObject(dto)
         Job job = result.job
@@ -101,7 +101,7 @@ class JobService implements IJobService {
         return jobs.collect{findInfoFromJob(it)}
     }
 
-    JobConversionResult parseToObject(JobDTO dto) {
+    JobConversionResult parseToObject(JobRequestDTO dto) {
         Job job = new Job(dto.name, dto.description)
         Address address = addressService.formatAddress(dto.address)
         return new JobConversionResult(job, address, dto.skills)

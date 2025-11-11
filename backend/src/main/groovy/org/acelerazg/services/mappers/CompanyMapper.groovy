@@ -1,11 +1,12 @@
 package org.acelerazg.services.mappers
 
 import org.acelerazg.models.Company
-import org.acelerazg.models.DTO.company.CompanyDTO
+import org.acelerazg.models.DTO.company.CompanyResponseDTO
+import org.acelerazg.models.Skill
 
 class CompanyMapper {
-    CompanyDTO mapToDto(Company company, String address, String skills) {
-        CompanyDTO companyResponseDTO = new CompanyDTO()
+    CompanyResponseDTO mapToDto(Company company, String address, List<Skill> skills) {
+        CompanyResponseDTO companyResponseDTO = new CompanyResponseDTO()
         companyResponseDTO.name = company.name
         companyResponseDTO.cnpj = company.cnpj
         companyResponseDTO.email = company.email

@@ -3,7 +3,9 @@ package org.acelerazg.services.company
 import org.acelerazg.models.Address
 import org.acelerazg.models.Company
 import org.acelerazg.models.DTO.company.CompanyConversionResult
-import org.acelerazg.models.DTO.company.CompanyDTO
+import org.acelerazg.models.DTO.company.CompanyRequestDTO
+import org.acelerazg.models.DTO.company.CompanyResponseDTO
+import org.acelerazg.models.Skill
 import org.acelerazg.repositories.CompanyRepository
 import org.acelerazg.services.address.IAddressService
 import org.acelerazg.services.mappers.CompanyMapper
@@ -36,21 +38,20 @@ class CompanyService implements ICompanyService {
     }
 
     @Override
-    List<CompanyDTO> findAll() {
+    List<CompanyResponseDTO> findAll() {
         List<Company> companies = companyRepository.findAll()
         return companies.collect { findInfoFromCompany(it) }
     }
 
     @Override
-    CompanyDTO findInfoFromCompany(Company company) {
+    CompanyResponseDTO findInfoFromCompany(Company company) {
         String address = addressService.findById(company.addressId).toString()
-        String skills = companySkillService.findSkills(company.id) ?: []
-        if (skills) skills.join(", ")
+        List<Skill> skills = companySkillService.findSkills(company.id) ?: []
         return companyMapper.mapToDto(company, address, skills)
     }
 
     @Override
-    CompanyDTO create(CompanyDTO dto) {
+    CompanyResponseDTO create(CompanyRequestDTO dto) {
         if (findByCnpj(dto.cnpj)) {
             throw new Exception("Não é possível utilizar o cnpj fornecido!")
         }
@@ -70,7 +71,7 @@ class CompanyService implements ICompanyService {
     }
 
     @Override
-    CompanyDTO updateByCnpj(String cnpj, CompanyDTO dto) {
+    CompanyResponseDTO updateByCnpj(String cnpj, CompanyRequestDTO dto) {
         Company existing = companyRepository.findByCnpj(cnpj)
         if (!existing) {
             throw new Exception("[AVISO]: Este CPF não está cadastrado em nossa base de dados!")
@@ -113,7 +114,7 @@ class CompanyService implements ICompanyService {
         return existing
     }
 
-    CompanyConversionResult parseToEntity(CompanyDTO dto) {
+    CompanyConversionResult parseToEntity(CompanyRequestDTO dto) {
         if (dto == null) return null
         Address address = addressService.formatAddress(dto.address)
         Company company = new Company(dto.name, dto.email, dto.linkedin, dto.description, dto.password, dto.cnpj)

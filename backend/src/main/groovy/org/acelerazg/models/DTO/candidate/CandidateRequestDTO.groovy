@@ -2,10 +2,11 @@ package org.acelerazg.models.DTO.candidate
 
 import org.acelerazg.models.Address
 import org.acelerazg.models.Candidate
+import org.acelerazg.models.Skill
 
 import java.time.LocalDate
 
-class CandidateDTO {
+class CandidateRequestDTO {
     String name
     String lastname
     String cpf
@@ -17,9 +18,9 @@ class CandidateDTO {
     String skills
     String password
 
-    CandidateDTO() {}
+    CandidateRequestDTO() {}
 
-    CandidateDTO(Candidate candidate, Address address, String skills) {
+    CandidateRequestDTO(Candidate candidate, Address address, String skills) {
         this.name = candidate.name
         this.lastname = candidate.lastname
         this.cpf = candidate.cpf

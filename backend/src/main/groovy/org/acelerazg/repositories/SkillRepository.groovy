@@ -47,12 +47,12 @@ class SkillRepository extends BaseRepository<Skill> {
         executeDelete(query, [skill.id])
     }
 
-    List<String> findSkills(String query, String entityId) {
-        List<String> skills = []
+    List<Skill> findSkills(String query, String entityId) {
+        List<Skill> skills = []
         try {
             sql.getConnection().eachRow(query, [entityId]) { row ->
                 Skill skill = findById(row.competencia_id)
-                skills.add(skill.name)
+                skills.add(skill)
             }
         } catch (Exception e) {
             logError("Failed to execute findAll for ${getTableName()}", e)
@@ -62,7 +62,7 @@ class SkillRepository extends BaseRepository<Skill> {
         return skills
     }
 
-    List<String> findSkillsByCandidate(String candidateId) {
+    List<Skill> findSkillsByCandidate(String candidateId) {
         String query = "SELECT * FROM candidatos_competencias WHERE candidato_id=?"
         return findSkills(query, candidateId)
     }
@@ -77,7 +77,7 @@ class SkillRepository extends BaseRepository<Skill> {
         executeDelete(query, [candidateId])
     }
 
-    List<String> findSkillsByCompany(String companyId) {
+    List<Skill> findSkillsByCompany(String companyId) {
         String query = "SELECT * FROM empresas_competencias WHERE empresa_id=?"
         return findSkills(query, companyId)
     }
@@ -92,7 +92,7 @@ class SkillRepository extends BaseRepository<Skill> {
         executeDelete(query, [companyId])
     }
 
-    List<String> findSkillsByJob(String jobId) {
+    List<Skill> findSkillsByJob(String jobId) {
         String query = "SELECT * FROM vagas_competencias WHERE vaga_id=?"
         return findSkills(query, jobId)
     }

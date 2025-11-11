@@ -3,7 +3,9 @@ package org.acelerazg.services.candidate
 import org.acelerazg.models.Address
 import org.acelerazg.models.Candidate
 import org.acelerazg.models.DTO.candidate.CandidateConversionResult
-import org.acelerazg.models.DTO.candidate.CandidateDTO
+import org.acelerazg.models.DTO.candidate.CandidateRequestDTO
+import org.acelerazg.models.DTO.candidate.CandidateResponseDTO
+import org.acelerazg.models.Skill
 import org.acelerazg.repositories.CandidateRepository
 import org.acelerazg.services.address.IAddressService
 import org.acelerazg.services.mappers.CandidateMapper
@@ -28,24 +30,22 @@ class CandidateService implements ICandidateService {
     }
 
     @Override
-    List<CandidateDTO> findAll() {
+    List<CandidateResponseDTO> findAll() {
         List<Candidate> candidates = candidateRepository.findAll()
         return candidates.collect { findInfoFromCandidate(it) }
     }
 
     @Override
-    CandidateDTO findInfoFromCandidate(Candidate candidate) {
+    CandidateResponseDTO findInfoFromCandidate(Candidate candidate) {
         String address = addressService.findById(candidate.addressId).toString()
-        String skills = candidateSkillService.findSkills(candidate.id) ?: []
-        if (skills) skills.join(", ")
+        List<Skill> skills = candidateSkillService.findSkills(candidate.id) ?: []
         return candidateMapper.mapToDto(candidate, address, skills)
     }
 
     @Override
-    CandidateDTO create(CandidateDTO candidateDTO) {
+    CandidateResponseDTO create(CandidateRequestDTO candidateDTO) {
 
         if (cpfValid(candidateDTO.cpf)) {
-            println "[AVISO]: Não é possível utilizar o cpf fornecido!"
             throw new Exception("[AVISO]: Não é possível utilizar o cpf fornecido!")
         }
 
@@ -64,7 +64,7 @@ class CandidateService implements ICandidateService {
     }
 
     @Override
-    CandidateDTO updateByCpf(String cpf, CandidateDTO dto) {
+    CandidateResponseDTO updateByCpf(String cpf, CandidateRequestDTO dto) {
         Candidate existing = candidateRepository.findByCpf(cpf)
 
         if (!existing) {
@@ -124,7 +124,7 @@ class CandidateService implements ICandidateService {
         return c
     }
 
-    CandidateConversionResult parseToEntity(CandidateDTO dto) {
+    CandidateConversionResult parseToEntity(CandidateRequestDTO dto) {
         if (dto == null) return null
         Address address = addressService.formatAddress(dto.address)
         Candidate candidate = new Candidate(dto.name, dto.lastname, dto.email, dto.linkedin, dto.cpf, dto.dateOfBirth, dto.description, dto.password)
